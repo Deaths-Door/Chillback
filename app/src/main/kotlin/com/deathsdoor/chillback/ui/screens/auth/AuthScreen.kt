@@ -10,9 +10,13 @@ import com.deathsdoor.chillback.data.navigation.AuthScreenRoutes
 fun AuthScreen() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = AuthScreenRoutes.values().first().route) {
-        AuthScreenRoutes.values().forEach { route ->
-            composable(route = route.route,content = { route.content(navController) })
+    NavHost(
+        navController = navController,
+        startDestination = AuthScreenRoutes.values().first().route,
+        builder = {
+            AuthScreenRoutes.values().forEach { route ->
+                composable(route = route.route,content = { route.content(navController) })
+            }
         }
-    }
+    )
 }
