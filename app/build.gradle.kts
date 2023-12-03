@@ -60,4 +60,9 @@ dependencies {
 
     // For Settings + Preference Saving
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    // For Mediaplayer
+    listOf("exoplayer","session").forEach {
+        implementation("androidx.media3:media3-$it:1.2.0")
+    }
 }

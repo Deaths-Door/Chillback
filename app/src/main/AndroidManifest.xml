@@ -15,6 +15,16 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.Chillback"
         tools:targetApi="s">
+
+        <service
+            android:name=".data.mediaplayer.MediaPlaybackService"
+            android:foregroundServiceType="mediaPlayback"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.media3.session.MediaSessionService"/>
+            </intent-filter>
+        </service>
+
         <activity
             android:name="com.deathsdoor.chillback.MainActivity"
             android:exported="true">

@@ -22,6 +22,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.deathsdoor.chillback.data.navigation.AppScreenRoutes
+import com.deathsdoor.chillback.ui.components.mediaplayer.CollapsedMediaPlayer
 
 @Composable
 fun AppScreen() {
@@ -29,6 +30,8 @@ fun AppScreen() {
 
     Scaffold(
         bottomBar = {
+            CollapsedMediaPlayer()
+
             NavigationBar {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
