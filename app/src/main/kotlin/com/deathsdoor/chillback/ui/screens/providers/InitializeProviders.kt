@@ -16,8 +16,10 @@ val LocalCoreViewModel = compositionLocalOf<CoreViewModel> { error("No Settings 
 @NonRestartableComposable
 fun InitializeProviders(content : @Composable () -> Unit) {
     val context = LocalContext.current
+
     val coreViewMutableList = viewModel { CoreViewModel(context) }
     val settings = Settings(LocalContext.current)
+
     CompositionLocalProvider(
         LocalSettings provides settings,
         LocalCoreViewModel provides coreViewMutableList,

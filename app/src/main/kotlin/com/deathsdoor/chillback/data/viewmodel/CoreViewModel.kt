@@ -9,6 +9,11 @@ import java.io.Closeable
 
 class CoreViewModel constructor(context: Context) : ViewModel() {
     private var controllerFuture: ListenableFuture<MediaController> = MediaPlaybackService().createMediaController(context)
-    val controller : MediaController?
+    val mediaController : MediaController?
         get() = if (controllerFuture.isDone) controllerFuture.get() else null
+
+    /*override fun addCloseable(closeable: Closeable) {
+        super.addCloseable(closeable)
+        controllerFuture.cancel(true)
+    }*/
 }

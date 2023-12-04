@@ -3,6 +3,7 @@ package com.deathsdoor.chillback.ui.screens.core
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -16,7 +17,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -30,43 +33,53 @@ fun AppScreen() {
 
     Scaffold(
         bottomBar = {
-            CollapsedMediaPlayer()
-
-            NavigationBar {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
-
-                AppScreenRoutes.values().forEach {
-                    NavigationBarItem(
-                        selected = currentDestination?.route == it.route,
-                        alwaysShowLabel = false,
-                        icon = { Icon(imageVector = it.icon, contentDescription = null) },
-                        // TODO : Do not use it.name , instead use 'id' for localization support
-                        label = { Text(it.name) },
-                        onClick = {
-                            navController.navigate(it.route) {
-                                // Avoid multiple copies of the same destination when
-                                // reselecting the same item
-                                launchSingleTop = true
-                                // Restore state when reselecting a previously selected item
-                                restoreState = true
-                            }
-                        },
-                    )
-                }
+            Column {
+                CollapsedMediaPlayer()
+                // TODO : Add Option to show/hide  nav bar
+                CreateCoreNavigationBar(navController)
             }
         },
-        content = {
-            NavHost(
-                modifier = Modifier.padding(it),
-                navController = navController,
-                startDestination = AppScreenRoutes.values().first().route,
-                builder = {
-                    AppScreenRoutes.values().forEach { route ->
-                        composable(route = route.route,content = { route.content(navController) })
-                    }
-                }
-            )
+        content = { CreateCoreNavHost(navController,it) }
+    )
+}
+
+@Composable
+private fun CreateCoreNavHost(navController : NavHostController,paddingValues: PaddingValues) {
+    NavHost(
+        modifier = Modifier.padding(paddingValues),
+        navController = navController,
+        startDestination = AppScreenRoutes.values().first().route,
+        builder = {
+            AppScreenRoutes.values().forEach { route ->
+                composable(route = route.route,content = { route.content(navController) })
+            }
         }
     )
+}
+
+@Composable
+private fun CreateCoreNavigationBar(navController: NavHostController) {
+    NavigationBar {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentDestination = navBackStackEntry?.destination
+
+        AppScreenRoutes.values().forEach {
+            NavigationBarItem(
+                selected = currentDestination?.route == it.route,
+                alwaysShowLabel = false,
+                icon = { Icon(imageVector = it.icon, contentDescription = null) },
+                // TODO : Do not use it.name , instead use 'id' for localization support
+                label = { Text(it.name) },
+                onClick = {
+                    navController.navigate(it.route) {
+                        // Avoid multiple copies of the same destination when
+                        // reselecting the same item
+                        launchSingleTop = true
+                        // Restore state when reselecting a previously selected item
+                        restoreState = true
+                    }
+                },
+            )
+        }
+    }
 }
