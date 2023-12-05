@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.media3.common.MediaMetadata
-import com.deathsdoor.chillback.ui.components.MarqueeText
+import com.deathsdoor.chillback.ui.components.layout.MarqueeText
 
 @Composable
 fun MediaTitle(

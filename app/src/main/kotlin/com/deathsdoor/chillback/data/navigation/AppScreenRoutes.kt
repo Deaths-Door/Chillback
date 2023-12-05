@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.deathsdoor.chillback.ui.screens.core.UserLibraryScreen
 
 enum class AppScreenRoutes(
     val route : String,
@@ -19,5 +20,5 @@ enum class AppScreenRoutes(
 ) {
     EventMaps("event-maps", Icons.Default.Info,{Box(Modifier.background(Color.Red).size(50.dp)) }),
     Explore("explore", Icons.Default.Info, {Box(Modifier.background(Color.Black).size(50.dp))}),
-    UserLibrary("user-lib", Icons.Default.Info,{Box(Modifier.background(Color.Yellow).size(50.dp))}),
+    UserLibrary("user-lib", Icons.Default.Info,{ UserLibraryScreen(it) }),
 }

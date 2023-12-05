@@ -20,6 +20,7 @@ class MainActivity : ComponentActivity() {
                 // So the result is 'gotten' before so no visual issue
                 val hasSkippedLogin by LocalSettings.current.hasSkippedLogin.collectAsState(false)
                 SplashScreen {
+                    // TODO : Replace this if else with a singular 'root' navhost with nested navgraphs
                     if(hasSkippedLogin) AppScreen() else AuthScreen()
                 }
             }

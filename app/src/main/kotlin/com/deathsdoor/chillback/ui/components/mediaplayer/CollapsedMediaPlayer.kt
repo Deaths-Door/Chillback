@@ -29,13 +29,13 @@ import kotlinx.coroutines.launch
 fun CollapsedMediaPlayer(){
     val mediaController = LocalCoreViewModel.current.mediaController
 
-    // TODO : Remove this dummy code , used so that the player is shown at all
+    /*// TODO : Remove this dummy code , used so that the player is shown at all
     {
         val dummyMediaUri =
             "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
         val mediaItem = MediaItem.fromUri(dummyMediaUri)
         mediaController?.addMediaItem(mediaItem)
-    }()
+    }()*/
 
     // TODO : Use flows or remmember to make it actually update
     val currentMediaItem = (mediaController?.currentMediaItem ?: return).mediaMetadata

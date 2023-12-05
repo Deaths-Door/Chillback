@@ -15,7 +15,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[adb-5d6ef88-ubwloA._adb-tls-connect._tcp]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -67,8 +67,8 @@
         <option value="Kotlin Data Class" />
         <option value="Kotlin Object" />
         <option value="Kotlin Enum" />
-        <option value="Kotlin File" />
         <option value="Kotlin Class" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
@@ -102,6 +102,7 @@
       <recent name="com.deathsdoor.chillback" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\app\src\main\kotlin\com\deathsdoor\chillback\ui\components\layout" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\app\src\main\kotlin\com\deathsdoor\chillback\data\mediaplayer" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\app\src\main\kotlin\com\deathsdoor\chillback\ui\screens\core" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\app\src\main\kotlin\com\deathsdoor\chillback\ui\screens\auth" />

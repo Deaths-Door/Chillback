@@ -48,8 +48,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.deathsdoor.chillback.R
-import com.deathsdoor.chillback.ui.components.BackButton
-import com.deathsdoor.chillback.ui.components.BackgroundImage
+import com.deathsdoor.chillback.ui.components.layout.BackButton
+import com.deathsdoor.chillback.ui.components.layout.BackgroundImage
 
 
 @Composable
@@ -127,6 +127,8 @@ fun AuthScreenOption(navController: NavController) {
     )
 
 }
+
+// TODO : Maybe convert these into components so they could be reused by other parts of the code eg settings mostly
 
 @Composable
 private fun ToggleScreens(
