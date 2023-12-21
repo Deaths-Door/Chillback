@@ -12,6 +12,8 @@ pluginManagement {
         id("com.android.library") version(extra["agp.version"] as String)
 
         id("org.jetbrains.compose") version(extra["compose.version"] as String)
+
+        id("com.google.gms.google-services") version(extra["google.services.version"] as String)
     }
 }
 dependencyResolutionManagement {

@@ -3,6 +3,8 @@ plugins {
     id("com.android.application")
 
     id("org.jetbrains.compose")
+
+    id("com.google.gms.google-services")
 }
 
 object Metadata {
@@ -65,4 +67,9 @@ dependencies {
     listOf("exoplayer","session").forEach {
         implementation("androidx.media3:media3-$it:1.2.0")
     }
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
+    implementation("com.google.firebase:firebase-auth-ktx")
+
 }
