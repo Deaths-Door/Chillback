@@ -18,9 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import kotlinx.coroutines.delay
-
+;
 @Composable
 fun SplashScreen(onFinish : @Composable () -> Unit) {
+    // TODO : Make this full screen do it so by default in fulscreen and then based on settings change it
     var isFinished by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
         delay(1500)

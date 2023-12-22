@@ -3,9 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Used for MediaPlaybackSession Service -->
+    <!-- Used for MediaPlaybackSession Service
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET"/>-->
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -19,14 +20,14 @@
         android:theme="@style/Theme.Chillback"
         tools:targetApi="s">
 
-        <service
+        <!--<service
             android:name=".data.mediaplayer.MediaPlaybackService"
             android:foregroundServiceType="mediaPlayback"
             android:exported="true">
             <intent-filter>
                 <action android:name="androidx.media3.session.MediaSessionService"/>
             </intent-filter>
-        </service>
+        </service>-->
 
         <activity
             android:name="com.deathsdoor.chillback.MainActivity"
