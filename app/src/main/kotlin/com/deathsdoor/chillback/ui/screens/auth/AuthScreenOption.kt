@@ -48,8 +48,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.deathsdoor.chillback.R
-import com.deathsdoor.chillback.ui.components.BackButton
-import com.deathsdoor.chillback.ui.components.CenteredDivider
+import com.deathsdoor.chillback.ui.components.layout.BackButton
+import com.deathsdoor.chillback.ui.components.layout.CenteredDivider
+import com.deathsdoor.chillback.ui.components.layout.CircularBackgroundIconButton
 import com.deathsdoor.chillback.ui.providers.LocalErrorSnackbarState
 import com.deathsdoor.chillback.ui.providers.LocalSuccessSnackbarState
 import com.google.firebase.auth.ktx.auth
@@ -77,6 +78,7 @@ private class LoginState {
         errorSnackbar.showSnackbar("Log-in Failed: ${exception.localizedMessage}")
     }
 
+    // TODO : Make user verify-email and then only let them
     suspend fun signIn(successSnackbar : SnackbarHostState,errorSnackbar: SnackbarHostState) = try {
         Firebase.auth.createUserWithEmailAndPassword(email.value,password).await()
         successSnackbar.showSnackbar("Account created successfully!")
@@ -276,16 +278,12 @@ private fun AlternativeAuthOptions(modifier : Modifier = Modifier) {
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceEvenly,
         content = {
-            items.forEach {
-                val painter = painterResource(it.second)
-                IconButton(
-                    modifier = Modifier.background(MaterialTheme.colorScheme.background)
-                        .padding(16.dp)
-                        .clip(CircleShape),
-                    content = {
-                        Icon(painter = painter,contentDescription = "Login with ${it.first}")
-                    },
-                    onClick = it.third
+            items.forEach { (title,res,onClick) ->
+                val painter = painterResource(res)
+                CircularBackgroundIconButton(
+                    painter = painter,
+                    contentDescription = "Login with $title",
+                    onClick = onClick
                 )
             }
         }

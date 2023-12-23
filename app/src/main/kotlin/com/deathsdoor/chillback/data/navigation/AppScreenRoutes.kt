@@ -20,7 +20,10 @@ enum class AppScreenRoutes(override val route : String,val icon : ImageVector) :
     },
     UserLibrary("user-lib", Icons.Default.Search){
         @Composable
-        override fun Content(navController: NavHostController) = TODO("Not yet implemented")
+        override fun Content(navController: NavHostController) {
+            // TODO("Not yet implemented , replace with actual UI")
+            navController.navigate(SettingScreenRoutes.ROUTE)
+        }
     };
 
     companion object {

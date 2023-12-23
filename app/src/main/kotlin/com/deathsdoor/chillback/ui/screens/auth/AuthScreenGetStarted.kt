@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.deathsdoor.chillback.R
 import com.deathsdoor.chillback.data.navigation.AuthScreenRoutes
-import com.deathsdoor.chillback.ui.components.BackgroundImage
-import com.deathsdoor.chillback.ui.components.CenteredDivider
+import com.deathsdoor.chillback.ui.components.layout.BackgroundImage
+import com.deathsdoor.chillback.ui.components.layout.CenteredDivider
 import com.deathsdoor.chillback.ui.providers.LocalSettings
 import kotlinx.coroutines.launch
 

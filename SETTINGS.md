@@ -1,0 +1,50 @@
+- Audio
+    - Data saver -> Specify the preferred quality for downloaded music files.
+        - Load download quality: Specify the preferred quality for downloaded music files.
+        - Mobile data streaming: Enable or disable streaming over cellular data.
+        - Download when using mobile data: Enable or disable automatic download of music files when using cellular data.
+            - Download quality: Specify the preferred quality for streaming over cellular data.
+    - Crossfade playback (seconds): Set the duration of the crossfade between tracks.
+    - Gapless playback: Enable or disable gapless playback to eliminate pauses between tracks.
+    - Normalize volume: Automatically adjust the volume of individual tracks to maintain a consistent playback level.
+    - Volume booster: Enhance the volume of music playback.
+    - Equalizer: Adjust the audio equalization to personalize the sound.
+- Personalize
+    - Language change: Switch between different languages for the app's interface and text.
+    - Auto-load lyrics: Automatically load lyrics for supported tracks.
+    - Auto-load album art: Automatically load album art for supported tracks.
+    - Auto-load all song metadata: Automatically load all metadata for supported tracks, such as artist, album, and track number.
+    - Storage used by app: View the amount of storage space used by the app.
+        - Remove all downloads: Delete all downloaded music files.
+    - Set the sleep timer to automatically stop playback after a specified time.
+    - Autoplay when headset connected: Start playback automatically when a headset is connected.
+- Malicious
+    - Library
+        - get songs from server eg google drive / onedrive/ dropbox
+        - Show Local Music Files -> MAJOR BOOLEAN
+        - Blacklist Music Files -> prevent specific music files from being discovered or played by the app.
+            -> Put auto removed files 
+        - Blacklist file path -> pecify the path of the file containing the blacklisted music files
+        - Filter Songs by Duration -> Specify the minimum duration in seconds for a music file to be included in the search results
+- Backup & Restore
+    - Enable automatic backup ->  automatically back up your music files to the selected cloud storage service at the specified schedule.
+    - Backup schedule -> Daily , Weekly , Monthly , Custom , Manually
+    - Backup location -> Google Drive , Onedrive , Dropbox
+    - Backup file name -> Custom , Default 
+    - Restore from previous backup
+    - Restore selected backup
+- About
+    - Developer - Me -> Account
+    - Github Repo
+        - Third-party Software (on repo)
+    - Term and conditions
+    - Privacy Policy
+    - Rate the app
+    - Feedback
+    - Report bug
+    - Share App
+    - FAQ -> redirect to github repo / some reamde.md
+    - -- TODO - Add socials eg website insta etc maybe
+    - Open source license
+    - Version
+    - Made with heart

@@ -13,9 +13,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.deathsdoor.chillback.data.navigation.AppScreenRoutes
 import com.deathsdoor.chillback.data.navigation.AuthScreenRoutes
-import com.deathsdoor.chillback.ui.components.ErrorSnackbar
-import com.deathsdoor.chillback.ui.components.InfoSnackbar
-import com.deathsdoor.chillback.ui.components.SuccessSnackbar
+import com.deathsdoor.chillback.data.navigation.Route
+import com.deathsdoor.chillback.data.navigation.SettingScreenRoutes
+import com.deathsdoor.chillback.ui.components.layout.ErrorSnackbar
+import com.deathsdoor.chillback.ui.components.layout.InfoSnackbar
+import com.deathsdoor.chillback.ui.components.layout.SuccessSnackbar
 import com.deathsdoor.chillback.ui.providers.LocalErrorSnackbarState
 import com.deathsdoor.chillback.ui.providers.LocalInfoSnackbarState
 import com.deathsdoor.chillback.ui.providers.LocalSuccessSnackbarState
@@ -59,6 +61,7 @@ private fun CreateNavigationHost(
         // TODO: Add more routes when it is needed
         AppScreenRoutes.navGraph(navGraph = this,navController = navController)
         AuthScreenRoutes.navGraph(navGraph = this,navController = navController)
+        SettingScreenRoutes.navGraph(navGraph = this,navController = navController)
     }
 )
 

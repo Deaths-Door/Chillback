@@ -57,19 +57,31 @@ dependencies {
         implementation(it)
     }
 
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
+    implementation("com.google.firebase:firebase-auth-ktx")
+
     // For Navigation + ComponentActivity
     implementation("androidx.navigation:navigation-compose:2.7.5")
 
-    // For Settings + Preference Saving
+    // For Image Loading
+    implementation("io.coil-kt:coil-compose:2.5.0")
+
+    // For Preference Saving
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    // For Setting Screens
+    implementation ("com.github.alorma:compose-settings-ui-m3:1.0.3")
+
+    // For Coordinator Layout
+    implementation("me.onebone:toolbar-compose:2.3.5")
+
+    // For Rating
+    implementation("com.google.android.play:review-ktx:2.0.1")
 
     // For Mediaplayer
     listOf("exoplayer","session").forEach {
         implementation("androidx.media3:media3-$it:1.2.0")
     }
-
-    // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
-    implementation("com.google.firebase:firebase-auth-ktx")
 
 }

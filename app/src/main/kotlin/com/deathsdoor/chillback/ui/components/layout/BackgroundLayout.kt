@@ -1,4 +1,4 @@
-package com.deathsdoor.chillback.ui.components
+package com.deathsdoor.chillback.ui.components.layout
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
