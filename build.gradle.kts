@@ -6,4 +6,6 @@ plugins {
     id("org.jetbrains.compose") apply false
 
     id("com.google.gms.google-services") apply false
+
+    kotlin("plugin.serialization") apply false
 }

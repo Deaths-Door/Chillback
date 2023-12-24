@@ -1,13 +1,16 @@
 package com.deathsdoor.chillback.data.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.deathsdoor.chillback.ui.components.settings.AboutSection
+import com.deathsdoor.chillback.ui.screens.settings.AboutSectionScreen
+import com.deathsdoor.chillback.ui.screens.settings.SettingsAudioScreen
 import com.deathsdoor.chillback.ui.screens.settings.SettingsGroupedScreen
+import com.deathsdoor.chillback.ui.screens.settings.SettingsPersonalizeScreen
 
 private const val _ROUTE : String = "settings"
 
@@ -24,6 +27,7 @@ enum class SettingScreenRoutes(override val route: String) : Route {
             get() = throw UnsupportedOperationException()
 
         @Composable
+        @NonRestartableComposable
         override fun Content(navController: NavHostController) = SettingsGroupedScreen(navController)
     },
     ThemeSelector("$_ROUTE/theme") {
@@ -38,6 +42,7 @@ enum class SettingScreenRoutes(override val route: String) : Route {
             get() = throw UnsupportedOperationException()
 
         @Composable
+        @NonRestartableComposable
         override fun Content(navController: NavHostController) = TODO()
 
     },
@@ -67,7 +72,8 @@ enum class SettingScreenRoutes(override val route: String) : Route {
             get() = "Customize your music playback experience."
 
         @Composable
-        override fun Content(navController: NavHostController) = TODO()
+        @NonRestartableComposable
+        override fun Content(navController: NavHostController) = SettingsAudioScreen(navController)
     },
     Personalize("$_ROUTE/personalize") {
         override val title: String
@@ -81,7 +87,8 @@ enum class SettingScreenRoutes(override val route: String) : Route {
             get() = "Tailor the app to your preferences."
 
         @Composable
-        override fun Content(navController: NavHostController) = TODO()
+        @NonRestartableComposable
+        override fun Content(navController: NavHostController) = SettingsPersonalizeScreen(navController)
     },
     Library("$_ROUTE/lib") {
         override val title: String
@@ -95,6 +102,7 @@ enum class SettingScreenRoutes(override val route: String) : Route {
             get() = "Enhance your music library management."
 
         @Composable
+        @NonRestartableComposable
         override fun Content(navController: NavHostController) = TODO()
     },
     BackupRestore("$_ROUTE/backuprestore") {
@@ -123,7 +131,8 @@ enum class SettingScreenRoutes(override val route: String) : Route {
         get() = "Learn about the app and its creator"
 
         @Composable
-        override fun Content(navController: NavHostController) = AboutSection(navController)
+        @NonRestartableComposable
+        override fun Content(navController: NavHostController) = AboutSectionScreen(navController)
     };
 
     abstract val title : String

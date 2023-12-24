@@ -10,6 +10,9 @@ import com.deathsdoor.chillback.ui.providers.InitializeProviders
 import com.deathsdoor.chillback.ui.providers.LocalSettings
 import com.deathsdoor.chillback.ui.screens.AppScreen
 import com.deathsdoor.chillback.ui.screens.SplashScreen
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.flow.mapLatest
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

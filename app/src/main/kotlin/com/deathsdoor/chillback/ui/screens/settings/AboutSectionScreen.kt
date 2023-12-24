@@ -1,4 +1,4 @@
-package com.deathsdoor.chillback.ui.components.settings
+package com.deathsdoor.chillback.ui.screens.settings
 
 import android.app.Activity
 import androidx.compose.foundation.background
@@ -29,13 +29,14 @@ import com.alorma.compose.settings.ui.SettingsMenuLink
 import com.deathsdoor.chillback.data.navigation.SettingScreenRoutes
 import com.deathsdoor.chillback.ui.components.layout.BackgroundLayout
 import com.deathsdoor.chillback.ui.components.layout.CircularBackgroundImage
+import com.deathsdoor.chillback.ui.components.settings.SettingsCollapsingToolbar
 import com.deathsdoor.chillback.ui.providers.LocalErrorSnackbarState
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManagerFactory
 import kotlinx.coroutines.launch
 
 @Composable
-fun AboutSection(navController: NavController) =  SettingsCollapsingToolbar(
+fun AboutSectionScreen(navController: NavController) =  SettingsCollapsingToolbar(
     navController = navController,
     text = SettingScreenRoutes.About.title,
     body = {
@@ -132,7 +133,7 @@ private fun data(): List<Pair<String, Pair<String?, Any?>>> {
         "Github Repository" to ("Provides a link to the GitHub repository." to ""),
         "Term and conditions" to ("Provides links to the terms of service" to "TERM_CONDITIONS.md".fileFromRepo()),
         "Privacy Policy" to ("Provides links to the privacy policy" to "PRIVACY_POLICY.md".fileFromRepo()),
-        "Rate the app" to ("" to {
+        "Rate the app" to (null to {
             val manager = ReviewManagerFactory.create(context)
             val flow = manager.requestReviewFlow()
 

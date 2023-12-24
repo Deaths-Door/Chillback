@@ -5,6 +5,8 @@ plugins {
     id("org.jetbrains.compose")
 
     id("com.google.gms.google-services")
+
+    kotlin("plugin.serialization")
 }
 
 object Metadata {
@@ -59,7 +61,9 @@ dependencies {
 
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
-    implementation("com.google.firebase:firebase-auth-ktx")
+    listOf("auth","database").forEach {
+        implementation("com.google.firebase:firebase-$it-ktx")
+    }
 
     // For Navigation + ComponentActivity
     implementation("androidx.navigation:navigation-compose:2.7.5")
@@ -84,4 +88,9 @@ dependencies {
         implementation("androidx.media3:media3-$it:1.2.0")
     }
 
+    // For Time Input
+    implementation("com.github.commandiron:WheelPickerCompose:1.1.11")
+
+    // For Serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
 }

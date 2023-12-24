@@ -14,12 +14,15 @@ pluginManagement {
         id("org.jetbrains.compose") version(extra["compose.version"] as String)
 
         id("com.google.gms.google-services") version(extra["google.services.version"] as String)
+
+        kotlin("plugin.serialization") version(extra["kotlin.version"] as String)
     }
 }
 dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven("https://jitpack.io")
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }

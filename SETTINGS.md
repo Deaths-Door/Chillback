@@ -1,9 +1,7 @@
 - Audio
     - Data saver -> Specify the preferred quality for downloaded music files.
-        - Load download quality: Specify the preferred quality for downloaded music files.
         - Mobile data streaming: Enable or disable streaming over cellular data.
         - Download when using mobile data: Enable or disable automatic download of music files when using cellular data.
-            - Download quality: Specify the preferred quality for streaming over cellular data.
     - Crossfade playback (seconds): Set the duration of the crossfade between tracks.
     - Gapless playback: Enable or disable gapless playback to eliminate pauses between tracks.
     - Normalize volume: Automatically adjust the volume of individual tracks to maintain a consistent playback level.
@@ -17,6 +15,11 @@
     - Storage used by app: View the amount of storage space used by the app.
         - Remove all downloads: Delete all downloaded music files.
     - Set the sleep timer to automatically stop playback after a specified time.
+        - Disable
+        - After song
+        - After playlist
+        - At time ..
+        - TODO : ADD NOTIFICATION AT LETS ME EXTEND THE TIMER 
     - Autoplay when headset connected: Start playback automatically when a headset is connected.
 - Malicious
     - Library
