@@ -10,6 +10,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.firebase.auth.ktx.auth
@@ -27,7 +28,7 @@ import java.util.Locale
 // TODO : Migrate from local settinsg to firebase when user logins in for first time
 class Settings internal constructor(private val context: Context) {
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-    private val firebaseGroup by lazy { Firebase.database.reference.child("${Firebase.auth.currentUser!!}/settings") }
+    private val firebaseGroup by lazy { Firebase.database.reference.child(Firebase.auth.currentUser!!.uid).child("settings") }//.child("${Firebase.auth.currentUser!!) }
 
     private suspend fun<T> editLocal(key : Preferences.Key<T>,value : T) = context.dataStore.edit { it[key] = value }
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -35,7 +36,7 @@ class Settings internal constructor(private val context: Context) {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun<T> getOnline(child : String,clazz : Class<T>, default : T) : Flow<T> = firebaseGroup.child(child).snapshots.mapLatest { it.getValue(clazz) ?: default }
-    private suspend fun editOnline(value : Any) = firebaseGroup.setValue(value).await()
+    private suspend fun editOnline(child : String,value : Any) = firebaseGroup.child(child).setValue(value).await()
 
     fun<T> get(
         key : Preferences.Key<T>,
@@ -46,7 +47,7 @@ class Settings internal constructor(private val context: Context) {
     suspend fun<T : Any> update(
         key : Preferences.Key<T>,
         value : T
-    ) = if(Firebase.auth.currentUser == null) editLocal(key,value) else editOnline(value)
+    ) = if(Firebase.auth.currentUser == null) editLocal(key,value) else editOnline(key.name,value)
 
     val appLocales: LocaleList
         @Composable
@@ -59,7 +60,7 @@ class Settings internal constructor(private val context: Context) {
         get() = LocalConfiguration.current.locales[0]
 
     companion object {
-        val LOGIN_SKIPPED by lazy { booleanPreferencesKey("login-skipped") }
+        private val LOGIN_SKIPPED by lazy { booleanPreferencesKey("login-skipped") }
 
         val AUTO_LOAD_LYRICS by lazy { booleanPreferencesKey("auto-load-lyrics") }
         val AUTO_LOAD_ALBUM_ART by lazy { booleanPreferencesKey("auto-load-album-art") }
@@ -72,8 +73,11 @@ class Settings internal constructor(private val context: Context) {
         val GAPLESS_PLAYBACK by lazy { booleanPreferencesKey("playback-gapless") }
         val NORMALIZE_VOLUME by lazy { booleanPreferencesKey("volume-normalize") }
 
-
         private val SLEEP_TIMER by lazy { stringPreferencesKey("sleep-timer") }
+
+        val SHOW_LOCAL_LIBRARY by lazy { booleanPreferencesKey("library-local-show") }
+        val FILTER_BY_DURATION by lazy { intPreferencesKey("library-local-filter-songs-by-duration") }
+
     }
 
     private val hasSkippedLogin: Flow<Boolean> get() = getLocal(LOGIN_SKIPPED,false)
@@ -104,4 +108,8 @@ class Settings internal constructor(private val context: Context) {
 
     val gaplessPlayback get() = get(key= GAPLESS_PLAYBACK, clazz = Boolean::class.java,default = false)
     val normalizeVolume get() = get(key= NORMALIZE_VOLUME, clazz = Boolean::class.java,default = false)
+
+    val showLocalLibrary get() = get(key= SHOW_LOCAL_LIBRARY, clazz = Boolean::class.java,default = false)
+    val filterLocalLibrarySongsByDuration get() = get(key= FILTER_BY_DURATION, clazz = Int::class.java,default = 30)
+
 }

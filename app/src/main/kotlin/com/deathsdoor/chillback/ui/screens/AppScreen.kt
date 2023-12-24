@@ -2,6 +2,7 @@ package com.deathsdoor.chillback.ui.screens
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarData
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -66,7 +67,7 @@ private fun CreateNavigationHost(
 )
 
 @Composable
-private fun CreateSnackbars() = mapOf<SnackbarHostState,@Composable  (string : String) -> Unit>(
+private fun CreateSnackbars() = mapOf<SnackbarHostState,@Composable  (SnackbarData) -> Unit>(
     LocalErrorSnackbarState.current to { ErrorSnackbar(it)},
     LocalSuccessSnackbarState.current to { SuccessSnackbar(it) },
     LocalInfoSnackbarState.current to { InfoSnackbar(it) }
@@ -74,8 +75,10 @@ private fun CreateSnackbars() = mapOf<SnackbarHostState,@Composable  (string : S
     SnackbarHost(
         hostState = state,
         modifier = Modifier.padding(8.dp),
-        snackbar = {
-            action(it.visuals.message)
-        }
+        snackbar = action
+    //    snackbar = {
+
+           // action(it.visuals.message)
+      //  }
     )
 }

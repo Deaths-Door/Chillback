@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarData
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
@@ -18,27 +19,19 @@ import com.deathsdoor.chillback.ui.components.layout.MarqueeText
 
 @NonRestartableComposable
 @Composable
-fun ErrorSnackbar(message: String) = Toast(message, Icons.Default.Share, Color.Red)
+fun ErrorSnackbar(data: SnackbarData) = Toast(data, Color.Red)
 
 @NonRestartableComposable
 @Composable
-fun SuccessSnackbar(message: String) = Toast(message,Icons.Default.Notifications,Color.Green)
+fun SuccessSnackbar(data: SnackbarData) = Toast(data,Color.Green)
 
 @NonRestartableComposable
 @Composable
-fun InfoSnackbar(message: String) = Toast(message,Icons.Default.Info,Color.Blue)
+fun InfoSnackbar(data: SnackbarData) = Toast(data,Color.Blue)
 
 @Composable
-private fun Toast(message : String, imageVector: ImageVector, backgroundColor : Color) = Snackbar(
+private fun Toast(data: SnackbarData,backgroundColor : Color) = Snackbar(
+    snackbarData = data,
     shape = CircleShape,
     containerColor = backgroundColor,
-    content = {
-        Row {
-            Image(imageVector = imageVector,contentDescription = null)
-            MarqueeText(
-                modifier = Modifier.fillMaxWidth(),
-                text = message
-            )
-        }
-    }
 )

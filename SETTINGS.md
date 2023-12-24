@@ -25,8 +25,6 @@
     - Library
         - get songs from server eg google drive / onedrive/ dropbox
         - Show Local Music Files -> MAJOR BOOLEAN
-        - Blacklist Music Files -> prevent specific music files from being discovered or played by the app.
-            -> Put auto removed files 
         - Blacklist file path -> pecify the path of the file containing the blacklisted music files
         - Filter Songs by Duration -> Specify the minimum duration in seconds for a music file to be included in the search results
 - Backup & Restore

@@ -10,7 +10,9 @@ import androidx.navigation.navigation
 import com.deathsdoor.chillback.ui.screens.settings.AboutSectionScreen
 import com.deathsdoor.chillback.ui.screens.settings.SettingsAudioScreen
 import com.deathsdoor.chillback.ui.screens.settings.SettingsGroupedScreen
+import com.deathsdoor.chillback.ui.screens.settings.SettingsLibraryScreen
 import com.deathsdoor.chillback.ui.screens.settings.SettingsPersonalizeScreen
+import com.deathsdoor.chillback.ui.screens.settings.SettingsThemeSelectorScreen
 
 private const val _ROUTE : String = "settings"
 
@@ -43,8 +45,7 @@ enum class SettingScreenRoutes(override val route: String) : Route {
 
         @Composable
         @NonRestartableComposable
-        override fun Content(navController: NavHostController) = TODO()
-
+        override fun Content(navController: NavHostController) = SettingsThemeSelectorScreen(navController)
     },
     WidgetSelector("$_ROUTE/widget") {
         override val title: String
@@ -103,7 +104,7 @@ enum class SettingScreenRoutes(override val route: String) : Route {
 
         @Composable
         @NonRestartableComposable
-        override fun Content(navController: NavHostController) = TODO()
+        override fun Content(navController: NavHostController) = SettingsLibraryScreen(navController)
     },
     BackupRestore("$_ROUTE/backuprestore") {
         override val title: String

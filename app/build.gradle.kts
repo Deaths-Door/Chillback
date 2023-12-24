@@ -52,6 +52,7 @@ android {
 }
 
 dependencies {
+    // Defaultly Required
     implementation("androidx.core:core-ktx:1.12.0")
 
     // Compose
@@ -65,14 +66,22 @@ dependencies {
         implementation("com.google.firebase:firebase-$it-ktx")
     }
 
+    // For Mediaplayer
+    listOf("exoplayer","session").forEach {
+        implementation("androidx.media3:media3-$it:1.2.0")
+    }
+
     // For Navigation + ComponentActivity
     implementation("androidx.navigation:navigation-compose:2.7.5")
 
-    // For Image Loading
-    implementation("io.coil-kt:coil-compose:2.5.0")
+    // For Permissions
+    implementation("com.google.accompanist:accompanist-permissions:0.33.2-alpha")
 
     // For Preference Saving
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    // For Image Loading
+    implementation("io.coil-kt:coil-compose:2.5.0")
 
     // For Setting Screens
     implementation ("com.github.alorma:compose-settings-ui-m3:1.0.3")
@@ -82,11 +91,6 @@ dependencies {
 
     // For Rating
     implementation("com.google.android.play:review-ktx:2.0.1")
-
-    // For Mediaplayer
-    listOf("exoplayer","session").forEach {
-        implementation("androidx.media3:media3-$it:1.2.0")
-    }
 
     // For Time Input
     implementation("com.github.commandiron:WheelPickerCompose:1.1.11")

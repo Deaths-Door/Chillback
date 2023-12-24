@@ -47,7 +47,7 @@ fun SettingsSleepTimerPicker(settings: Settings) {
         }
     )
 
-    if(!dialogState) return
+    if(dialogState) return
 
     var selectedOption by remember(sleepTimer) { mutableStateOf(sleepTimer) }
 

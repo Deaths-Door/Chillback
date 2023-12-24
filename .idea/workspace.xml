@@ -15,7 +15,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[192.168.178.36:43177]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -65,10 +65,10 @@
         <option value="Kotlin Sealed Class" />
         <option value="resourceFile" />
         <option value="Kotlin Data Class" />
-        <option value="Kotlin Object" />
         <option value="Kotlin Sealed Interface" />
         <option value="Kotlin Enum" />
         <option value="Kotlin File" />
+        <option value="Kotlin Object" />
         <option value="Kotlin Class" />
       </list>
     </option>
