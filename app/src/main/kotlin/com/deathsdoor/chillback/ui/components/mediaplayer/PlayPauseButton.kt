@@ -18,7 +18,7 @@ fun PlayPauseButton(
     modifier: Modifier = Modifier,
     mediaController : MediaController,
 ) {
-    val isPlaying by remember(mediaController.isPlaying) { mutableStateOf(mediaController.isPlaying) }
+    val isPlaying by remember(mediaController?.isPlaying) { mutableStateOf(mediaController.isPlaying) }
 
     IconButton(
         modifier = modifier,

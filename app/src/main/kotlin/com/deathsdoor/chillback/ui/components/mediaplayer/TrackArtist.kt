@@ -9,12 +9,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.painterResource
+import androidx.media3.common.MediaItem
 import androidx.media3.session.MediaController
 import com.deathsdoor.chillback.R
 
 @Composable
-fun TrackArtwork(modifier : Modifier = Modifier,mediaController : MediaController) {
-    val artworkData = mediaController.currentMediaItem?.mediaMetadata?.artworkData?.asBitmap()
+fun TrackArtwork(
+    modifier : Modifier = Modifier,
+    currentMediaItem : MediaItem
+) {
+    val artworkData = currentMediaItem.mediaMetadata.artworkData?.asBitmap()
 
     if (artworkData == null) {
         Image(
@@ -27,8 +31,8 @@ fun TrackArtwork(modifier : Modifier = Modifier,mediaController : MediaControlle
     }
 
     Image(
-        bitmap = artworkData.asImageBitmap(),
         modifier = modifier,
+        bitmap = artworkData.asImageBitmap(),
         contentDescription = null,
     )
 }

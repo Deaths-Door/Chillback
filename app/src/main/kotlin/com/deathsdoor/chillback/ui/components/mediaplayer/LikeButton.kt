@@ -11,16 +11,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.media3.session.MediaController
 
 @Composable
-fun LikeButton(
-    modifier: Modifier = Modifier,
-    mediaController : MediaController,
-) {
+fun LikeButton(modifier: Modifier = Modifier) {
     // TODO : Update the 'liked' field correctly
-    var isLiked : Boolean? = null
+    var isLiked : Boolean = false
 
     IconToggleButton(
         modifier = modifier,
-        checked = isLiked ?: false,
+        checked = isLiked,
         onCheckedChange = {
             isLiked = it
         },
@@ -30,12 +27,13 @@ fun LikeButton(
                     imageVector = Icons.Filled.Favorite,
                     contentDescription = "Current Song is Liked",
                 )
-            } else {
-                Icon(
-                    imageVector = Icons.Outlined.FavoriteBorder,
-                    contentDescription = "Current Song is disliked",
-                )
+                return@IconToggleButton
             }
+
+            Icon(
+                imageVector = Icons.Outlined.FavoriteBorder,
+                contentDescription = "Current Song is disliked",
+            )
         }
     )
 }

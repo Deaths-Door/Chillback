@@ -20,16 +20,16 @@ fun RepeatMediaItemsButton(
     modifier: Modifier = Modifier,
     mediaController : MediaController,
 ) {
-    var repeatMode by remember(mediaController.repeatMode) { mutableIntStateOf(mediaController.repeatMode)  }
+    val repeatMode by remember(mediaController.repeatMode) { mutableIntStateOf(mediaController.repeatMode)  }
 
     IconButton(
         modifier = modifier,
-        onClick = { repeatMode = (repeatMode + 1) % 3 },
+        onClick = { mediaController.repeatMode = (mediaController.repeatMode + 1) % 3 },
         content = {
             Icon(
+                // TODO : Change Icon and contentDescription
                 imageVector =  Icons.Filled.PlayArrow,
-                // TODO : Change icon and repeat mode
-                contentDescription = null
+                contentDescription = "Change Repeat Mode to TODO"
             )
         }
     )

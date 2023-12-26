@@ -2,6 +2,8 @@ package com.deathsdoor.chillback.data.mediaplayer
 
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
+import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaController
 import androidx.media3.session.MediaSession
@@ -9,21 +11,37 @@ import androidx.media3.session.MediaSessionService
 import androidx.media3.session.SessionToken
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
+import kotlinx.serialization.Serializable
 
 // Extend MediaSessionService
-open class MediaPlaybackService(
-    private val player: Context.() -> ExoPlayer = { ExoPlayer.Builder(this).build() }
-) : MediaSessionService() {
+open class MediaPlaybackService(private val playerClosure: Context.() -> ExoPlayer = { ExoPlayer.Builder(this).build() }) : MediaSessionService() {
     private lateinit var mediaSession: MediaSession
 
-    // Create your Player and MediaSession in the onCreate lifecycle event
+    // Create your player and media session in the onCreate lifecycle event
     override fun onCreate() {
         super.onCreate()
-        mediaSession = MediaSession.Builder(this, player()).build()
+        val exoplayer = playerClosure().apply { prepare() }
+        mediaSession = MediaSession.Builder(this,exoplayer).build()
     }
 
-    // Return a MediaSession to link with the MediaController that is making
-    // this request.
+    // Remember to release the player and media session in onDestroy
+    override fun onDestroy() {
+        mediaSession.run {
+            player.release()
+            release()
+        }
+        super.onDestroy()
+    }
+
+    // The user dismissed the app from the recent tasks
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        mediaSession.player.run {
+            if(playWhenReady) pause()
+        }
+
+        stopSelf()
+    }
+
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession = mediaSession
 
     open fun createMediaController(

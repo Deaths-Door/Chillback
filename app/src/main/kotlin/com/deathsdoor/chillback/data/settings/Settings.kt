@@ -13,6 +13,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.deathsdoor.chillback.data.mediaplayer.MediaPlaybackPreferences
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.snapshots
@@ -21,6 +22,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.tasks.await
+import kotlinx.serialization.SerializationStrategy
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.util.Locale
@@ -78,21 +81,22 @@ class Settings internal constructor(private val context: Context) {
         val SHOW_LOCAL_LIBRARY by lazy { booleanPreferencesKey("library-local-show") }
         val FILTER_BY_DURATION by lazy { intPreferencesKey("library-local-filter-songs-by-duration") }
 
+        private val MEDIA_PLAYBACK_PREFERENCES by lazy { stringPreferencesKey("playback-preferences") }
     }
 
-    private val hasSkippedLogin: Flow<Boolean> get() = getLocal(LOGIN_SKIPPED,false)
+    private val hasSkippedLogin  = getLocal(LOGIN_SKIPPED,false)
     suspend fun updateHasSkippedLogin(value : Boolean) = editLocal(LOGIN_SKIPPED,value)
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val showLoginScreen : Flow<Boolean> = hasSkippedLogin.mapLatest { !it && Firebase.auth.currentUser == null }
+    val showLoginScreen = hasSkippedLogin.mapLatest { !it && Firebase.auth.currentUser == null }
 
-    val autoLoadLyrics : Flow<Boolean> get() = get(key = AUTO_LOAD_LYRICS, clazz = Boolean::class.java,default = true)
-    val autoLoadAlbumArt : Flow<Boolean> get() = get(key = AUTO_LOAD_ALBUM_ART, clazz = Boolean::class.java,default = true)
-    val autoLoadMetadata : Flow<Boolean> get() = get(key = AUTO_LOAD_METADATA, clazz = Boolean::class.java,default = true)
-    val autoplayOnHeadsetConnection : Flow<Boolean> get() = get(key = AUTO_PLAY_HEADSET_CONNECT, clazz = Boolean::class.java,default = true)
+    val autoLoadLyrics = get(key = AUTO_LOAD_LYRICS, clazz = Boolean::class.java,default = true)
+    val autoLoadAlbumArt = get(key = AUTO_LOAD_ALBUM_ART, clazz = Boolean::class.java,default = true)
+    val autoLoadMetadata = get(key = AUTO_LOAD_METADATA, clazz = Boolean::class.java,default = true)
+    val autoplayOnHeadsetConnection = get(key = AUTO_PLAY_HEADSET_CONNECT, clazz = Boolean::class.java,default = true)
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val sleepTimer : Flow<SleepTimer> get() = get(
+    val sleepTimer : Flow<SleepTimer> = get(
         key = SLEEP_TIMER,
         clazz = String::class.java,
         default = SleepTimer.Disabled.toString()
@@ -103,13 +107,21 @@ class Settings internal constructor(private val context: Context) {
         update(SLEEP_TIMER,Json.encodeToString(value))
     }
 
-    val streamingOverMobileData get() = get(key= MOBILE_DATA_STREAMING, clazz = Boolean::class.java,default = false)
-    val downloadOverMobileData get() = get(key= MOBILE_DATA_STREAMING, clazz = Boolean::class.java,default = false)
+    val streamingOverMobileData = get(key= MOBILE_DATA_STREAMING, clazz = Boolean::class.java,default = false)
+    val downloadOverMobileData = get(key= MOBILE_DATA_STREAMING, clazz = Boolean::class.java,default = false)
 
-    val gaplessPlayback get() = get(key= GAPLESS_PLAYBACK, clazz = Boolean::class.java,default = false)
-    val normalizeVolume get() = get(key= NORMALIZE_VOLUME, clazz = Boolean::class.java,default = false)
+    val gaplessPlayback = get(key= GAPLESS_PLAYBACK, clazz = Boolean::class.java,default = false)
+    val normalizeVolume = get(key= NORMALIZE_VOLUME, clazz = Boolean::class.java,default = false)
 
-    val showLocalLibrary get() = get(key= SHOW_LOCAL_LIBRARY, clazz = Boolean::class.java,default = false)
-    val filterLocalLibrarySongsByDuration get() = get(key= FILTER_BY_DURATION, clazz = Int::class.java,default = 30)
+    val showLocalLibrary = get(key= SHOW_LOCAL_LIBRARY, clazz = Boolean::class.java,default = false)
+    val filterLocalLibrarySongsByDuration = get(key= FILTER_BY_DURATION, clazz = Int::class.java,default = 30)
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val mediaPlaybackPreferences : Flow<MediaPlaybackPreferences> = get(
+        key = MEDIA_PLAYBACK_PREFERENCES,
+        clazz = String::class.java,
+        default = Json.encodeToString(MediaPlaybackPreferences())
+    ).mapLatest { Json.decodeFromString(it) }
+
+    suspend fun updateMediaPlaybackPreferences(value : MediaPlaybackPreferences) = update(MEDIA_PLAYBACK_PREFERENCES,Json.encodeToString(value))
 }

@@ -6,9 +6,13 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.deathsdoor.chillback.data.settings.Settings
+import com.deathsdoor.chillback.data.viewmodel.CoreViewModel
 
+val LocalCoreViewModel = compositionLocalOf<CoreViewModel> { error("No Settings provided") }
 val LocalSettings = compositionLocalOf<Settings> { error("No Settings provided") }
 
 val LocalErrorSnackbarState = compositionLocalOf<SnackbarHostState> { error("SnackbarState for errors is not provided") }
@@ -18,14 +22,17 @@ val LocalInfoSnackbarState = compositionLocalOf<SnackbarHostState> { error("Snac
 @Composable
 @NonRestartableComposable
 fun InitializeProviders(content : @Composable () -> Unit) {
-    val settings = Settings(LocalContext.current)
+    val context = LocalContext.current
+
+    val coreViewModel = viewModel { CoreViewModel(context = context) }
 
     val errorSnackbarHostState = remember { SnackbarHostState() }
     val successSnackbarHostState = remember { SnackbarHostState() }
     val infoSnackbarHostState = remember { SnackbarHostState() }
 
     CompositionLocalProvider(
-        LocalSettings provides settings,
+        LocalSettings provides coreViewModel.settings,
+        LocalCoreViewModel provides coreViewModel,
         LocalErrorSnackbarState provides errorSnackbarHostState,
         LocalSuccessSnackbarState provides successSnackbarHostState,
         LocalInfoSnackbarState provides infoSnackbarHostState,
