@@ -15,7 +15,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[adb-5d6ef88-ubwloA._adb-tls-connect._tcp]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -84,23 +84,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;ToolWindowRun.ShowToolbar&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.google.relay.customTranslationFile&quot;: &quot;&quot;,
-    &quot;com.google.relay.styleTranslationOption&quot;: &quot;M3&quot;,
-    &quot;com.google.relay.theme&quot;: &quot;androidx.compose.material3.MaterialTheme&quot;,
-    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
-    &quot;last_directory_selection&quot;: &quot;C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/app/src/main/res/drawable&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/app/src/main/res/drawable&quot;,
-    &quot;recommended.upgrade.last.time.stamp&quot;: &quot;1701019771611&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.tabs&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "ToolWindowRun.ShowToolbar": "false",
+    "cidr.known.project.marker": "true",
+    "com.google.relay.customTranslationFile": "",
+    "com.google.relay.styleTranslationOption": "M3",
+    "com.google.relay.theme": "androidx.compose.material3.MaterialTheme",
+    "com.google.services.firebase.aqiPopupShown": "true",
+    "last_directory_selection": "C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/app/src/main/res/drawable",
+    "last_opened_file_path": "C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/app/src/main/res/drawable",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "recommended.upgrade.last.time.stamp": "1701019771611",
+    "settings.editor.selected.configurable": "editor.preferences.tabs"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\app\src\main\res\drawable" />
@@ -111,11 +114,11 @@
       <recent name="com.deathsdoor.chillback" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\bin" />
+      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\app\src\main\kotlin\com\deathsdoor\chillback\ui\screens\mediaplayer" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\app\src\main\res\drawable" />
-      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\bin" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\app\src\main\kotlin\com\deathsdoor\chillback\data" />
-      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\app\src\main\kotlin\com\deathsdoor\chillback\ui\components" />
     </key>
     <key name="CreateKotlinClassDialog.RecentsKey">
       <recent name="com.deathsdoor.chillback.data.navigation" />
