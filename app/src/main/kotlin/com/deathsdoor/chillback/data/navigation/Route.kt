@@ -2,7 +2,6 @@ package com.deathsdoor.chillback.data.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
-import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 
 sealed interface Route {
@@ -10,5 +9,5 @@ sealed interface Route {
 
     @Composable
     @NonRestartableComposable
-    fun Content(navController: NavHostController)
+    fun Content(navController: NavHostController,vararg other : Any?)
 }

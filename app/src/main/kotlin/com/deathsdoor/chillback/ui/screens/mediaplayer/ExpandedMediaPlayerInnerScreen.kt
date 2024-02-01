@@ -1,4 +1,4 @@
-package com.deathsdoor.chillback.ui.components.mediaplayer
+package com.deathsdoor.chillback.ui.screens.mediaplayer
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -27,28 +27,42 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.session.MediaController
+import androidx.navigation.NavHostController
 import com.deathsdoor.chillback.data.mediaplayer.collectFormatAsTimeAsState
 import com.deathsdoor.chillback.data.mediaplayer.currentMediaItemPositionAsFlow
 import com.deathsdoor.chillback.data.mediaplayer.formatAsTime
 import com.deathsdoor.chillback.data.mediaplayer.rememberMediaItemDuration
+import com.deathsdoor.chillback.data.navigation.ExpandedMediaPlayerRoutes
 import com.deathsdoor.chillback.ui.components.layout.DownButton
 import com.deathsdoor.chillback.ui.components.layout.MoreInfoButton
 import com.deathsdoor.chillback.ui.components.layout.modalsheet.ModalSheetState
+import com.deathsdoor.chillback.ui.components.mediaplayer.DurationSlider
+import com.deathsdoor.chillback.ui.components.mediaplayer.EqualizerButton
+import com.deathsdoor.chillback.ui.components.mediaplayer.LikeButton
+import com.deathsdoor.chillback.ui.components.mediaplayer.MediaTitleWithArtist
+import com.deathsdoor.chillback.ui.components.mediaplayer.NextMediaItemButton
+import com.deathsdoor.chillback.ui.components.mediaplayer.PlayPauseButton
+import com.deathsdoor.chillback.ui.components.mediaplayer.PreviousMediaItemButton
+import com.deathsdoor.chillback.ui.components.mediaplayer.RepeatMediaItemsButton
+import com.deathsdoor.chillback.ui.components.mediaplayer.ShareMediaItem
+import com.deathsdoor.chillback.ui.components.mediaplayer.ShowPlaybackQueueButton
+import com.deathsdoor.chillback.ui.components.mediaplayer.ShuffleButton
+import com.deathsdoor.chillback.ui.components.mediaplayer.TrackArtwork
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ExpandedMediaPlayer(
+fun ExpandedMediaPlayerInnerScreen(
+    navController: NavHostController,
     sheetState: ModalSheetState,
     mediaController : MediaController,
     currentMediaItem : MediaItem
-) {
+) = Column {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState { 2 }
 
-    Header(
+    ExpandedMediaPlayerRoutes.DefaultHeader(
         sheetState = sheetState,
         pagerState = pagerState,
         coroutineScope = coroutineScope
@@ -57,15 +71,23 @@ fun ExpandedMediaPlayer(
     HorizontalPager(
         state = pagerState,
         pageContent = {
-            if(it == 0) Playing(coroutineScope,mediaController,currentMediaItem)
-           // Text(text = "Page $it",modifier = Modifier.background(Color.Red).fillMaxHeight())
+            when(it) {
+                0 -> Playing(
+                    coroutineScope = coroutineScope,
+                    navController = navController,
+                    mediaController = mediaController,
+                    currentMediaItem = currentMediaItem
+                )
+                1 -> TODO("SHOW LYRICS")
+                else -> throw UnsupportedOperationException("Page $it not supported")
+            }
         }
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-private fun Header(sheetState: ModalSheetState,pagerState: PagerState,coroutineScope : CoroutineScope) = TopAppBar(
+private fun ExpandedMediaPlayerRoutes.Companion.DefaultHeader(sheetState: ModalSheetState, pagerState: PagerState, coroutineScope : CoroutineScope) = TopAppBar(
     navigationIcon = { DownButton { sheetState.dismissSheet() } },
     title = {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
@@ -80,9 +102,11 @@ private fun Header(sheetState: ModalSheetState,pagerState: PagerState,coroutineS
     actions = { MoreInfoButton { /*TODO : Show more info about song and this view */ } }
 )
 
+
 @Composable
 private fun Playing(
     coroutineScope : CoroutineScope,
+    navController: NavHostController,
     mediaController : MediaController,
     currentMediaItem : MediaItem
 ) = Column(modifier = Modifier.padding(16.dp)) {
@@ -156,8 +180,9 @@ private fun Playing(
         with(Modifier.size(52.dp)) {
             ShowPlaybackQueueButton(
                 modifier = this,
-                coroutineScope = coroutineScope
+                onClick = { navController.navigate(ExpandedMediaPlayerRoutes.PlaybackQueue.route) }
             )
+
             Spacer(modifier = Modifier.weight(1f))
 
             ShareMediaItem(
@@ -169,4 +194,3 @@ private fun Playing(
 
     Spacer(modifier = Modifier.fillMaxHeight())
 }
-

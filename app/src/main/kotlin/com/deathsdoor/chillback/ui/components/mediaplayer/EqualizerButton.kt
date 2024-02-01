@@ -40,7 +40,7 @@ fun EqualizerButton(
     )
 
     ModalSheet(sheetState, dragHandle = null) {
-        // TODO : Create Equalizer Screen
+        // TODO : Create Equalizer Screen , maybe navigate to it idk
         Text("text",modifier = Modifier.fillMaxSize().background(Color.Red))
     }
 }

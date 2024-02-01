@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 // Meant as a utils wrapper to reduce boilerplate and allow more complex uses of bottomsheet
 @OptIn(ExperimentalMaterial3Api::class)
 class ModalSheetState constructor(
-    internal val coroutineScope: CoroutineScope,
+    private val coroutineScope: CoroutineScope,
     internal val sheetState : SheetState
 ) {
     internal var sheetShown by mutableStateOf(sheetState.isVisible)

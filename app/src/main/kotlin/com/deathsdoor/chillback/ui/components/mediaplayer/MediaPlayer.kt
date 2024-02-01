@@ -12,6 +12,7 @@ import com.deathsdoor.chillback.data.viewmodel.CoreViewModel
 import com.deathsdoor.chillback.ui.components.layout.modalsheet.ModalSheet
 import com.deathsdoor.chillback.ui.components.layout.modalsheet.rememberModalSheetState
 import com.deathsdoor.chillback.ui.providers.LocalCoreViewModel
+import com.deathsdoor.chillback.ui.screens.mediaplayer.ExpandedMediaPlayer
 
 
 @Deprecated("USE THIS ONLY FOR TESTINGS")

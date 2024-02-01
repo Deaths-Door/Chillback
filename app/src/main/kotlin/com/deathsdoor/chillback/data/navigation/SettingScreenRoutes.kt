@@ -30,7 +30,7 @@ enum class SettingScreenRoutes(override val route: String) : Route {
 
         @Composable
         @NonRestartableComposable
-        override fun Content(navController: NavHostController) = SettingsGroupedScreen(navController)
+        override fun Content(navController: NavHostController, vararg other: Any?) = SettingsGroupedScreen(navController)
     },
     ThemeSelector("$_ROUTE/theme") {
         override val title: String
@@ -45,7 +45,7 @@ enum class SettingScreenRoutes(override val route: String) : Route {
 
         @Composable
         @NonRestartableComposable
-        override fun Content(navController: NavHostController) = SettingsThemeSelectorScreen(navController)
+        override fun Content(navController: NavHostController, vararg other: Any?) = SettingsThemeSelectorScreen(navController)
     },
     WidgetSelector("$_ROUTE/widget") {
         override val title: String
@@ -59,7 +59,7 @@ enum class SettingScreenRoutes(override val route: String) : Route {
             get() = throw UnsupportedOperationException()
 
         @Composable
-        override fun Content(navController: NavHostController) = TODO()
+        override fun Content(navController: NavHostController, vararg other: Any?) = TODO()
     },
     Audio("$_ROUTE/audio") {
         override val title: String
@@ -74,7 +74,7 @@ enum class SettingScreenRoutes(override val route: String) : Route {
 
         @Composable
         @NonRestartableComposable
-        override fun Content(navController: NavHostController) = SettingsAudioScreen(navController)
+        override fun Content(navController: NavHostController, vararg other: Any?) = SettingsAudioScreen(navController)
     },
     Personalize("$_ROUTE/personalize") {
         override val title: String
@@ -89,7 +89,7 @@ enum class SettingScreenRoutes(override val route: String) : Route {
 
         @Composable
         @NonRestartableComposable
-        override fun Content(navController: NavHostController) = SettingsPersonalizeScreen(navController)
+        override fun Content(navController: NavHostController, vararg other: Any?) = SettingsPersonalizeScreen(navController)
     },
     Library("$_ROUTE/lib") {
         override val title: String
@@ -104,7 +104,7 @@ enum class SettingScreenRoutes(override val route: String) : Route {
 
         @Composable
         @NonRestartableComposable
-        override fun Content(navController: NavHostController) = SettingsLibraryScreen(navController)
+        override fun Content(navController: NavHostController, vararg other: Any?) = SettingsLibraryScreen(navController)
     },
     BackupRestore("$_ROUTE/backuprestore") {
         override val title: String
@@ -118,7 +118,7 @@ enum class SettingScreenRoutes(override val route: String) : Route {
             get() = "Backup and restore your settings, your songs and your playlists"
 
         @Composable
-        override fun Content(navController: NavHostController) = TODO()
+        override fun Content(navController: NavHostController, vararg other: Any?) = TODO()
     },
     About("$_ROUTE/about") {
         override val title: String
@@ -133,7 +133,7 @@ enum class SettingScreenRoutes(override val route: String) : Route {
 
         @Composable
         @NonRestartableComposable
-        override fun Content(navController: NavHostController) = AboutSectionScreen(navController)
+        override fun Content(navController: NavHostController, vararg other: Any?) = AboutSectionScreen(navController)
     };
 
     abstract val title : String
@@ -155,7 +155,7 @@ enum class SettingScreenRoutes(override val route: String) : Route {
             route = ROUTE,
             builder = {
                 SettingScreenRoutes.values().forEach { route ->
-                    composable(route = route.route, content = { route.Content(navController) })
+                    composable(route = route.route, content = { route.Content(navController,) })
                 }
             }
         )

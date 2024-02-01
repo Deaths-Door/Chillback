@@ -2,7 +2,6 @@ package com.deathsdoor.chillback.data.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -16,12 +15,12 @@ enum class AuthScreenRoutes(override val route: String) : Route {
     GetStarted("$_ROUTE/get-started") {
         @Composable
         @NonRestartableComposable
-        override fun Content(navController: NavHostController) = AuthScreenGetStarted(navController)
+        override fun Content(navController: NavHostController, vararg other: Any?) = AuthScreenGetStarted(navController)
     },
     AuthOption("$_ROUTE/auth-option") {
         @Composable
         @NonRestartableComposable
-        override fun Content(navController: NavHostController) = AuthScreenOption(navController)
+        override fun Content(navController: NavHostController, vararg other: Any?) = AuthScreenOption(navController)
     };
 
     companion object {
@@ -32,7 +31,7 @@ enum class AuthScreenRoutes(override val route: String) : Route {
             route = ROUTE,
             builder = {
                 values().forEach { route ->
-                    composable(route = route.route, content = { route.Content(navController) })
+                    composable(route = route.route, content = { route.Content(navController,) })
                 }
             }
         )
