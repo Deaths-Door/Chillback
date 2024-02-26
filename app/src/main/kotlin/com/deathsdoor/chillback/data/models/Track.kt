@@ -1,0 +1,29 @@
+package com.deathsdoor.chillback.data.models
+
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
+import com.deathsdoor.chillback.data.repositories.MusicRepository
+
+@Entity(tableName = "tracks")
+data class Track(@ColumnInfo(name = "source_path") val sourcePath : String) {
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "track_id")
+    var id  : Long = 0
+    @ColumnInfo(name = "is_favourite")
+    var isFavorite : Boolean = false
+
+    suspend fun asMediaItem(musicRepository : MusicRepository) = musicRepository.trackDetails(this).asMediaItem(this)
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is Track || isFavorite != other.isFavorite) return false
+        return super.equals(other)
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + sourcePath.hashCode()
+        return result
+    }
+}

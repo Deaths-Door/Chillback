@@ -25,7 +25,7 @@ fun CircularBackgroundIconButton(
     contentDescription : String? = null,
     onClick : () -> Unit
 ) = IconButton(
-    modifier = Modifier.background(MaterialTheme.colorScheme.inverseSurface)
+    modifier = Modifier.background(themeBasedTint())
         .padding(16.dp)
         .clip(CircleShape),
     content = { Icon(painter = painter,contentDescription = contentDescription) },
@@ -38,7 +38,7 @@ fun CircularBackgroundIcon(
     painter: Painter,
     contentDescription : String? = null,
 ) = Icon(
-    modifier = Modifier.background(MaterialTheme.colorScheme.inverseSurface)
+    modifier = Modifier.background(themeBasedTint())
         .padding(16.dp)
         .clip(CircleShape),
     painter = painter,
@@ -52,7 +52,7 @@ fun CircularBackgroundImage(
     modifier: Modifier = Modifier,
     model: Any,
     contentDescription : String? = null,
-    background : Color = MaterialTheme.colorScheme.inverseSurface
+    background : Color = themeBasedTint()
 ) = AsyncImage(
     modifier = modifier
         .padding(16.dp)
