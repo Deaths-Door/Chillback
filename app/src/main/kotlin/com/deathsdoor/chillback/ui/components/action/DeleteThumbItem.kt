@@ -23,10 +23,74 @@ import androidx.lifecycle.viewModelScope
 import com.deathsdoor.chillback.data.models.TrackCollection
 import com.deathsdoor.chillback.ui.components.layout.Thumbnail
 import com.deathsdoor.chillback.ui.providers.LocalAppState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@Composable
+fun DeleteThumbItem(label : String,name : String,onDelete : (coroutineScope: CoroutineScope) -> Unit) {
+    var isOpen by remember { mutableStateOf(false) }
 
+    Thumbnail(
+        modifier = Modifier.clickable { isOpen = true }.optionsItemSpacing(),
+        title = label,
+        artwork = {
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.error,
+            )
+        }
+    )
 
+    if(!isOpen) return
+
+    AlertDialog(
+        onDismissRequest = { isOpen = false },
+        title = { Text("$label ?") },
+        text = {
+            Text(
+                text = buildAnnotatedString {
+                    val bold = SpanStyle(fontWeight = FontWeight.Bold)
+                    withStyle(style = bold) {
+                        append("Are you sure ")
+                    }
+
+                    append("that you want to ")
+
+                    withStyle(style = bold + SpanStyle(color = MaterialTheme.colorScheme.error)) {
+                        append("${label.lowercase()} $name ?")
+                    }
+
+                    withStyle(style = bold) {
+                        append("\nThis action is irreversible!")
+                    }
+                }
+            )
+        },
+        confirmButton = {
+            // As this should be updated even if the screen is removed
+            val coroutineScope = LocalAppState.current.viewModelScope
+
+            TextButton(
+                onClick = { onDelete(coroutineScope) },
+                content = {
+                    Text(
+                        text = "Delete",
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            )
+        },
+        dismissButton = {
+            Button(
+                onClick = { isOpen = false },
+                content = { Text(text = "Cancel") }
+            )
+        }
+    )
+}
+
+@Deprecated("",level = DeprecationLevel.ERROR)
 @Composable
 fun DeleteTrackCollectionThumbItem(trackCollection: TrackCollection){
     var isOpen by remember { mutableStateOf(false) }

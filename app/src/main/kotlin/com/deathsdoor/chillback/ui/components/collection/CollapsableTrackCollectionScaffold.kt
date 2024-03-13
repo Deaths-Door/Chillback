@@ -6,7 +6,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
@@ -50,7 +49,7 @@ import com.deathsdoor.chillback.ui.extensions.applyIf
 import com.deathsdoor.chillback.ui.providers.LocalAppState
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CollapsableTrackCollectionScaffold(
     modifier: Modifier = Modifier,
@@ -101,9 +100,8 @@ fun CollapsableTrackCollectionScaffold(
 
     val playPauseEnterAnimation = fadeIn() + scaleIn()
     val playPauseExitAnimation = fadeOut() + scaleOut()
-
+// TODO : Use Collapsable Scaffold Instead
     val playPauseButton = @Composable { condition : Boolean, innerModifier : Modifier ->
-
         AnimatedVisibility(
             modifier = innerModifier,
             visible = condition,

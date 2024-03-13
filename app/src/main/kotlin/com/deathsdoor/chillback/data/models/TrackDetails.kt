@@ -3,6 +3,7 @@ package com.deathsdoor.chillback.data.models
 import android.net.Uri
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
+import com.deathsdoor.chillback.data.extensions.setIsFavourite
 
 data class TrackDetails (
     val name : String,
@@ -23,6 +24,7 @@ data class TrackDetails (
                 .setAlbumTitle(album)
                 .setAlbumArtist(albumArtists)
                 .setArtist(artists)
+                .setIsFavourite(track)
                 .build()
         )
         .build()

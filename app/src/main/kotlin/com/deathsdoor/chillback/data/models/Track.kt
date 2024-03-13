@@ -2,9 +2,10 @@ package com.deathsdoor.chillback.data.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.deathsdoor.chillback.data.repositories.MusicRepository
+import java.net.URLDecoder
+import java.net.URLEncoder
 
 @Entity(tableName = "tracks")
 data class Track(@ColumnInfo(name = "source_path") val sourcePath : String) {
@@ -15,6 +16,12 @@ data class Track(@ColumnInfo(name = "source_path") val sourcePath : String) {
     var isFavorite : Boolean = false
 
     suspend fun asMediaItem(musicRepository : MusicRepository) = musicRepository.trackDetails(this).asMediaItem(this)
+
+    fun encodeSourcePath() = URLEncoder.encode(sourcePath,"UTF-8")
+
+    companion object {
+        fun decodeSourcePath(sourcePath : String) = URLDecoder.decode(sourcePath,"UTF-8")
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is Track || isFavorite != other.isFavorite) return false

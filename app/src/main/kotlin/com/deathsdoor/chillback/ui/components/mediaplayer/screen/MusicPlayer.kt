@@ -75,14 +75,14 @@ fun MusicPlayer(modifier : Modifier = Modifier) {
         content = {
             ExpandedMediaPlayer(
                 sheetState = sheetState,
-                mediaController = mediaController!!,
+                mediaController = mediaController,
                 currentMediaItem = currentMediaItem!!
             )
         }
     )
 }
 
-private fun MediaController?.currentMediaItemAsFlow(scope: CoroutineScope) : StateFlow<MediaItem?> = flow {
+fun MediaController?.currentMediaItemAsFlow(scope: CoroutineScope) : StateFlow<MediaItem?> = flow {
     while (true) {
         emit(this@currentMediaItemAsFlow?.currentMediaItem)
         delay(1000)

@@ -2,7 +2,6 @@
 
 package com.deathsdoor.chillback.ui.components.layout
 
-import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
@@ -14,7 +13,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.capitalize
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.isGranted

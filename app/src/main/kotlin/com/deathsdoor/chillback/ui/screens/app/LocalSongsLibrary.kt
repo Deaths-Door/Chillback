@@ -2,12 +2,8 @@ package com.deathsdoor.chillback.ui.screens.app
 
 import android.Manifest
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -26,21 +22,21 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
-import com.deathsdoor.chillback.R
-import com.deathsdoor.chillback.data.models.Track
+import com.deathsdoor.chillback.data.models.TrackCollection
+import com.deathsdoor.chillback.data.repositories.LocalSongsRepository
 import com.deathsdoor.chillback.ui.components.action.BackButton
+import com.deathsdoor.chillback.ui.components.collection.LazyTrackCollectionList
 import com.deathsdoor.chillback.ui.components.layout.RequestPermissionsAndThen
 import com.deathsdoor.chillback.ui.components.layout.SlideFromUnderneathText
 import com.deathsdoor.chillback.ui.components.track.LazyTrackList
+import com.deathsdoor.chillback.ui.extensions.styledText
 import com.deathsdoor.chillback.ui.providers.LocalAppState
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
-import kotlinx.coroutines.delay
 
 
-@OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun LocalSongsLibraryScreen() {
     val permissionState= rememberPermissionState(permission = Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -50,76 +46,90 @@ fun LocalSongsLibraryScreen() {
     RequestPermissionsAndThen(
         permissionState = permissionState,
         onDismiss = { navController.popBackStack() },
-        permissionRequiredReason = { "To show your local music library, this screen needs permission to access your device's storage. Granting permission lets you enjoy your music without limitations." },
-        content = {
-            val repository = appState.userRepository.localTracks
-            val coroutineScope = rememberCoroutineScope()
+        permissionRequiredReason = { "To show your local music library, this screen needs permission to access your device's storage. Granting permission lets you enjoy your music without limitations." }
+    ) {
+        val repository = appState.userRepository.localTracks
+        val coroutineScope = rememberCoroutineScope()
 
-            LaunchedEffect(Unit){
-                repository.applyCoroutineScope(coroutineScope)
-            }
-
-            val tracks by repository.tracks.collectAsState()
-
-            var currentItem by remember { mutableIntStateOf(0) }
-
-            Scaffold(
-                bottomBar = {
-                    NavigationBar {
-                        LocalSongsLibraryScreenNavigationBarContents { currentItem = it }
-                    }
-                },
-                topBar = {
-                    LocalSongsLibraryScreenTopAppBar(
-                        navController = navController,
-                        currentItem = currentItem
-                    )
-                },
-                content = { paddingValues ->
-                    val paddingModifier = Modifier.padding(paddingValues)
-
-                    AnimatedContent(currentItem) {
-                        if(it == 0) {
-                            LazyTrackList(
-                                modifier = paddingModifier,
-                                coroutineScope = coroutineScope,
-                                directions = setOf(DismissDirection.EndToStart),
-                                tracks = tracks,
-                                onRemove = { _ , _ -> throw IllegalStateException("Should be unreachable") } ,
-                                onTracksSorted = {}
-                            )
-
-                            return@AnimatedContent
-                        }
-
-                        //TODO : OTHER LISTS + SORT ITEMS ETC
-                    }
-                }
-            )
+        LaunchedEffect(Unit) {
+            repository.applyCoroutineScope(coroutineScope)
         }
-    )
 
-    // back button || Title
-    // Pager with song lists
-    // Bottom app bar
+        var currentItem by remember { mutableIntStateOf(0) }
+        val tracks by repository.tracks.collectAsState()
+
+        Scaffold(
+           // modifier = Modifier.fillMaxSize(),
+            bottomBar = {
+                NavigationBar {
+                    LocalSongsLibraryScreenNavigationBarContents(enabled = !tracks.isNullOrEmpty()) { currentItem = it }
+                }
+            },
+            topBar = {
+                LocalSongsLibraryScreenTopAppBar(
+                    navController = navController,
+                    currentItem = currentItem
+                )
+            },
+            content = { paddingValues ->
+                val paddingModifier = Modifier.padding(paddingValues)
+
+                if (currentItem == 0) {
+                    // TODO : Add playall and shufle play options to the root list
+                    LazyTrackList(
+                        modifier = paddingModifier,
+                        coroutineScope = coroutineScope,
+                        tracks = tracks,
+                        placeHolderText = {
+                            // TODO: Add an icon to navigate to the settings that need to be changed for it to work
+                            styledText(
+                                plain0 = "Your local music library is currently empty.\n",
+                                colored0 = "To see your favorite music here, add songs to your device",
+                                plain1 = " or ",
+                                colored1 = "change your local music filter settings."
+                            )
+                        },
+                        onRemove = null,
+                        onTracksSorted = {},
+                    )
+
+                    return@Scaffold
+                }
+
+                var collections: List<TrackCollection> by remember { mutableStateOf(emptyList()) }
+
+                LaunchedEffect(currentItem) {
+                    collections = repository.sorted(currentItem)
+                }
+
+                LazyTrackCollectionList(
+                    modifier = paddingModifier,
+                    collections = collections,
+                    placeHolderText = {
+                        styledText(
+                            plain0 = "Hold on a beat...\nWe're ",
+                            colored0 = "sorting your music library",
+                            plain1 = "",
+                            colored1 = ""
+                        )
+                    },
+                    coroutineScope = coroutineScope,
+                    onPinChange = { throw IllegalStateException("Should be unreachable") },
+                    onDelete = { throw IllegalStateException("Should be unreachable") }
+                )
+            }
+        )
+    }
 }
 
-// TODO : CHANGE ICONS
-private val items by lazy {
-    mapOf(
-        "Songs" to R.drawable.add_to_queue,
-        "Genre" to R.drawable.add_to_queue,
-        "Album" to R.drawable.add_to_queue,
-        "Artists" to R.drawable.add_to_queue,
-    )
-}
-
+// TODO : ADD SEARCH ITEM THINGY
 @Composable
-private fun RowScope.LocalSongsLibraryScreenNavigationBarContents(onClick : (index : Int) -> Unit) {
-    items.asIterable().forEachIndexed { index, (label,id) ->
+private fun RowScope.LocalSongsLibraryScreenNavigationBarContents(enabled : Boolean,onClick : (index : Int) -> Unit) {
+    LocalSongsRepository.items.asIterable().forEachIndexed { index, (label,id) ->
         NavigationBarItem(
             selected = false,
             alwaysShowLabel = false,
+            enabled = enabled,
             icon = { Icon(painter = painterResource(id = id), contentDescription = null) },
             label = { Text(label) },
             onClick = { onClick(index) }
@@ -134,7 +144,7 @@ private fun LocalSongsLibraryScreenTopAppBar(navController : NavController,curre
     title = {
         AnimatedContent(currentItem) {
             SlideFromUnderneathText(
-                text = items.keys.elementAt(it)
+                text = LocalSongsRepository.items.keys.elementAt(it)
             )
         }
     }

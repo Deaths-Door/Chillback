@@ -5,15 +5,13 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderColors
 import androidx.compose.material3.SliderDefaults
-import androidx.compose.material3.SliderPositions
+import androidx.compose.material3.SliderState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
 import androidx.media3.common.C
 import androidx.media3.session.MediaController
 
@@ -25,19 +23,18 @@ fun DurationSlider(
     enabled: Boolean = true,
     colors: SliderColors = SliderDefaults.colors(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    thumb: @Composable (SliderPositions) -> Unit = {
+    thumb: @Composable (SliderState) -> Unit = {
         SliderDefaults.Thumb(
             interactionSource = interactionSource,
             colors = colors,
-            enabled = enabled,
-            thumbSize = DpSize.Zero.copy(15.0.dp,15.0.dp)
+            enabled = enabled
         )
     },
-    track: @Composable (SliderPositions) -> Unit = { sliderPositions ->
+    track: @Composable (SliderState) -> Unit = { sliderState ->
         SliderDefaults.Track(
             colors = colors,
             enabled = enabled,
-            sliderPositions = sliderPositions
+            sliderState = sliderState
         )
     },
 ){

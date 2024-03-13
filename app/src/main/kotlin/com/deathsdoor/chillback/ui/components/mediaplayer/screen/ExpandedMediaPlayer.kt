@@ -93,6 +93,7 @@ fun ExpandedMediaPlayer(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Playing(
     coroutineScope : CoroutineScope,
@@ -116,8 +117,11 @@ private fun Playing(
             artistStyle = MaterialTheme.typography.titleMedium
         )
 
-        // TODO : Implement this like button
-        LikeButton(modifier = iconSizeModifier,isLiked = false, onValueChange = { })
+        LikeButton(
+            modifier = iconSizeModifier,
+            currentMediaItem = currentMediaItem,
+            mediaController = mediaController
+        )
 
         EqualizerButton(modifier = iconSizeModifier)
     }

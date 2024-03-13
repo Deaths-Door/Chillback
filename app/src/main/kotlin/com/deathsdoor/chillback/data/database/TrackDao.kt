@@ -13,7 +13,13 @@ sealed interface TrackDao : CoreSharedDao<Track> {
     @Query("SELECT * FROM tracks WHERE is_favourite == 1")
     fun favouriteTracks() : Flow<List<Track>>
 
+    @Query("UPDATE tracks SET is_favourite = :status WHERE track_id == :id ")
+    suspend fun updateFavouriteStatusFor(id : Long,status : Boolean)
+
     @Query("SELECT * FROM tracks")
     /// Get all tracks as source is only local rn so it works
-    fun tracks() : List<Track>
+    suspend fun tracks() : List<Track>
+
+    @Query("DELETE FROM tracks WHERE track_id = :trackId")
+    suspend fun remove(trackId : Long)
 }

@@ -1,18 +1,16 @@
 package com.deathsdoor.chillback.ui.components.collection
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewModelScope
 import com.deathsdoor.chillback.data.media.TrackCollectionRepository
+import com.deathsdoor.chillback.data.repositories.FavouriteTrackCollectionRepository
 import com.deathsdoor.chillback.ui.components.track.LazyTrackList
+import com.deathsdoor.chillback.ui.extensions.styledText
 import com.deathsdoor.chillback.ui.providers.LocalAppState
-import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrackCollectionScreen(repository: TrackCollectionRepository) {
     val appState = LocalAppState.current
@@ -40,6 +38,17 @@ fun TrackCollectionScreen(repository: TrackCollectionRepository) {
                 onTracksSorted = {
                     if(repository.isUserDefined) return@LazyTrackList
                     userRepository.rearrangeTracks(trackCollection!!.collection,it)
+                },
+                placeHolderText = when (repository) {
+                    is FavouriteTrackCollectionRepository -> {{
+                        styledText(
+                            plain0 = "Looks like your ",
+                            colored0 = "favorites list is shy!\nExplore",
+                            plain1 = " some tunes and mark your jams ",
+                            colored1 = "to spice things up"
+                        )
+                    }}
+                    else -> null
                 }
             )
         }

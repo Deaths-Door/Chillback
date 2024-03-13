@@ -1,7 +1,6 @@
 package com.deathsdoor.chillback
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
@@ -13,9 +12,11 @@ import com.deathsdoor.chillback.ui.providers.InitializeProviders
 import com.deathsdoor.chillback.ui.screens.welcome.ChillbackWelcomeScreen
 
 class MainActivity : ComponentActivity() {
+    init {
+        System.loadLibrary("backend")
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             MaterialTheme(colorScheme = DarkColors) {
                 InitializeProviders(application = application) {

@@ -22,6 +22,8 @@ value class MediaMetadataExtractor private constructor(private val audioFile: Au
                 null
             }
         }
+
+        fun audioFileFrom(source : String): AudioFile = AudioFileIO.read(File(source))
     }
 
     private val tag get() = audioFile.tagOrCreateDefault
@@ -31,5 +33,5 @@ value class MediaMetadataExtractor private constructor(private val audioFile: Au
     suspend fun album(): String = tag.getFirst(FieldKey.ALBUM)
     suspend fun genre() : String = tag.getFirst(FieldKey.GENRE)
     suspend fun artists() : List<String> = tag.getAll(FieldKey.ARTIST)
-    suspend fun albumArtists() : List<String> = tag.getAll(FieldKey.ALBUM_ARTIST)
+    suspend fun albumArtists() : List<String> = tag.getAll(FieldKey.ALBUM_ARTISTS)
 }

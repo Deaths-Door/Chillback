@@ -3,7 +3,6 @@ package com.deathsdoor.chillback.data.models
 import android.net.Uri
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "track_collections")

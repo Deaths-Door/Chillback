@@ -1,9 +1,9 @@
 package com.deathsdoor.chillback.ui
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -23,8 +24,10 @@ import com.deathsdoor.chillback.ui.components.mediaplayer.screen.MusicPlayer
 import com.deathsdoor.chillback.ui.components.snackbars.CreateSnackbarHosts
 import com.deathsdoor.chillback.ui.navigation.ForEachCoreAppScreenRoute
 import com.deathsdoor.chillback.ui.navigation.LocalSongsLibrary
+import com.deathsdoor.chillback.ui.navigation.TRACK_EXTRA_OPTIONS_METADATA_ROUTE
 import com.deathsdoor.chillback.ui.navigation.addAppScreenRoutes
 import com.deathsdoor.chillback.ui.navigation.addMusicScreenRoutes
+import com.deathsdoor.chillback.ui.navigation.addTrackExtraOptionsRoutes
 import com.deathsdoor.chillback.ui.navigation.appScreenInitialRoute
 import com.deathsdoor.chillback.ui.providers.LocalAppState
 
@@ -33,12 +36,13 @@ fun ChillbackApp() {
     val appState = LocalAppState.current
     val navController = appState.navController
 
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
     Scaffold(
         snackbarHost = { CreateSnackbarHosts() },
         bottomBar = {
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-
-            if(navBackStackEntry?.destination?.route != LocalSongsLibrary) {
+            AnimatedVisibility(currentRoute != LocalSongsLibrary && currentRoute != TRACK_EXTRA_OPTIONS_METADATA_ROUTE) {
                 NavigationBar {
                     ChillbackAppNavigationBarContents(
                         navController =  navController,
@@ -50,16 +54,22 @@ fun ChillbackApp() {
         content = {
             Box(modifier = Modifier.padding(it).fillMaxSize()) {
                 NavHost(
-                    modifier = Modifier.padding(it),
+                    modifier = Modifier.matchParentSize(),
                     navController = navController,
                     startDestination = appScreenInitialRoute,
                     builder = {
                         addAppScreenRoutes()
                         addMusicScreenRoutes(appState = appState)
+                        addTrackExtraOptionsRoutes()
+
                     }
                 )
 
-                MusicPlayer(modifier = Modifier.align(Alignment.BottomCenter))
+                MusicPlayer(modifier = Modifier
+                    // Because of NavigationBarTokens.ContainerHeight = 80.dp
+                    .padding(bottom = if(currentRoute != LocalSongsLibrary) 0.dp else 80.dp)
+                    .align(Alignment.BottomCenter)
+                )
             }
         }
     )

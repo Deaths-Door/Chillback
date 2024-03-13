@@ -6,9 +6,12 @@ plugins {
 
     kotlin("plugin.serialization")
     id("com.google.devtools.ksp")
+
+    id("org.mozilla.rust-android-gradle.rust-android")
 }
 
 android {
+    ndkPath = System.getenv("ANDROID_NDK_HOME")
     namespace = Metadata.namespace
     compileSdk = Metadata.maxSDK + 1 // To go from 33 to 34
 
@@ -48,6 +51,19 @@ private object Metadata {
     val asJavaVersionEnum = JavaVersion.values().find { it.name.endsWith(javaVersion) }!!
     const val minSDK = 26
     const val maxSDK = 33
+}
+
+tasks.whenTaskAdded {
+    if ((name == "javaPreCompileDebug" || name == "javaPreCompileRelease")) {
+        dependsOn("cargoBuild")
+    }
+}
+
+cargo {
+    module = "../backend"
+    libname = "backend"
+    targets = listOf("arm", "arm64", "x86", "x86_64")
+    profile = "release"
 }
 
 dependencies {
@@ -92,4 +108,10 @@ dependencies {
 
     // For Permissions
     implementation( "com.google.accompanist:accompanist-permissions:0.35.0-alpha")
+
+    // For Multiple Inputs
+    implementation("io.github.dokar3:chiptextfield:0.7.0-alpha01")
+
+    implementation("com.github.commandiron:WheelPickerCompose:1.1.11")
+
 }

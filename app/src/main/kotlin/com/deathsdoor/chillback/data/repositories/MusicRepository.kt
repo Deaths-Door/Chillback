@@ -20,6 +20,10 @@ class MusicRepository(
         .expireAfterAccess(5.minutes)
         .build()
 
+    fun updateDetailsCache(track: Track,details: TrackDetails) = tracksDetails.put(track.id,details)
+
+    fun trackDetailsOrNull(track: Track) : TrackDetails? = tracksDetails.get(track.id)
+
     // TODO : Figure out a better solution then this , temporary fix
     suspend fun trackDetails(track : Track): TrackDetails = tracksDetails.get(track.id) {
         val extractor = MediaMetadataExtractor(track) //?: return@apply null
@@ -34,4 +38,9 @@ class MusicRepository(
     }
 
     suspend fun trackArtwork(track : Track) = tracksDetails.get(track.id)?.artwork ?: MediaMetadataExtractor(track)?.artwork()
+    suspend fun trackGenre(track : Track) = tracksDetails.get(track.id)?.genre ?: MediaMetadataExtractor(track)?.genre()
+    suspend fun trackAlbum(track : Track) = tracksDetails.get(track.id)?.album ?: MediaMetadataExtractor(track)?.album()
+    suspend fun trackArtists(track : Track) = tracksDetails.get(track.id)?.artists ?: MediaMetadataExtractor(track)?.artists()?.joinToString(",")
+
+
 }

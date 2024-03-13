@@ -19,7 +19,7 @@ fun LazyLayoutChangeButton(
     content = {
         Icon(
             painter = painterResource(id = if(isSingleItemPerRow.value) R.drawable.vertical_list_layout else R.drawable.grid_layout),
-            contentDescription = null
+            contentDescription = "Change List Layout (between grid and vertical"
         )
     }
 )

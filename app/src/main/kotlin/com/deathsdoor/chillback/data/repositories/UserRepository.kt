@@ -34,9 +34,8 @@ class UserRepository(private val musicRepository: MusicRepository) {
         database.trackCollectionCrossReferenceDao.remove(reference)
     }
 
-    fun changeFavouriteStatusForTrack(track : Track,status : Boolean) = launch {
-        track.isFavorite = status
-        database.trackDao.update(track)
+    fun changeFavouriteStatusForTrack(id : Long,status: Boolean) = launch {
+        database.trackDao.updateFavouriteStatusFor(id,status)
     }
 
     fun deleteTrackCollection(track : TrackCollection) = launch {
@@ -52,10 +51,13 @@ class UserRepository(private val musicRepository: MusicRepository) {
         database.trackCollectionCrossReferenceDao.updateAll(references)
     }
 
-
-    fun changeTrackCollectionPinStatus(track : TrackCollection) = musicRepository.coroutineScope.launch {
+    fun changeTrackCollectionPinStatus(track : TrackCollection) = launch {
         track.isPinned = !track.isPinned
-        ApplicationLocalDatabase(musicRepository.context).trackCollectionDao.update(track)
+        database.trackCollectionDao.update(track)
+    }
+
+    fun removeTrack(track : Track) = launch {
+        database.trackDao.remove(track.id)
     }
     /*
 

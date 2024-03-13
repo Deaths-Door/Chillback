@@ -7,3 +7,13 @@ plugins {
     id("com.google.gms.google-services") apply false
     id("com.google.devtools.ksp") apply false
 }
+
+buildscript {
+    repositories {
+        maven("https://plugins.gradle.org/m2/")
+    }
+
+    dependencies {
+        classpath("org.mozilla.rust-android-gradle:plugin:0.9.3")
+    }
+}

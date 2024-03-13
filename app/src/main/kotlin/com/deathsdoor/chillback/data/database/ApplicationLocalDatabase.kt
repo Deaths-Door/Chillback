@@ -1,11 +1,9 @@
 package com.deathsdoor.chillback.data.database
 
 import android.content.Context
-import android.os.Debug
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.deathsdoor.chillback.data.models.Track
 import com.deathsdoor.chillback.data.models.TrackCollection
@@ -33,9 +31,7 @@ abstract class ApplicationLocalDatabase : RoomDatabase() {
                     context.applicationContext,
                     ApplicationLocalDatabase::class.java,
                     "chillback-database"
-                )  // TODO : REMOVE THIS
-                .fallbackToDestructiveMigration()
-                .build()
+                ).build()
 
                 database = instance
                 return database!!

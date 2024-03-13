@@ -42,7 +42,6 @@ fun CollapsedMediaPlayer(
     currentMediaItem : MediaItem,
     onClick : () -> Unit
 ) = Column(modifier = modifier.padding(8.dp)) {
-
     Card(
         modifier = Modifier.align(Alignment.End)
             .size(height = ARROW_HEIGHT,width = ARROW_WIDTH)
@@ -77,11 +76,10 @@ fun CollapsedMediaPlayer(
                     artistStyle = LocalTextStyle.current
                 )
 
-                // TODO : CHANGE THIS
                 LikeButton(
                     modifier = iconSizeModifier,
-                    isLiked = false,
-                    onValueChange = { }
+                    currentMediaItem = currentMediaItem,
+                    mediaController = mediaController
                 )
 
                 RepeatMediaItemsButton(
