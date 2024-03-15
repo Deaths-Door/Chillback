@@ -18,7 +18,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[adb-5d6ef88-ubwloA._adb-tls-connect._tcp]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -106,38 +106,38 @@
     <option name="showLibraryContents" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "PROJECT_TRUSTED_KEY": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "TODO_SCOPE": "Open Files",
-    "ToolWindowRun.ShowToolbar": "false",
-    "cidr.known.project.marker": "true",
-    "com.google.relay.customTranslationFile": "",
-    "com.google.relay.styleTranslationOption": "M3",
-    "com.google.relay.theme": "androidx.compose.material3.MaterialTheme",
-    "com.google.services.firebase.aqiPopupShown": "true",
-    "last_directory_selection": "C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/app/src/main/res/drawable",
-    "last_opened_file_path": "C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/app/src/main/kotlin/com/deathsdoor/chillback/ui/components/mediaplayer",
-    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
-    "org.rust.hideNoCargoProjectNotificationsC:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/scripts/rust/metadata1.rs": "true",
-    "org.rust.hideNoCargoProjectNotificationsC:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/scripts/rust/metadata8.rs": "true",
-    "project.structure.last.edited": "SDK Location",
-    "project.structure.proportion": "0.17",
-    "project.structure.side.proportion": "0.2",
-    "recommended.upgrade.last.time.stamp": "1701019771611",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;PROJECT_TRUSTED_KEY&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;TODO_SCOPE&quot;: &quot;Open Files&quot;,
+    &quot;ToolWindowRun.ShowToolbar&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;com.google.relay.customTranslationFile&quot;: &quot;&quot;,
+    &quot;com.google.relay.styleTranslationOption&quot;: &quot;M3&quot;,
+    &quot;com.google.relay.theme&quot;: &quot;androidx.compose.material3.MaterialTheme&quot;,
+    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
+    &quot;last_directory_selection&quot;: &quot;C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/app/src/main/res/drawable&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/app/src/main/kotlin/com/deathsdoor/chillback/ui/components/mediaplayer&quot;,
+    &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
+    &quot;org.rust.hideNoCargoProjectNotificationsC:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/scripts/rust/metadata1.rs&quot;: &quot;true&quot;,
+    &quot;org.rust.hideNoCargoProjectNotificationsC:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/scripts/rust/metadata8.rs&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDK Location&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;recommended.upgrade.last.time.stamp&quot;: &quot;1701019771611&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   },
-  "keyToStringList": {
-    "com.android.tools.idea.sqlite.queryhistory": [
-      "SELECT * FROM track_collections",
-      "SELECT * FROM TrackCollection"
+  &quot;keyToStringList&quot;: {
+    &quot;com.android.tools.idea.sqlite.queryhistory&quot;: [
+      &quot;SELECT * FROM track_collections&quot;,
+      &quot;SELECT * FROM TrackCollection&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="PsdUISettings">
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>
@@ -326,5 +326,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/kotlin/com/deathsdoor/chillback/data/models/TrackMetadata.kt</url>
+          <line>92</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

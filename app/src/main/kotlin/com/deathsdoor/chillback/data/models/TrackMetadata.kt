@@ -3,8 +3,6 @@ package com.deathsdoor.chillback.data.models
 import androidx.annotation.StringRes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -32,6 +30,8 @@ sealed class TrackMetadata private constructor(
     @Composable
     abstract fun ReadOnlyDefaultValue(modifier : Modifier)
 
+    abstract suspend fun readTag(tag : Tag)
+
     class SingleValue(
         fieldKey: FieldKey,
         frequencyOfUsage : UByte,
@@ -45,6 +45,12 @@ sealed class TrackMetadata private constructor(
         fun updateAnyFieldChanged(editScreenState: MetadataEditScreenState,newValue : String?) {
             editScreenState.updateAnyFieldChanged<String?>(currentValue.value,defaultValue)
             currentValue.value = newValue
+        }
+
+
+        override suspend fun readTag(tag : Tag) {
+            defaultValue = tag.getFirst(fieldKey)
+            currentValue.value = defaultValue
         }
 
         @Composable
@@ -75,6 +81,13 @@ sealed class TrackMetadata private constructor(
             currentValue.add(newValue)
         }
 
+        override suspend fun readTag(tag : Tag) {
+            readInitialDefaultValue = true
+            val tagValues = tag.getAll(fieldKey)
+            defaultValue.addAll(tagValues)
+            currentValue.addAll(tagValues)
+        }
+
         @Composable
         override fun ReadOnlyDefaultValue(modifier: Modifier) =
             if(defaultValue.firstOrNull().isNullOrEmpty()) Text(
@@ -95,13 +108,11 @@ sealed class TrackMetadata private constructor(
    companion object {
        const val defaultValueLoading = "Fetching .."
        @Composable private fun String?.orEmptyMessage() = if(isNullOrEmpty()) "Field has no value.." else this
-   }
 
-    @Composable
-    @NonRestartableComposable
-    fun ReadTag(track : Track,onRead : suspend (Tag) -> Unit) = LaunchedEffect(Unit) {
-        val audioFile = MediaMetadataExtractor.audioFileFrom(track.sourcePath)
-        val tag = audioFile.tagOrCreateDefault
-        onRead(tag)
-    }
+       @Suppress("RedundantSuspendModifier")
+       suspend fun createTag(track: Track) : Tag {
+           val audioFile = MediaMetadataExtractor.audioFileFrom(track.sourcePath)
+           return audioFile.tagOrCreateDefault
+       }
+   }
 }

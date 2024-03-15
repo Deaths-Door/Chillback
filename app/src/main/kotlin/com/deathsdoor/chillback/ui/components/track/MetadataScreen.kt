@@ -24,6 +24,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,16 +42,20 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.deathsdoor.chillback.R
 import com.deathsdoor.chillback.data.media.MediaMetadataExtractor
+import com.deathsdoor.chillback.data.models.MetadataCategory
 import com.deathsdoor.chillback.data.models.Track
-import com.deathsdoor.chillback.data.models.TrackDetails
 import com.deathsdoor.chillback.data.models.TrackMetadata
 import com.deathsdoor.chillback.data.models.TrackMetadataInputType
+import com.deathsdoor.chillback.ui.components.action.SortFilterButton
+import com.deathsdoor.chillback.ui.components.action.createCompartorFrom
 import com.deathsdoor.chillback.ui.components.layout.CollapsableScaffold
 import com.deathsdoor.chillback.ui.components.layout.LabeledCheckBox
 import com.deathsdoor.chillback.ui.providers.LocalAppState
 import com.deathsdoor.chillback.ui.providers.LocalErrorSnackbarState
 import com.deathsdoor.chillback.ui.state.MetadataEditScreenState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jaudiotagger.tag.FieldKey
 
@@ -58,9 +63,23 @@ import org.jaudiotagger.tag.FieldKey
 fun TrackMetadataScreen(track : Track) {
     val appState = LocalAppState.current
     val errorSnackbarState = LocalErrorSnackbarState.current
-    // TODO : Remove his for some reason its nullable
-    // Since this screen is only navigable , when we have the details
-    val trackDetails = appState.musicRepository.trackDetailsOrNull(track) ?: TrackDetails("NAME",null,"ARTISTs","GENRE","ALBUM","ALBUM ARTISTS")
+    // Since this screen is only navigable , when we have the details , so it should be non-null
+    // However , there maybe be a delay between the object being placed in cache , and accessing it , hence mutableStateOf to fetch it
+    var trackDetails by remember { mutableStateOf(appState.musicRepository.trackDetailsOrNull(track)) }
+
+    if(trackDetails == null) {
+        LaunchedEffect(Unit) {
+            while(true) {
+                val newValue = appState.musicRepository.trackDetailsOrNull(track)
+                if(newValue != null){
+                    trackDetails = newValue
+                    break
+                }
+                else delay(500L)
+            }
+        }
+    }
+
 
     val coroutineScope = rememberCoroutineScope()
     var inEditMode  by remember { mutableStateOf(false) }
@@ -82,7 +101,7 @@ fun TrackMetadataScreen(track : Track) {
 
             if(!editModeState.anyFieldChanged) return@launch
 
-            editModeState.copyIntoTrackDetails(trackDetails = trackDetails)?.let {
+            editModeState.copyIntoTrackDetails(trackDetails = trackDetails!!)?.let {
                 appState.musicRepository.updateDetailsCache(track = track, details = it)
             }
         }
@@ -125,7 +144,7 @@ fun TrackMetadataScreen(track : Track) {
         headerContent = { modifier  ->
             Box(modifier = modifier.fillMaxWidth()) {
                 Artwork(
-                    uri = trackDetails.artwork,
+                    uri = trackDetails?.artwork,
                     modifier = Modifier.matchParentSize(),
                     contentScale = ContentScale.FillBounds
                 )
@@ -141,18 +160,19 @@ fun TrackMetadataScreen(track : Track) {
                                 true -> {
                                     TrackMetadataInputType.TextWithNoRecommendation.InputField(
                                         editModeState = editModeState,
-                                        trackMetadata = editModeState.metadataFields.find { it.value.fieldKey == FieldKey.TITLE }!!.value
+                                        // TODO : Fix this
+                                        trackMetadata = editModeState.metadataFields.find { it.value.fieldKey == FieldKey.TITLE }?.value ?: editModeState.metadataFields[0].value
                                     )
                                 }
                                 false -> {
                                     Text(
-                                        text = trackDetails.name,
+                                        text = trackDetails?.name ?: "Wait a moment..",
                                         style = MaterialTheme.typography.headlineMedium,
                                         fontWeight = FontWeight.Bold,
                                     )
 
                                     Text(
-                                        text = trackDetails.artists ?: "No Artists",
+                                        text = trackDetails?.artists ?: "No Artists",
                                         style = MaterialTheme.typography.titleSmall,
                                         fontWeight = FontWeight.Bold,
                                     )
@@ -172,17 +192,56 @@ fun TrackMetadataScreen(track : Track) {
                             }
                         )
                     }
-                )
-            }
-        },
-        content = { paddingValues ->
+                    )
+                }
+            },
+            content = { paddingValues ->
             Column(modifier = Modifier.padding(paddingValues)) {
                 Row(modifier = Modifier.padding(horizontal = 8.dp).fillMaxWidth()) {
-                    // TODO: Finish this sorting bar , add a search option , and maybe add a fill recommendation option here as well
-                    /*SortFilterButton(
-                        coroutineScope = coroutineScope,
+                    // TODO: add a search option , and maybe add a fill recommendation option here as well
 
-                    )*/
+                    val criteria = mutableListOf(
+                        stringResource(R.string.sort_by_frequency_of_usage),
+                        stringResource(R.string.sort_by_only_single_value)
+                    )
+                    criteria.addAll(MetadataCategory.values().map { stringResource(it.stringId) })
+
+                    val enabled = mutableStateOf(false)
+                    SortFilterButton(
+                        coroutineScope = coroutineScope,
+                        enabled = enabled,
+                        criteria = criteria,
+                        fetch = {
+                            editModeState.metadataFields.any {
+                                !it.isInitialized()
+                                        || (it.value is TrackMetadata.SingleValue && (it.value as TrackMetadata.SingleValue).defaultValue == null)
+                                        || (it.value is TrackMetadata.MultipleValues && !(it.value as TrackMetadata.MultipleValues).readInitialDefaultValue)
+                            }
+                        },
+                        onFetch = {
+                            val tag = TrackMetadata.createTag(track = track)
+
+                           editModeState.metadataFields.forEach {
+                                it.value.readTag(tag = tag)
+                           }
+                        },
+                        onSort = { isAscending : Boolean,appliedMethods : List<Int> ->
+                            editModeState.metadataFields.sortedWith(
+                                createCompartorFrom(
+                                    isAscending = isAscending,
+                                    sortMethods = appliedMethods,
+                                    create = { _it , method ->
+                                        val field = _it.value
+                                        when(method) {
+                                            0 -> field.frequencyOfUsage
+                                            1 -> field is TrackMetadata.SingleValue
+                                            else -> field.category === MetadataCategory.values()[method - 2]
+                                        }
+                                    }
+                                )
+                            )
+                        }
+                    )
                 }
             }
 
@@ -202,9 +261,8 @@ fun TrackMetadataScreen(track : Track) {
                         val trackMetadata = _it.value
 
                         if(trackMetadata is TrackMetadata.SingleValue && trackMetadata.defaultValue == null) {
-                            trackMetadata.ReadTag(track = track) {
-                                trackMetadata.defaultValue = it.getFirst(trackMetadata.fieldKey)
-                                trackMetadata.currentValue.value = trackMetadata.defaultValue
+                            LaunchedEffect(Unit) {
+                               trackMetadata.readTag(tag = TrackMetadata.createTag(track = track))
                             }
 
                             Text(
@@ -218,12 +276,8 @@ fun TrackMetadataScreen(track : Track) {
                         }
 
                         if(trackMetadata is TrackMetadata.MultipleValues && !trackMetadata.readInitialDefaultValue) {
-                            trackMetadata.ReadTag(track = track) {
-                                trackMetadata.readInitialDefaultValue = true
-                                val tagValues = it.getAll(trackMetadata.fieldKey)
-                                trackMetadata.defaultValue.addAll(tagValues)
-                                trackMetadata.currentValue.addAll(tagValues)
-
+                            LaunchedEffect(Unit) {
+                                trackMetadata.readTag(tag = TrackMetadata.createTag(track = track))
                             }
 
                             Text(
@@ -260,7 +314,7 @@ fun TrackMetadataScreen(track : Track) {
                                 true -> when (trackMetadata.inputType) {
                                     TrackMetadataInputType.TextWithNoRecommendation -> TrackMetadataInputType.TextWithNoRecommendation.InputField(
                                         editModeState = editModeState,
-                                        trackMetadata = trackMetadata as TrackMetadata.SingleValue
+                                        trackMetadata = trackMetadata
                                     )
 
                                     TrackMetadataInputType.DateWithNoRecommendation -> TrackMetadataInputType.DateWithNoRecommendation.InputField(

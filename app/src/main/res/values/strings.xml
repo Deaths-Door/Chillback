@@ -178,4 +178,20 @@
     <string name="field_key_work_type">Work Type</string>
     <string name="field_key_year">Year</string>
     <string name="field_key_version">Version</string>
+
+
+    <!--Sort/Filter Options for MetadataScreen-->
+    <string name="sort_by_frequency_of_usage">Frequency Of Usage</string>
+    <string name="sort_by_only_single_value">Only Single Values</string>
+    <string name="sort_by_audio_fingerprint">Is Audio Identifiers category</string>
+    <string name="sort_by_album">Is Album Information category</string>
+    <string name="sort_by_audio_properties">Is Audio Properties category</string>
+    <string name="sort_by_artist">Is Artist Information category</string>
+    <string name="sort_by_additional_content">Is Additional Content category</string>
+    <string name="sort_by_classifications">Is Classifications category</string>
+    <string name="sort_by_credits">Is Credits category</string>
+    <string name="sort_by_musicbrainz">Is Musicbrainz category</string>
+    <string name="sort_by_track">Is Track Information category</string>
+
+
 </resources>

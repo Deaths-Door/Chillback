@@ -78,7 +78,7 @@ fun SortFilterButton(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalLayoutApi::class)
 @NonRestartableComposable
 @Composable
 private fun SortFilterSheet(
@@ -228,7 +228,6 @@ private fun SortFilterSheet(
     }
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ifSelectedLeadingIcon(selected : Boolean,label : String): (@Composable () -> Unit)? = if(selected) {{
     Icon(
@@ -237,3 +236,20 @@ private fun ifSelectedLeadingIcon(selected : Boolean,label : String): (@Composab
         modifier = Modifier.size(FilterChipDefaults.IconSize)
     )
 }} else null
+
+fun <T> createCompartorFrom(
+    isAscending : Boolean,
+    sortMethods : List<Int>,
+    create : (it : T,method : Int) -> Comparable<*>
+): Comparator<T> {
+    val firstValue = sortMethods[0]
+    var compartor = if(isAscending) compareBy<T> { create(it,firstValue) } else compareByDescending { create(it,firstValue) }
+
+    sortMethods.subList(1,sortMethods.size).forEach { sortMethod ->
+        compartor = compartor.thenBy {
+            create(it,sortMethod)
+        }
+    }
+
+    return compartor
+}

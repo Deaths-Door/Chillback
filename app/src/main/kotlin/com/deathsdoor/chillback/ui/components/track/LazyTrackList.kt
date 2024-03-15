@@ -30,6 +30,7 @@ import com.deathsdoor.chillback.data.models.Track
 import com.deathsdoor.chillback.data.models.TrackDetails
 import com.deathsdoor.chillback.data.repositories.MusicRepository
 import com.deathsdoor.chillback.ui.components.action.LazyOptionsRow
+import com.deathsdoor.chillback.ui.components.action.createCompartorFrom
 import com.deathsdoor.chillback.ui.components.action.rememberIsSingleItemRow
 import com.deathsdoor.chillback.ui.components.layout.LazyDismissibleList
 import com.deathsdoor.chillback.ui.components.layout.rememberSelectedIDsOrNotInMultiSelectMode
@@ -253,14 +254,31 @@ private fun List<Track>.sortBasedOn(
     isAscending : Boolean,
     sortMethods : List<Int>,
     details: SnapshotStateList<TrackDetails>
-) = sortedWith(
-    createCompartorFrom(
-        isAscending = isAscending,
-        sortMethods = sortMethods,
-        details = details
+): List<Track> {
+    var index = 0
+    return sortedWith(
+        createCompartorFrom<Track>(
+            isAscending = isAscending,
+            sortMethods = sortMethods,
+            create = { track , method ->
+                val detail = details[index]
+                index += 1
+                when(method) {
+                    0 -> detail.name
+                    1 -> detail.genre
+                    2 -> detail.album
+                    3 -> detail.albumArtists ?: ""
+                    4 -> detail.artists ?: ""
+                    5 -> detail.artwork != null
+                    6 -> track.isFavorite
+                    else -> throw IllegalStateException("Unreachable condition")
+                }
+            }
+        )
     )
-)
+}
 
+/*
 private fun createCompartorFrom(
     isAscending : Boolean,
     sortMethods : List<Int>,
@@ -292,19 +310,4 @@ private fun createCompartorFrom(
     }
 
     return compartor
-}
-
-private fun compartor(
-    track : Track,
-    details : TrackDetails,
-    sortMethod : Int
-) : Comparable<*> = when(sortMethod) {
-    0 -> details.name
-    1 -> details.genre
-    2 -> details.album
-    3 -> details.albumArtists ?: ""
-    4 -> details.artists ?: ""
-    5 -> details.artwork != null
-    6 -> track.isFavorite
-    else -> throw IllegalStateException("Unreachable condition")
-}
+}*/
