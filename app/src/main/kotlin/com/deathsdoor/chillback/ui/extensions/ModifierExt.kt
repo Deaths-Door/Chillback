@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-@Deprecated("Find a better way then this")
 fun Modifier.applyIf(condition : Boolean,transform : @DisallowComposableCalls Modifier.() -> Modifier)
 = if(condition) transform() else this
 

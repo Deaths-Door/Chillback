@@ -19,7 +19,10 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ChillbackAppState constructor(application : Application,val navController: NavHostController) : AndroidViewModel(application) {
+class ChillbackAppState(
+    application : Application,
+    val navController: NavHostController,
+) : AndroidViewModel(application) {
     private val context: Context get() = this.getApplication<Application>().applicationContext
 
     val settings : ApplicationSettings = ApplicationSettings(context)

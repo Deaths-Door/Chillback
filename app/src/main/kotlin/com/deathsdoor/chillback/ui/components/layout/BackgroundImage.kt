@@ -12,13 +12,14 @@ import androidx.compose.ui.graphics.painter.Painter
 @Composable
 @NonRestartableComposable
 fun BackgroundImage(
-    modifier: BoxScope.() -> Modifier = { Modifier.matchParentSize() },
+    modifier : Modifier = Modifier,
+    //modifier: BoxScope.() -> Modifier = { Modifier.matchParentSize() },
     painter: Painter,
     content : @Composable BoxScope.() -> Unit
 ) = BackgroundLayout(
     background = {
         Image(
-            modifier = modifier(),
+            modifier = modifier,
             painter = painter,
             contentDescription = null
         )

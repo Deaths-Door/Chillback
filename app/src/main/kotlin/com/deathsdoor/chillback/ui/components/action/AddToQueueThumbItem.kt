@@ -16,15 +16,16 @@ import kotlinx.coroutines.launch
 @Composable
 fun AddToQueueThumbItem(onAdd : suspend CoroutineScope.(MediaController?) -> Unit) {
     val appState = LocalAppState.current
+    val label = "Add to queue"
     Thumbnail(
-        title = "Add to queue",
-        modifier = Modifier.clickable {
+        title = label,
+        modifier = Modifier.clickable(onClickLabel= label) {
             appState.viewModelScope.launch { onAdd(appState.mediaController) }
         }.optionsItemSpacing(),
         artwork = {
             Icon(
                 painter = painterResource(id = R.drawable.add_to_queue),
-                contentDescription = null,
+                contentDescription = label,
             )
         }
     )

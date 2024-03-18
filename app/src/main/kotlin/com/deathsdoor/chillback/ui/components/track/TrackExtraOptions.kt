@@ -7,6 +7,8 @@ import com.deathsdoor.chillback.ui.components.action.AddToQueueThumbItem
 import com.deathsdoor.chillback.ui.components.action.DeleteThumbItem
 import com.deathsdoor.chillback.ui.components.action.PlayNextThumbItem
 import com.deathsdoor.chillback.ui.components.action.PlayNowThumbItem
+import com.deathsdoor.chillback.ui.components.action.RingtoneSelectorThumbItem
+import com.deathsdoor.chillback.ui.components.action.ShareThumbItem
 import com.deathsdoor.chillback.ui.components.action.TrackMetadataThumbItem
 import com.deathsdoor.chillback.ui.components.modaloptions.ModalOptions
 import com.deathsdoor.chillback.ui.components.modaloptions.ModalOptionsState
@@ -30,11 +32,12 @@ fun TrackExtraOptions(
         // Play Next
         // Add to Playback Queue
         // Add to playlist -> TODO
-        // Metadata and Edit-> TODO
-        // Share -> TODO
-        // Set As Ringtone -> TODO
+        // Metadata and Edit
+        // Share
+        // Set As Ringtone
         // Lyrics -> TODO
-        // Search In Youtube/Other Services
+        // Edit File (length etc) -> TODO
+        // Search In Youtube/Other Services -> TODO
         // Delete / Remove from list
 
         val appState = LocalAppState.current
@@ -68,6 +71,10 @@ fun TrackExtraOptions(
         }
 
         TrackMetadataThumbItem(track = track) { state.dismiss() }
+
+        ShareThumbItem()
+
+        RingtoneSelectorThumbItem(track = track,details = details)
 
         onRemove?.let {
             DeleteThumbItem(

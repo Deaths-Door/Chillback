@@ -1,7 +1,6 @@
 package com.deathsdoor.chillback.ui.screens.app
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -102,7 +101,7 @@ private fun UtilitySection(modifier: Modifier) {
                 modifier = contentModifier,
                 text = "Local Songs",
                 // TODO : CHANGE ICON
-                painter = painterResource(R.drawable.ic_launcher_background),
+                painter = painterResource(R.drawable.app_logo),
                 background = Pink80,
                 tint = Pink60,
                 onClick = { appState.navigateToLocalSongsLibraryScreen() }

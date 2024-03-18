@@ -25,7 +25,7 @@ fun TrackArtwork(
     if (artworkData == null) {
         Image(
             modifier = modifier,
-            painter = painterResource(R.drawable.ic_launcher_background),
+            painter = painterResource(R.drawable.app_logo),
             contentDescription = null,
         )
 

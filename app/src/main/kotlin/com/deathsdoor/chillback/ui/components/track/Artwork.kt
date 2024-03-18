@@ -25,7 +25,7 @@ fun Artwork(
     contentScale: ContentScale = ContentScale.Fit,
 ) = Image(
     modifier = modifier.clip(RoundedCornerShape(8.dp)),
-    painter = uri?.let { rememberAsyncImagePainter(uri,onState = { Log.d("image","$it -> ${if(it is AsyncImagePainter.State.Error) it.result.throwable else ""} ") }) } ?: painterResource(id = R.drawable.ic_launcher_background),
+    painter = uri?.let { rememberAsyncImagePainter(uri,onState = { Log.d("image","$it -> ${if(it is AsyncImagePainter.State.Error) it.result.throwable else ""} ") }) } ?: painterResource(id = R.drawable.app_logo),
     contentDescription = null,
     contentScale = contentScale,
 )

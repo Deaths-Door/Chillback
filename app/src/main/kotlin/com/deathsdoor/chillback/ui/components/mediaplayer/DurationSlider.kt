@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.media3.common.C
+import androidx.media3.common.Player
 import androidx.media3.session.MediaController
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,7 +59,7 @@ fun DurationSlider(
 }
 
 @Composable
-fun rememberMediaItemDuration(mediaController: MediaController) = remember(mediaController.duration) {
+fun rememberMediaItemDuration(mediaController: Player) = remember(mediaController.duration) {
     val mediaDuration = mediaController.duration
 
     // This should not be needed , but is there for safely

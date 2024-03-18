@@ -18,8 +18,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -27,6 +25,8 @@ import androidx.media3.common.MediaItem
 import androidx.media3.session.MediaController
 import com.deathsdoor.chillback.ui.components.action.DownButton
 import com.deathsdoor.chillback.ui.components.action.MoreInfoButton
+import com.deathsdoor.chillback.ui.components.action.Share
+import com.deathsdoor.chillback.ui.components.mediaplayer.DurationMarkers
 import com.deathsdoor.chillback.ui.components.mediaplayer.DurationSlider
 import com.deathsdoor.chillback.ui.components.mediaplayer.EqualizerButton
 import com.deathsdoor.chillback.ui.components.mediaplayer.LikeButton
@@ -35,20 +35,12 @@ import com.deathsdoor.chillback.ui.components.mediaplayer.NextMediaItemButton
 import com.deathsdoor.chillback.ui.components.mediaplayer.PlayPauseButton
 import com.deathsdoor.chillback.ui.components.mediaplayer.PreviousMediaItemButton
 import com.deathsdoor.chillback.ui.components.mediaplayer.RepeatMediaItemsButton
-import com.deathsdoor.chillback.ui.components.mediaplayer.ShareMediaItem
 import com.deathsdoor.chillback.ui.components.mediaplayer.ShowPlaybackQueueButton
 import com.deathsdoor.chillback.ui.components.mediaplayer.ShuffleButton
 import com.deathsdoor.chillback.ui.components.mediaplayer.TrackArtwork
-import com.deathsdoor.chillback.ui.components.mediaplayer.rememberMediaItemDuration
 import com.deathsdoor.chillback.ui.components.modaloptions.ModalOptionsState
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlin.time.Duration.Companion.milliseconds
 
 // TODO : COMPLETE EACH button and screen here so that is really works
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
@@ -128,15 +120,10 @@ private fun Playing(
 
     DurationSlider(mediaController)
 
-    Row(modifier = Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.SpaceBetween) {
-        val currentPosition by mediaController.currentMediaItemPositionAsFlow(coroutineScope).collectAsState()
-
-        Text(text = currentPosition)
-
-        val duration by rememberMediaItemDuration(mediaController)
-
-        Text(text = duration.formatAsTime())
-    }
+    DurationMarkers(
+        mediaController = mediaController,
+        coroutineScope = coroutineScope
+    )
 
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
         ShuffleButton(
@@ -171,30 +158,11 @@ private fun Playing(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        ShareMediaItem(
+        Share(
             modifier = modifier,
-            mediaItem = currentMediaItem
+            //mediaItem = currentMediaItem
         )
     }
 
     Spacer(modifier = Modifier.fillMaxHeight())
 }
-
-private fun MediaController.currentMediaItemPositionAsFlow(scope: CoroutineScope): StateFlow<String> = flow {
-    while (true) {
-        emit(this@currentMediaItemPositionAsFlow.currentPosition.formatAsTime())
-        delay(1000) // Update the media metadata every second
-    }
-}.stateIn(
-    scope = scope,
-    started = SharingStarted.WhileSubscribed(5000L),
-    initialValue = formatIntoTime(0,0,0),
-)
-
-private fun Long.formatAsTime() = milliseconds.toComponents { hours, minutes, seconds, _ -> formatIntoTime(hours,minutes,seconds) }
-private fun formatIntoTime(hours : Long, minutes : Int, seconds : Int): String = String.format(
-    "%02d:%02d:%02d",
-    hours,
-    minutes,
-    seconds,
-)

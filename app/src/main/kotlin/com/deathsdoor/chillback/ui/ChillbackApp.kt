@@ -52,7 +52,9 @@ fun ChillbackApp() {
             }
         },
         content = {
-            Box(modifier = Modifier.padding(it).fillMaxSize()) {
+            Box(modifier = Modifier
+                .padding(it)
+                .fillMaxSize()) {
                 NavHost(
                     modifier = Modifier.matchParentSize(),
                     navController = navController,
@@ -67,7 +69,7 @@ fun ChillbackApp() {
 
                 MusicPlayer(modifier = Modifier
                     // Because of NavigationBarTokens.ContainerHeight = 80.dp
-                    .padding(bottom = if(currentRoute != LocalSongsLibrary) 0.dp else 80.dp)
+                    .padding(bottom = if (currentRoute != LocalSongsLibrary) 0.dp else 80.dp)
                     .align(Alignment.BottomCenter)
                 )
             }

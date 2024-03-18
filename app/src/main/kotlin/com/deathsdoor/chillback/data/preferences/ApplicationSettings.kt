@@ -8,9 +8,9 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 class ApplicationSettings(private val context : Context) {
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -32,6 +32,10 @@ class ApplicationSettings(private val context : Context) {
         suspend fun update(value : T)
 
         companion object {
+            val dummyFalse = object : ApplicationSettings.Settings<Boolean> {
+                override fun current(): Flow<Boolean> = flow { emit(false) }
+                override suspend fun update(value: Boolean) = Unit
+            }
             fun<I : Settings<T>,T> CoroutineScope.update(settings : I,value : T) = this@update.launch {
                 settings.update(value)
             }

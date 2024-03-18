@@ -15,5 +15,6 @@ buildscript {
 
     dependencies {
         classpath("org.mozilla.rust-android-gradle:plugin:0.9.3")
+        classpath("com.google.gms:google-services:4.4.1")
     }
 }

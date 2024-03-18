@@ -17,10 +17,10 @@ data class Track(@ColumnInfo(name = "source_path") val sourcePath : String) {
 
     suspend fun asMediaItem(musicRepository : MusicRepository) = musicRepository.trackDetails(this).asMediaItem(this)
 
-    fun encodeSourcePath() = URLEncoder.encode(sourcePath,"UTF-8")
+    fun encodeSourcePath(): String = URLEncoder.encode(sourcePath,"UTF-8")
 
     companion object {
-        fun decodeSourcePath(sourcePath : String) = URLDecoder.decode(sourcePath,"UTF-8")
+        fun decodeSourcePath(sourcePath : String): String = URLDecoder.decode(sourcePath,"UTF-8")
     }
 
     override fun equals(other: Any?): Boolean {
