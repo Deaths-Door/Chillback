@@ -15,13 +15,12 @@ import androidx.media3.common.Player
 import androidx.media3.common.Player.REPEAT_MODE_ALL
 import androidx.media3.common.Player.REPEAT_MODE_OFF
 import androidx.media3.common.Player.REPEAT_MODE_ONE
-import androidx.media3.session.MediaController
 import com.deathsdoor.chillback.R
 
 @Composable
 fun RepeatMediaItemsButton(
     modifier: Modifier = Modifier,
-    mediaController : MediaController,
+    mediaController : Player,
 ) {
     val repeatMode : @Player.RepeatMode Int by remember(mediaController.repeatMode) { mutableIntStateOf(mediaController.repeatMode)  }
 

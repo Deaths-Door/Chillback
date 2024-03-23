@@ -19,13 +19,14 @@ import com.deathsdoor.chillback.R
 // TODO : FIX THIS SO IT load
 @Composable
 @NonRestartableComposable
+@Deprecated("Do not use this")
 fun Artwork(
     modifier : Modifier = Modifier,
     uri : Uri?,
     contentScale: ContentScale = ContentScale.Fit,
 ) = Image(
     modifier = modifier.clip(RoundedCornerShape(8.dp)),
-    painter = uri?.let { rememberAsyncImagePainter(uri,onState = { Log.d("image","$it -> ${if(it is AsyncImagePainter.State.Error) it.result.throwable else ""} ") }) } ?: painterResource(id = R.drawable.app_logo),
+    painter = uri?.let { rememberAsyncImagePainter(uri,onState = { Log.d("image","$it -> ${if(it is AsyncImagePainter.State.Error) it.result.throwable else ""} ") }) } ?: painterResource(id =R.mipmap.application_logo),
     contentDescription = null,
     contentScale = contentScale,
 )

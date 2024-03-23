@@ -5,3 +5,4 @@
 TODO : INCLUDE ONLINE MUSIC SOURCES
 TODO : ADD FIREBASE INTERGATION -> ApplicationLocalDatabase in sync
 TODO : MAKE IT SCREEN READER FRIENDLY
+TODO : Make it desktop with keyboard freidnly

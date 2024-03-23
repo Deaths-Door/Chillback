@@ -38,15 +38,15 @@ import com.deathsdoor.chillback.ui.components.mediaplayer.RepeatMediaItemsButton
 import com.deathsdoor.chillback.ui.components.mediaplayer.ShowPlaybackQueueButton
 import com.deathsdoor.chillback.ui.components.mediaplayer.ShuffleButton
 import com.deathsdoor.chillback.ui.components.mediaplayer.TrackArtwork
-import com.deathsdoor.chillback.ui.components.modaloptions.ModalOptionsState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+// TODO : make this adaptive
 // TODO : COMPLETE EACH button and screen here so that is really works
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ExpandedMediaPlayer(
-    sheetState: ModalOptionsState,
+    onDismiss : () -> Unit,
     mediaController : MediaController,
     currentMediaItem : MediaItem
 ) = Column {
@@ -54,7 +54,7 @@ fun ExpandedMediaPlayer(
     val coroutineScope = rememberCoroutineScope()
 
     TopAppBar(
-        navigationIcon = { DownButton { sheetState.dismiss() } },
+        navigationIcon = { DownButton(onClick = onDismiss) },
         title = {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
                 listOf("Playing","Lyrics").forEachIndexed { index, s ->

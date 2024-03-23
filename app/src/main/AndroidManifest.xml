@@ -10,12 +10,12 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
 
-        android:icon="@drawable/app_logo"
-        android:roundIcon="@drawable/app_logo"
+        android:icon="@mipmap/application_logo"
+        android:roundIcon="@mipmap/application_logo"
         android:supportsRtl="true"
 
         android:label="@string/app_name"

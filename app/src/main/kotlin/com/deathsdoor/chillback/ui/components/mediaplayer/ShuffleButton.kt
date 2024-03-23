@@ -9,12 +9,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.media3.session.MediaController
+import androidx.media3.common.Player
 
 @Composable
 fun ShuffleButton(
     modifier : Modifier = Modifier,
-    mediaController: MediaController
+    mediaController: Player
 ) {
     val isShuffled by remember(mediaController.shuffleModeEnabled) { mutableStateOf(mediaController.shuffleModeEnabled) }
 

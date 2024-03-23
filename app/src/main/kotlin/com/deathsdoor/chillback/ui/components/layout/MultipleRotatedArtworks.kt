@@ -102,7 +102,7 @@ private fun List<Uri>.fillIfRequired(): List<Uri> {
 
     return buildList {
         addAll(subList(0,minLength).toList())
-        val uri = drawableToUri(R.drawable.app_logo)
+        val uri = drawableToUri(R.mipmap.application_logo)
         repeat(MAX_LENGTH - minLength) { add(uri) }
     }
 }

@@ -8,6 +8,8 @@ plugins {
     id("com.google.devtools.ksp")
 
     id("org.mozilla.rust-android-gradle.rust-android")
+    id("com.google.firebase.crashlytics")
+    id("com.google.firebase.firebase-perf")
 }
 
 android {
@@ -30,7 +32,7 @@ android {
         compileOptions.targetCompatibility = it
     }
     
-    kotlinOptions.jvmTarget = compileOptions.targetCompatibility.toString()
+    kotlinOptions.jvmTarget = Metadata.asJavaVersionEnum.toString()
 
     buildFeatures.compose = true
     composeOptions.kotlinCompilerExtensionVersion = "1.5.2"
@@ -82,12 +84,14 @@ dependencies {
     implementation(compose.preview)
 
     // For Adaptive UI
+    implementation("androidx.compose.material3:material3-adaptive:1.0.0-alpha06")
     implementation("androidx.compose.material3:material3-window-size-class:1.2.1")
-    implementation("androidx.compose.material3:material3-adaptive-navigation-suite:1.0.0-alpha05")
 
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
     implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-perf")
 
     // Google Play services library
     implementation("com.google.android.gms:play-services-auth:21.0.0")
@@ -125,6 +129,9 @@ dependencies {
     // In-Memory Caching
     implementation("io.github.reactivecircus.cache4k:cache4k:0.12.0")
 
+    // For Custom Snackbars
+    implementation("io.github.rizmaulana:compose-stacked-snackbar:1.0.4")
+
     // For Multiple Inputs
     implementation("io.github.dokar3:chiptextfield:0.7.0-alpha01")
 
@@ -133,7 +140,21 @@ dependencies {
 
     // For AudioWaves
     implementation("com.github.lincollincol:compose-audiowaveform:1.1.1")
-
-    // For com.github.lincollincol:compose-audiowaveform
     implementation("com.github.lincollincol:amplituda:2.2.2")
+
+    // For Loading Indicator
+    implementation("com.github.MahboubehSeyedpour:jetpack-loading:1.1.0")
+
+    // For Dropdowns
+    implementation("io.github.androidpoet:dropdown:1.1.2")
+}
+
+// Due to [this](https://github.com/rizmaulana/compose-stacked-snackbar?tab=readme-ov-file)
+subprojects {
+    project.configurations.configureEach {
+        resolutionStrategy {
+            force("androidx.emoji2:emoji2-views-helper:1.3.0")
+            force("androidx.emoji2:emoji2:1.3.0")
+        }
+    }
 }

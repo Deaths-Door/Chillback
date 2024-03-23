@@ -1,6 +1,5 @@
 package com.deathsdoor.chillback.ui.navigation
 
-import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -25,15 +24,13 @@ fun NavGraphBuilder.addAppScreenRoutes() {
     composable(ConcertMapsRoute) { TODO() }
 }
 
-@Composable
-fun ForEachCoreAppScreenRoute(block : @Composable (route : String, label : String, id : Int) -> Unit) {
+fun forEachCoreAppScreenRoute(block : (route : String, label : String, id : Int) -> Unit) {
     block(ConcertMapsRoute,"Concerts",R.drawable.concert)
     block(Explore,"Explore",R.drawable.explore)
     block(UserLibraryRoute,"Library",R.drawable.lib)
 }
 
 fun NavController.navigateToApp() = navigate(appScreenInitialRoute)
-
 
 fun ChillbackAppState.navigateToFavoritesScreen() = navigateToTrackCollectionScreen(repository = userRepository.favouriteTracks)
 

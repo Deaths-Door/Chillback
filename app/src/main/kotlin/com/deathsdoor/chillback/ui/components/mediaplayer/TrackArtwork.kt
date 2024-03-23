@@ -25,7 +25,7 @@ fun TrackArtwork(
     if (artworkData == null) {
         Image(
             modifier = modifier,
-            painter = painterResource(R.drawable.app_logo),
+            painter = painterResource(R.mipmap.application_logo),
             contentDescription = null,
         )
 

@@ -21,7 +21,7 @@ import com.deathsdoor.chillback.ui.providers.LocalAppState
 @Composable
 fun PlayPauseButton(
     modifier: Modifier = Modifier,
-    mediaController: Player? =  LocalAppState.current.mediaController,
+    mediaController: Player? = LocalAppState.current.mediaController,
 ) {
     val isShowing by remember(mediaController?.mediaItemCount) {
         mutableStateOf(mediaController != null && mediaController.mediaItemCount != 0)
@@ -49,14 +49,14 @@ fun PlayPauseButton(
 }
 
 @Composable
-fun rememberMediaControllerIsPlaying(mediaController : Player,onPlayChanged : ((Boolean) -> Unit)? = null): MutableState<Boolean> {
+fun rememberMediaControllerIsPlaying(mediaController : Player, onPlayChanged : ((Boolean) -> Unit)? = null): MutableState<Boolean> {
     val isPlaying = remember { mutableStateOf(mediaController.isPlaying) }
 
     DisposableEffect(Unit) {
         val playerListener = object : Player.Listener {
-            override fun onIsPlayingChanged(_isPlaying: Boolean) {
-                super.onIsPlayingChanged(_isPlaying)
-                isPlaying.value = _isPlaying
+            override fun onIsPlayingChanged(newValue: Boolean) {
+                super.onIsPlayingChanged(newValue)
+                isPlaying.value = newValue
                 onPlayChanged?.invoke(isPlaying.value)
             }
         }

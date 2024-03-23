@@ -1,4 +1,4 @@
-package com.deathsdoor.chillback.ui.components
+package com.deathsdoor.chillback.ui.components.auth
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

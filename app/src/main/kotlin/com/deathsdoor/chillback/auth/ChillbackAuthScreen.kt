@@ -31,7 +31,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import com.deathsdoor.chillback.ui.ChillbackMaterialTheme
-import com.deathsdoor.chillback.ui.components.TermsAndPolicyDisclaimer
+import com.deathsdoor.chillback.ui.components.auth.TermsAndPolicyDisclaimer
 import com.deathsdoor.chillback.ui.components.action.BackButton
 import com.deathsdoor.chillback.ui.components.auth.AuthButton
 import com.deathsdoor.chillback.ui.components.auth.EmailOutlinedTextField
@@ -58,6 +58,8 @@ fun ChillbackAuthScreen(
     val windowAdaptiveSize= LocalWindowAdaptiveSize.current
     val widthSizeClass = windowAdaptiveSize.widthSizeClass
     val heightSizeClass = windowAdaptiveSize.heightSizeClass
+
+
     Column(
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -135,7 +137,8 @@ fun ChillbackAuthScreen(
                     .fillMaxWidth(if (windowAdaptiveSize.widthSizeClass == WindowWidthSizeClass.Expanded) 1f else 0.7f)
                     .padding(16.dp),
                 coroutineScope = coroutineScope,
-                style = authButtonStyle
+                style = authButtonStyle,
+                navigationToApp = navigationToApp
             )
 
             when(widthSizeClass) {
@@ -191,9 +194,8 @@ fun ChillbackAuthScreen(
                         }
                     }
 
-                    // TODO : Add skip opton / use navigateToApp Lambda as well
                     authState.ToggleAuthMode(modifier = alignCenter.padding(top = 16.dp))
-                    // TODO : add image + skip option
+                    // TODO : add image in right corner
                 }
             }
         }

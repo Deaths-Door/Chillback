@@ -1,10 +1,12 @@
 package com.deathsdoor.chillback.ui.state
 
-import androidx.compose.material3.SnackbarHostState
+import StackedSnackbarDuration
+import StackedSnakbarHostState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.google.firebase.auth.AuthResult
 
 class AuthState {
     var isLoginShown by mutableStateOf(true)
@@ -19,7 +21,7 @@ class AuthState {
         private set
 
     // yes or no and the message with it
-    var isPasswordStrongEnough: Pair<Boolean, String?> by mutableStateOf(false to null)
+    var isPasswordStrongEnough : String? by mutableStateOf(null)
         private set
 
     fun updateEmail(value : String) {
@@ -32,15 +34,30 @@ class AuthState {
 
         val specialCharacters = setOf('!', '@', '#', '$', '%', '^', '&', '*')
         isPasswordStrongEnough = when {
-            password.length < 8 -> true to "Password must be at least 8 characters long."
-            !password.any { it.isUpperCase() } -> true to "Password must contain at least one uppercase letter."
-            !password.any { it.isLowerCase() } ->true to  "Password must contain at least one lowercase letter."
-            !password.any { it.isDigit() } -> true to "Password must contain at least one digit."
-            specialCharacters.none { it in password } -> true to "Password must contain at least one special character (!, @, #, $, %, ^, &, *)."
-            else -> false to null
+            password.length < 8 -> "Password must be at least 8 characters long."
+            !password.any { it.isUpperCase() } -> "Password must contain at least one uppercase letter."
+            !password.any { it.isLowerCase() } -> "Password must contain at least one lowercase letter."
+            !password.any { it.isDigit() } ->  "Password must contain at least one digit."
+            specialCharacters.none { it in password } ->  "Password must contain at least one special character (!, @, #, $, %, ^, &, *)."
+            else -> null
         }
     }
 
-    suspend fun showInvalidSnackbar(snackbar : SnackbarHostState) = snackbar.showSnackbar("Email is not valid")
-    suspend fun showEmailInUseSnackbar(snackbar: SnackbarHostState) = snackbar.showSnackbar("Sorry, email is already in use")
+    fun showInvalidSnackbar(snackbar : StackedSnakbarHostState) = snackbar.showErrorSnackbar(
+        title = "Invalid Email",  // More descriptive title
+        description = "The email address you entered is not valid. Please enter a valid email address and try again.",
+        duration = StackedSnackbarDuration.Short
+    )
+
+    fun showEmailInUseSnackbar(snackbar: StackedSnakbarHostState) = snackbar.showErrorSnackbar(
+        title = "Email Already In Use",  // Clear and informative title
+        description = "The email address you entered is already associated with an account. Please try logging in or use a different email address.",
+        duration = StackedSnackbarDuration.Short
+    )
+
+    fun showSuccessAuth(snackbar: StackedSnakbarHostState,authResult: AuthResult) = snackbar.showSuccessSnackbar(
+        title = if(authResult.additionalUserInfo?.isNewUser == true) "Log-in Successful!"
+        else "Welcome back ${authResult.user!!.displayName}!",
+        duration = StackedSnackbarDuration.Short
+    )
 }

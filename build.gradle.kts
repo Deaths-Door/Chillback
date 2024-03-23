@@ -16,5 +16,8 @@ buildscript {
     dependencies {
         classpath("org.mozilla.rust-android-gradle:plugin:0.9.3")
         classpath("com.google.gms:google-services:4.4.1")
+        classpath("com.android.tools.build:gradle:8.1.0")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
+        classpath("com.google.firebase:perf-plugin:1.4.2")
     }
 }

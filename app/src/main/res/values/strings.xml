@@ -193,5 +193,19 @@
     <string name="sort_by_musicbrainz">Is Musicbrainz category</string>
     <string name="sort_by_track">Is Track Information category</string>
 
-
+    <!--Setting-->
+    <string name="settings_theme_title">Themes</string>
+    <string name="settings_theme_description">Personalize the look and feel of the app by choosing a theme.</string>
+    <string name="settings_widget_title">Widgets</string>
+    <string name="settings_widget_description">Configure and manage your widgets directly from this screen. Access essential features and personalize your home screen.</string>
+    <string name="settings_audio_title">Audio</string>
+    <string name="settings_audio_description">Customize your music playback experience.</string>
+    <string name="settings_personalize_title">Personalize</string>
+    <string name="settings_personalize_description">Tailor the app to your preferences.</string>
+    <string name="settings_ondevicelibrary_title">Local Library</string>
+    <string name="settings_ondevicelibrary_description">Enhance your music library management.</string>
+    <string name="settings_backuprestore_title">Backup and Restore</string>
+    <string name="settings_backuprestore_description">Backup and restore your settings, songs, and playlists</string>
+    <string name="settings_about_title">About</string>
+    <string name="settings_about_description">Learn about the app and its creator</string>
 </resources>

@@ -94,6 +94,7 @@ fun FullSignInButton(
                 )
                 if (isLoading) {
                     Spacer(modifier = Modifier.width(16.dp))
+                    // TODO : Remove this use https://github.com/MahboubehSeyedpour/jetpack-loading
                     CircularProgressIndicator(
                         modifier = Modifier
                             .height(16.dp)
@@ -114,7 +115,7 @@ internal fun SignInButtonPreview() {
     var isLoading by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
 
-    FullSignInButton(name = "Google", painter = painterResource(id = R.drawable.app_logo),style = LocalTextStyle.current) {
+    FullSignInButton(name = "Google", painter = painterResource(id = R.drawable.google_logo),style = LocalTextStyle.current) {
         isLoading = true
         coroutineScope.launch {
             delay(2000)

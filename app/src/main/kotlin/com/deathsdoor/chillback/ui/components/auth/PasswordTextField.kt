@@ -28,6 +28,6 @@ fun AuthState.PasswordOutlinedTextField(modifier: Modifier = Modifier,style : Te
     visualTransformation = PasswordVisualTransformation(),
     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
     textStyle = style,
-    isError = password.isNotEmpty() && !isPasswordStrongEnough.first,
+    isError = password.isNotEmpty() && isPasswordStrongEnough != null ,
     singleLine = true
 )

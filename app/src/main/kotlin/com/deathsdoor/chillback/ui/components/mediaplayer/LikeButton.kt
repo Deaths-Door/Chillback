@@ -13,9 +13,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.MediaItem
-import androidx.media3.session.MediaController
+import androidx.media3.common.Player
 import com.deathsdoor.chillback.data.extensions.isLiked
 import com.deathsdoor.chillback.data.extensions.mediaItemOfOrNull
 import com.deathsdoor.chillback.data.extensions.setIsFavourite
@@ -25,6 +26,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@Deprecated("Do not use")
 @Composable
 fun LikeButton(
     modifier: Modifier = Modifier,
@@ -57,7 +59,7 @@ fun LikeButton(
 fun LikeButton(
     modifier: Modifier = Modifier,
     enabled : Boolean = true,
-    mediaController : MediaController,
+    mediaController : Player,
     currentMediaItem : MediaItem,
 ) {
     var isCurrentlyLiked by remember(currentMediaItem.mediaMetadata) { mutableStateOf(currentMediaItem.isLiked()) }
@@ -79,7 +81,7 @@ fun LikeButton(
     )
 }
 
-private fun MediaController.updateMediaItemFavoriteStatus(index : Int,mediaItem : MediaItem,isCurrentlyLiked: Boolean) {
+private fun Player.updateMediaItemFavoriteStatus(index : Int,mediaItem : MediaItem,isCurrentlyLiked: Boolean) {
     val updatedMetadata = mediaItem.mediaMetadata.buildUpon().setIsFavourite(isCurrentlyLiked).build()
     val updatedMediaItem = mediaItem.buildUpon().setMediaMetadata(updatedMetadata).build()
     replaceMediaItem(index,updatedMediaItem)
@@ -99,9 +101,9 @@ private fun LikeButtonLogicWrapper(
     // Used to check if another task should be started (if jobType != isLiked)
     var jobType : Boolean = remember { false }
 
-    val appState = LocalAppState.current
-    val coroutineScope = appState.viewModelScope
-    val userRepository = appState.userRepository
+    val appState = if(LocalInspectionMode.current) null else LocalAppState.current
+    val coroutineScope = appState?.viewModelScope
+    val userRepository = appState?.userRepository
 
     IconToggleButton(
         modifier = modifier,
@@ -135,7 +137,7 @@ private fun LikeButtonLogicWrapper(
             pendingJob = null
 
             // Launch new job
-            pendingJob = coroutineScope.launch {
+            pendingJob = coroutineScope?.launch {
                 delay(7500L)
 
                 // If Value remains same after 5 seconds , update it in the database
@@ -144,7 +146,7 @@ private fun LikeButtonLogicWrapper(
                     Log.d("job","actually changing it to $jobType")
 
                     val id = trackId()
-                    userRepository.changeFavouriteStatusForTrack(id,jobType)
+                    userRepository?.changeFavouriteStatusForTrack(id,jobType)
                 } else Log.d("job","new value != jobtype")
 
                 // TODO : MAYBE LAUNCH ANOTHER JOB IF NOT SAME

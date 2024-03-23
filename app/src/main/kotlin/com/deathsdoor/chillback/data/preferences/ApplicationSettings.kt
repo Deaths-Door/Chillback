@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
 
+// TODO : move to firebase as well
 class ApplicationSettings(private val context : Context) {
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 

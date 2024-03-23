@@ -51,7 +51,7 @@ import androidx.compose.ui.unit.dp
 import com.deathsdoor.chillback.R
 import com.deathsdoor.chillback.auth.ChillbackAuthScreen
 import com.deathsdoor.chillback.ui.ChillbackMaterialTheme
-import com.deathsdoor.chillback.ui.components.TermsAndPolicyDisclaimer
+import com.deathsdoor.chillback.ui.components.auth.TermsAndPolicyDisclaimer
 import com.deathsdoor.chillback.ui.components.layout.BackgroundImage
 import com.deathsdoor.chillback.ui.components.layout.CenteredDivider
 import com.deathsdoor.chillback.ui.extensions.styledText
@@ -64,7 +64,7 @@ import com.google.firebase.auth.AuthResult
 @Composable
 fun ChillbackWelcomeScreen(navigationToApp : () -> Unit) = BackgroundImage(
     // TODO : Improve this background Image
-    painter = painterResource(id= R.drawable.app_logo),
+    painter = painterResource(id= R.mipmap.application_logo),
     modifier = Modifier
         .fillMaxWidth()
         .aspectRatio(1f),
@@ -80,6 +80,7 @@ fun ChillbackWelcomeScreen(navigationToApp : () -> Unit) = BackgroundImage(
                             modifier = Modifier
                                 .align(Alignment.CenterEnd)
                                 .padding(start = 32.dp),
+                            navigateToLoginScreen = { isGettingStarted = false },
                             navigationToApp = navigationToApp
                         )
                         else ChillbackAuthScreen(
@@ -103,6 +104,7 @@ fun ChillbackWelcomeScreen(navigationToApp : () -> Unit) = BackgroundImage(
                 AnimatedContent(targetState = isGettingStarted) {
                     if(it) PortraitWelcomeScreen(
                         modifier = Modifier.align(Alignment.BottomCenter),
+                        navigateToLoginScreen = { isGettingStarted = false },
                         navigationToApp = navigationToApp
                     )
                     else ChillbackAuthScreen(
@@ -172,7 +174,7 @@ private fun DesktopWelcomeScreen(
                             modifier = Modifier
                                 .size(appLogoSize)
                                 .padding(start = _32, top = _32),
-                            painter = painterResource(id = R.drawable.app_logo),
+                            painter = painterResource(id = R.mipmap.application_logo),
                             contentDescription = null
                         )
 
@@ -273,6 +275,7 @@ private fun onSuccessImpl(navigationToApp: () -> Unit) = if(LocalInspectionMode.
 @Composable
 private fun LandscapeWelcomeScreen(
     modifier: Modifier= Modifier,
+    navigateToLoginScreen : () -> Unit,
     navigationToApp : () -> Unit
 ) {
     val _70 = 70.dp
@@ -310,7 +313,8 @@ private fun LandscapeWelcomeScreen(
                         modifier = Modifier
                             .padding(_12)
                             .weight(1f),
-                        style = MaterialTheme.typography.labelMedium
+                        style = MaterialTheme.typography.labelMedium,
+                        navigateToLoginScreen = navigateToLoginScreen
                     )
 
                     SkipButton(
@@ -327,6 +331,7 @@ private fun LandscapeWelcomeScreen(
 @Composable
 private fun PortraitWelcomeScreen(
     modifier: Modifier= Modifier,
+    navigateToLoginScreen : () -> Unit,
     navigationToApp : () -> Unit
 ) {
     val _70 = 70.dp
@@ -352,7 +357,8 @@ private fun PortraitWelcomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(12.dp),
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
+                navigateToLoginScreen = navigateToLoginScreen
             )
 
             CenteredDivider(modifier = Modifier
@@ -388,10 +394,11 @@ private fun WelcomeText(modifier: Modifier = Modifier,style : TextStyle) = Text(
 @Composable
 private fun GetStartedButton(
     modifier: Modifier = Modifier,
+    navigateToLoginScreen : () -> Unit,
     style: TextStyle
 ) = Button(
     modifier = modifier,
-    onClick = { TODO("NAVIGATE TO LOGIN") },
+    onClick = navigateToLoginScreen,
     content = {
         Text(
             text = "Get Started",

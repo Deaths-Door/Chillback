@@ -10,11 +10,10 @@ import com.deathsdoor.chillback.ui.providers.InitializeProviders
 import com.deathsdoor.chillback.ui.screens.welcome.ChillbackWelcomeScreen
 
 class MainActivity : ComponentActivity() {
-   // init { System.loadLibrary("backend")}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-             ChillbackMaterialTheme{
+            ChillbackMaterialTheme{
                 InitializeProviders(this) {
                     ChillbackSplashScreen(
                         onBoardingContent = { ChillbackWelcomeScreen(navigationToApp = it) },

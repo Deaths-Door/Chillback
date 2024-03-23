@@ -1,5 +1,6 @@
 package com.deathsdoor.chillback.ui.components.auth
 
+import StackedSnackbarDuration
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -15,10 +16,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.deathsdoor.chillback.R
 import com.deathsdoor.chillback.ui.components.layout.CircularBackgroundIconButton
-import com.deathsdoor.chillback.ui.providers.LocalErrorSnackbarState
+import com.deathsdoor.chillback.ui.providers.LocalSnackbarState
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
@@ -78,7 +80,7 @@ private fun GoogleAuthContentProvider(
     onSuccess: (AuthResult) -> Unit
 ) {
     val context = LocalContext.current
-    val snackbarState = LocalErrorSnackbarState.current
+    val snackbarState = LocalSnackbarState.current
 
     val authLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
@@ -90,15 +92,20 @@ private fun GoogleAuthContentProvider(
                 onSuccess(authResult)
             }
         } catch (exception: ApiException) {
-            coroutineScope.launch {
-                snackbarState.showSnackbar(
-                    exception.localizedMessage ?: exception.status.statusMessage ?: exception.status.connectionResult?.errorMessage ?: "Unknown Cause"
-                )
+            val errorMessage = when (exception.statusCode) {
+                CommonStatusCodes.INTERNAL_ERROR -> "An internal error occurred. Please try again later."
+                CommonStatusCodes.NETWORK_ERROR -> "There seems to be a network issue. Please check your connection and try again."
+                else -> exception.localizedMessage ?: "Login failed. Please try again."
             }
+            snackbarState.showSuccessSnackbar(  // Assuming successSnackbar can be used for errors
+                title = "Login Failed",
+                description = errorMessage,
+                duration = StackedSnackbarDuration.Long
+            )
         }
     }
 
-    content(name = "Google", painter = painterResource(id = R.drawable.google_logo)) {
+    content("Google",painterResource(id = R.drawable.google_logo)) {
         val gso =  GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()

@@ -9,6 +9,7 @@ import com.deathsdoor.chillback.data.repositories.MusicRepository
 import kotlinx.coroutines.delay
 import kotlinx.serialization.Serializable
 
+// TODO : CHECK IF MUSIC PREFERENcE SAVING IS WORKING
 @Serializable
 class MediaPlaybackPreferences private constructor(
     private val queue : List<Long>,

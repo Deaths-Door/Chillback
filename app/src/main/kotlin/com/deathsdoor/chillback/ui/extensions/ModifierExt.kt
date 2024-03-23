@@ -15,6 +15,9 @@ import androidx.compose.ui.unit.dp
 fun Modifier.applyIf(condition : Boolean,transform : @DisallowComposableCalls Modifier.() -> Modifier)
 = if(condition) transform() else this
 
+fun<T> Modifier.applyOnNotNull(value : T?,transform : @DisallowComposableCalls Modifier.(T) -> Modifier)
+        = if(value != null) transform(value) else this
+
 fun Modifier.fadedRightEdge(edgeWidth : Dp = 12.dp) = drawWithContent {
     drawContent()
     drawFadedEdge(edgeWidth = edgeWidth,leftEdge = false)

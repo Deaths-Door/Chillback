@@ -101,7 +101,7 @@ private fun SplashScreen() {
         content = {
             Image(
                 modifier = Modifier.fillMaxSize(sizeAnimation.value),
-                painter = painterResource(id = R.drawable.app_logo),
+                painter = painterResource(id = R.mipmap.application_logo),
                 contentDescription = null
             )
 
