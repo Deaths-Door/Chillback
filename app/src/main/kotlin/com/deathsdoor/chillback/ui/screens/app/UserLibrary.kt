@@ -5,41 +5,45 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.FlowRowScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
-import androidx.compose.material3.adaptive.WindowAdaptiveInfo
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewDynamicColors
-import androidx.compose.ui.tooling.preview.PreviewFontScale
-import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.Player
 import androidx.media3.session.MediaController
 import com.deathsdoor.chillback.R
 import com.deathsdoor.chillback.ui.ChillbackMaterialTheme
 import com.deathsdoor.chillback.ui.components.layout.Thumbnail
 import com.deathsdoor.chillback.ui.components.playbackqueue.PlaybackQueueRowSection
-import com.deathsdoor.chillback.ui.components.statistics.UserStatisticsCard
 import com.deathsdoor.chillback.ui.navigation.navigateToFavoritesScreen
 import com.deathsdoor.chillback.ui.navigation.navigateToLocalSongsLibraryScreen
 import com.deathsdoor.chillback.ui.navigation.navigateToTopPlayedScreen
@@ -51,20 +55,103 @@ import com.deathsdoor.chillback.ui.state.ChillbackAppState
 // Search bar
 // Stats || Utility Options
 // Playlists
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun UserLibrary() = Column {
-    val modifier = Modifier.padding(16.dp)
+fun UserLibrary() {
     val windowAdaptiveSize = LocalWindowAdaptiveSize.current
-    // TODO : make search bar
+    val width = windowAdaptiveSize.widthSizeClass
+    val height = windowAdaptiveSize.heightSizeClass
 
-    when(windowAdaptiveSize.widthSizeClass) {
-        WindowWidthSizeClass.Compact -> UtilitySection(modifier = modifier, windowAdaptiveSize =  windowAdaptiveSize)
-        else -> Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            val weight = Modifier.weight(1f)
-            UserStatisticsCard(modifier = weight)
-            UtilitySection(modifier = weight,windowAdaptiveSize =  windowAdaptiveSize)
+    val modifier = Modifier.padding(16.dp)
+
+    // TODO : Search bar
+    when {
+        width == WindowWidthSizeClass.Expanded -> when(height) {
+            // Landscape Phone
+            WindowHeightSizeClass.Compact -> Row {
+                val style = MaterialTheme.typography.labelSmall
+                UtilitySection(
+                    modifier = modifier.weight(1f),
+                    maxItemsInEachRow = 1,
+                    style = style,
+                    utility = {
+                        StatisticUtilityOption(modifier = it,style = style)
+                    }
+                )
+
+                // TODO : playlists -> placeholder
+                Spacer(modifier = Modifier.weight(1f))
+            }
+            // Desktop / Large screens
+            else -> Column {
+                UtilitySection(
+                    modifier = modifier.fillMaxWidth(),
+                    maxItemsInEachRow = 3,
+                    utility = {
+                        StatisticUtilityOption(modifier = it)
+
+                        UtilityOption(
+                            modifier = it,
+                            text = "Playback Queue",
+                            painter = painterResource(R.drawable.playback_queue),
+                            background = Red80,
+                            tint = Red60,
+                            onClick  = {
+
+                            }
+                        )
+                    }
+                )
+
+                // TODO : playlists
+            }
+        }
+        // Portrait Phone / unfolded device
+        else -> Column {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                content = {
+                    Text(
+                        text = "Statistics",
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+
+                    IconButton(
+                        onClick = { TODO("NAVIGATE TO STATISCS SCREEN") },
+                        content = {
+                            Icon(
+                                modifier = Modifier.size(32.dp),
+                                imageVector = Icons.Default.ArrowForward,
+                                contentDescription = "Navigate to view your Statistics",
+                                tint = MaterialTheme.colorScheme.primary,
+                            )
+                        }
+                    )
+                }
+            )
+
+            UtilitySection(
+                modifier = modifier,
+                maxItemsInEachRow = 2,
+                content = { mediaController , isPlaybackQueueShown ->
+                    AnimatedVisibility(isPlaybackQueueShown) {
+                        PlaybackQueueRowSection(
+                            modifier = modifier.fillMaxWidth(),
+                            mediaController = mediaController!!
+                        )
+                    }
+                }
+            )
+
+            // TODO : playlist
         }
     }
+
 }
 
 private val Blue60 = Color(0xFF2F9EBE)
@@ -79,11 +166,17 @@ private val Green80 = Color(0xFF0EE37C)
 private val Pink60 = Color(0xFFEC407A)
 private val Pink80 = Color(0xFFFF599C)
 
+private val Red60 =  Color(0xFFC02942)
+private val Red80 = Color(0xFFE3425B)
+
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun UtilitySection(
     modifier: Modifier,
-    windowAdaptiveSize: WindowSizeClass
+    maxItemsInEachRow : Int,
+    style: TextStyle = MaterialTheme.typography.bodyMedium,
+    utility : (@Composable FlowRowScope.(Modifier) -> Unit)? = null,
+    content : (@Composable (Player?,Boolean) -> Unit)? = null
 ) {
     val appState : ChillbackAppState?
     val mediaController: MediaController?
@@ -103,7 +196,7 @@ private fun UtilitySection(
 
     FlowRow(
         modifier = modifier,
-        maxItemsInEachRow = if(windowAdaptiveSize.widthSizeClass == WindowWidthSizeClass.Compact) 2 else 1,
+        maxItemsInEachRow = maxItemsInEachRow,
         horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
         content = {
@@ -112,6 +205,7 @@ private fun UtilitySection(
             UtilityOption(
                 modifier = contentModifier,
                 text = "Favourite",
+                style = style,
                 painter = rememberVectorPainter(Icons.Default.Favorite),
                 background = Blue80,
                 tint = Blue60,
@@ -121,6 +215,7 @@ private fun UtilitySection(
             UtilityOption(
                 modifier = contentModifier,
                 text = "Top Played",
+                style =  style,
                 painter = painterResource(R.drawable.upward_rising_arrow),
                 background = Orange80,
                 tint = Orange60,
@@ -131,6 +226,7 @@ private fun UtilitySection(
                 UtilityOption(
                     modifier = contentModifier,
                     text = "Queue",
+                    style =  style,
                     painter = painterResource(R.drawable.playback_queue),
                     background = Green80,
                     tint = Green60,
@@ -141,21 +237,35 @@ private fun UtilitySection(
             UtilityOption(
                 modifier = contentModifier,
                 text = "Local Songs",
+                style = style,
                 // TODO : CHANGE ICON
-                painter = painterResource(R.mipmap.application_logo),
+                painter = painterResource(R.drawable.lib),
                 background = Pink80,
                 tint = Pink60,
                 onClick = { appState?.navigateToLocalSongsLibraryScreen() }
             )
+
+            utility?.let { it(contentModifier) }
         }
     )
 
-    AnimatedVisibility(isPlaybackQueueShown) {
-        PlaybackQueueRowSection(
-            modifier = modifier.fillMaxWidth(),
-            mediaController = mediaController!!
-        )
-    }
+    content?.let { it(mediaController,isPlaybackQueueShown) }
+}
+
+@Composable
+@NonRestartableComposable
+private fun StatisticUtilityOption(
+    modifier : Modifier = Modifier,
+    style: TextStyle = MaterialTheme.typography.bodyMedium,
+) = UtilityOption(
+    modifier = modifier,
+    style = style,
+    text = "Statistics",
+    painter = painterResource(R.drawable.analytics),
+    background = Green80,
+    tint = Green60
+) {
+// TODO
 }
 
 @Composable
@@ -163,6 +273,7 @@ private fun UtilitySection(
 private fun UtilityOption(
     modifier : Modifier = Modifier,
     text : String,
+    style : TextStyle = MaterialTheme.typography.bodyMedium,
     painter : Painter,
     background:Color,
     tint : Color,
@@ -173,8 +284,9 @@ private fun UtilityOption(
     onClick = onClick,
     content = {
         Thumbnail(
-            modifier = Modifier.padding(24.dp),
+            modifier = Modifier.padding(vertical = 12.dp, horizontal = 24.dp),
             title = text,
+            textStyle = style,
             artwork = {
                 Icon(
                     painter = painter,
@@ -185,84 +297,7 @@ private fun UtilityOption(
         )
     }
 )
-/*
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-private fun UtilitySection(modifier: Modifier) {
-    val appState : ChillbackAppState?
-    val mediaController: MediaController?
 
-    if(LocalInspectionMode.current) {
-        appState = null
-        mediaController = null
-    }
-    else {
-        appState = LocalAppState.current
-        appState.mediaController.also { mediaController = it }
-    }
-
-    var isPlaybackQueueShown by remember { mutableStateOf(false) }
-
-    FlowRow(
-        modifier = modifier,
-        maxItemsInEachRow = 2,
-        horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
-        content = {
-            val contentModifier = Modifier.weight(1f)
-
-            val appState = LocalAppState.current
-
-            UtilityOption(
-                modifier = contentModifier,
-                text = "Favourite",
-                painter = rememberVectorPainter(Icons.Default.Favorite),
-                background = Blue80,
-                tint = Blue60,
-                onClick = { appState.navigateToFavoritesScreen() }
-            )
-
-            UtilityOption(
-                modifier = contentModifier,
-                text = "Top Played",
-                painter = painterResource(R.drawable.upward_rising_arrow),
-                background = Orange80,
-                tint = Orange60,
-                onClick = { appState.navigateToTopPlayedScreen() }
-            )
-
-            AnimatedVisibility(mediaController != null && mediaController.mediaItemCount != 0) {
-                UtilityOption(
-                    modifier = contentModifier,
-                    text = "Queue",
-                    painter = painterResource(R.drawable.playback_queue),
-                    background = Green80,
-                    tint = Green60,
-                    onClick = { isPlaybackQueueShown = !isPlaybackQueueShown }
-                )
-            }
-
-            UtilityOption(
-                modifier = contentModifier,
-                text = "Local Songs",
-                // TODO : CHANGE ICON
-                painter = painterResource(R.mipmap.application_logo),
-                background = Pink80,
-                tint = Pink60,
-                onClick = { appState.navigateToLocalSongsLibraryScreen() }
-            )
-        }
-    )
-
-    AnimatedVisibility(isPlaybackQueueShown) {
-        PlaybackQueueRowSection(
-            modifier = modifier.fillMaxWidth(),
-            mediaController = mediaController!!
-        )
-    }
-}
-
-*/
 /*= Column {
     UserLibrarySearchBar()
 
@@ -321,11 +356,7 @@ private fun UserLibrarySearchBar() {
 */
 
 
-@Preview
 @PreviewScreenSizes
-@PreviewFontScale
-@PreviewLightDark
-@PreviewDynamicColors
 @Composable
 internal fun UserLibraryPreview() {
     InitializeProvidersForPreview {

@@ -27,7 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.media3.session.MediaController
+import androidx.media3.common.Player
 import com.deathsdoor.chillback.ui.components.track.TrackSmuggedArtworkCard
 import com.deathsdoor.chillback.ui.components.track.TrackSongCount
 import com.deathsdoor.chillback.ui.providers.LocalAppState
@@ -35,7 +35,7 @@ import com.deathsdoor.chillback.ui.providers.LocalAppState
 @Composable
 fun PlaybackQueueRowSection(
     modifier : Modifier = Modifier,
-    mediaController: MediaController
+    mediaController: Player
 ) {
     val state = rememberLazyListState()
 

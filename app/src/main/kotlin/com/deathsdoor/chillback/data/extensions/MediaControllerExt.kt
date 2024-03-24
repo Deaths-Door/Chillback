@@ -27,8 +27,8 @@ import androidx.media3.session.MediaController
 import com.deathsdoor.chillback.data.models.Track
 import com.deathsdoor.chillback.data.repositories.MusicRepository
 
-private inline val MediaController.mediaItemsRange get() = 0 until mediaItemCount
-fun <T> MediaController.mapMediaItems(transform : (MediaItem) -> T) = mediaItemsRange.map { transform(getMediaItemAt(it)) }
+private inline val Player.mediaItemsRange get() = 0 until mediaItemCount
+fun <T> Player.mapMediaItems(transform : (MediaItem) -> T) = mediaItemsRange.map { transform(getMediaItemAt(it)) }
 
 fun MediaController.hasNotSameMediaItemsAs(tracks : List<Track>): Boolean {
     var index = 0
@@ -232,9 +232,7 @@ val PreviewMediaController = object :Player {
 
     override fun getPreviousMediaItemIndex(): Int = 0
 
-    override fun getCurrentMediaItem(): MediaItem? {
-        TODO("Not yet implemented")
-    }
+    override fun getCurrentMediaItem(): MediaItem? = null
 
     override fun getMediaItemCount(): Int = 0
 
@@ -265,35 +263,19 @@ val PreviewMediaController = object :Player {
 
     override fun isPlayingAd(): Boolean = false
 
-    override fun getCurrentAdGroupIndex(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getCurrentAdGroupIndex(): Int = 0
 
-    override fun getCurrentAdIndexInAdGroup(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getCurrentAdIndexInAdGroup(): Int = 0
 
-    override fun getContentDuration(): Long {
-        TODO("Not yet implemented")
-    }
+    override fun getContentDuration(): Long= 0
 
-    override fun getContentPosition(): Long {
-        TODO("Not yet implemented")
-    }
-
-    override fun getContentBufferedPosition(): Long {
-        TODO("Not yet implemented")
-    }
-
-    override fun getAudioAttributes(): AudioAttributes {
-        TODO("Not yet implemented")
-    }
+    override fun getContentPosition(): Long = 0
+    override fun getContentBufferedPosition(): Long = 0
+    override fun getAudioAttributes(): AudioAttributes = AudioAttributes.DEFAULT
 
     override fun setVolume(volume: Float) = Unit
 
-    override fun getVolume(): Float {
-        TODO("Not yet implemented")
-    }
+    override fun getVolume(): Float = 0f
 
     override fun clearVideoSurface() = Unit
 
@@ -313,29 +295,17 @@ val PreviewMediaController = object :Player {
 
     override fun clearVideoTextureView(textureView: TextureView?) = Unit
 
-    override fun getVideoSize(): VideoSize {
-        TODO("Not yet implemented")
-    }
+    override fun getVideoSize(): VideoSize = VideoSize.UNKNOWN
 
-    override fun getSurfaceSize(): Size {
-        TODO("Not yet implemented")
-    }
+    override fun getSurfaceSize(): Size = Size.UNKNOWN
 
-    override fun getCurrentCues(): CueGroup {
-        TODO("Not yet implemented")
-    }
+    override fun getCurrentCues(): CueGroup = CueGroup.EMPTY_TIME_ZERO
 
-    override fun getDeviceInfo(): DeviceInfo {
-        TODO("Not yet implemented")
-    }
+    override fun getDeviceInfo(): DeviceInfo = DeviceInfo.UNKNOWN
 
-    override fun getDeviceVolume(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getDeviceVolume(): Int = 0
 
-    override fun isDeviceMuted(): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun isDeviceMuted(): Boolean = false
 
     override fun setDeviceVolume(volume: Int) = Unit
 

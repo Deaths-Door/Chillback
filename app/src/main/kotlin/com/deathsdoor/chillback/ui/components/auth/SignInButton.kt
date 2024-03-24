@@ -8,11 +8,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -34,9 +31,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.deathsdoor.chillback.R
+import com.spr.jetpack_loading.components.indicators.BallPulseRiseIndicator
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
 
 @Composable
 fun FullSignInButton(
@@ -46,7 +43,6 @@ fun FullSignInButton(
     shape: Shape = MaterialTheme.shapes.medium,
     borderColor: Color = Color.LightGray,
     backgroundColor: Color = MaterialTheme.colorScheme.surface,
-    progressIndicatorColor: Color = MaterialTheme.colorScheme.primary,
     onClick: () -> Unit
 ) {
     var isLoading by remember { mutableStateOf(false) }
@@ -94,21 +90,14 @@ fun FullSignInButton(
                 )
                 if (isLoading) {
                     Spacer(modifier = Modifier.width(16.dp))
-                    // TODO : Remove this use https://github.com/MahboubehSeyedpour/jetpack-loading
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .height(16.dp)
-                            .width(16.dp),
-                        strokeWidth = 2.dp,
-                        color = progressIndicatorColor
-                    )
+
+                    BallPulseRiseIndicator()
                 }
             }
         }
     )
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 @Preview
 internal fun SignInButtonPreview() {

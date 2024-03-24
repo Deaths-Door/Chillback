@@ -257,7 +257,7 @@ private fun List<Track>.sortBasedOn(
 ): List<Track> {
     var index = 0
     return sortedWith(
-        createCompartorFrom<Track>(
+        createCompartorFrom(
             isAscending = isAscending,
             sortMethods = sortMethods,
             create = { track , method ->
@@ -277,37 +277,3 @@ private fun List<Track>.sortBasedOn(
         )
     )
 }
-
-/*
-private fun createCompartorFrom(
-    isAscending : Boolean,
-    sortMethods : List<Int>,
-    details: SnapshotStateList<TrackDetails>
-) : Comparator<Track> {
-    val firstValue = sortMethods[0]
-    var compartor = if(isAscending) compareBy<Track> {
-        compartor(
-            track = it,
-            details = details[0],
-            sortMethod = firstValue
-        )
-    } else compareByDescending {
-        compartor(
-            track = it,
-            details = details[0],
-            sortMethod = firstValue
-        )
-    }
-
-    sortMethods.subList(1,sortMethods.size).forEachIndexed { index,sortMethod ->
-        compartor = compartor.thenBy {
-            compartor(
-                track = it,
-                details = details[index],
-                sortMethod = sortMethod
-            )
-        }
-    }
-
-    return compartor
-}*/

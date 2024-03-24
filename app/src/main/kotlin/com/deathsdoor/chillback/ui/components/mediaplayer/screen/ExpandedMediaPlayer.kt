@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,9 +21,11 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
-import androidx.media3.session.MediaController
+import androidx.media3.common.Player
+import com.deathsdoor.chillback.data.extensions.PreviewMediaController
 import com.deathsdoor.chillback.ui.components.action.DownButton
 import com.deathsdoor.chillback.ui.components.action.MoreInfoButton
 import com.deathsdoor.chillback.ui.components.action.Share
@@ -38,6 +41,7 @@ import com.deathsdoor.chillback.ui.components.mediaplayer.RepeatMediaItemsButton
 import com.deathsdoor.chillback.ui.components.mediaplayer.ShowPlaybackQueueButton
 import com.deathsdoor.chillback.ui.components.mediaplayer.ShuffleButton
 import com.deathsdoor.chillback.ui.components.mediaplayer.TrackArtwork
+import com.deathsdoor.chillback.ui.providers.InitializeProvidersForPreview
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -47,7 +51,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ExpandedMediaPlayer(
     onDismiss : () -> Unit,
-    mediaController : MediaController,
+    mediaController : Player,
     currentMediaItem : MediaItem
 ) = Column {
     val pagerState = rememberPagerState { 2 }
@@ -68,6 +72,7 @@ fun ExpandedMediaPlayer(
         actions = { MoreInfoButton { /*TODO : Show more info about song and this view */ } }
     )
 
+    DropdownMenuItem(text = { /*TODO*/ }, onClick = { /*TODO*/ })
 
     HorizontalPager(
         state = pagerState,
@@ -89,11 +94,12 @@ fun ExpandedMediaPlayer(
 @Composable
 private fun Playing(
     coroutineScope : CoroutineScope,
-    mediaController : MediaController,
+    mediaController : Player,
     currentMediaItem : MediaItem
 ) = Column(modifier = Modifier.padding(16.dp)) {
     TrackArtwork(
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier
+            .padding(16.dp)
             .fillMaxWidth()
             .aspectRatio(1f),
         currentMediaItem = currentMediaItem
@@ -136,7 +142,10 @@ private fun Playing(
             mediaController = mediaController
         )
 
-        PlayPauseButton(modifier = iconSizeModifier)
+        PlayPauseButton(
+            modifier = iconSizeModifier,
+            mediaController = mediaController
+        )
 
         NextMediaItemButton(
             modifier = iconSizeModifier,
@@ -165,4 +174,16 @@ private fun Playing(
     }
 
     Spacer(modifier = Modifier.fillMaxHeight())
+}
+
+@PreviewScreenSizes
+@Composable
+private fun ExpandedMediaPlayerPreview() = InitializeProvidersForPreview {
+    MaterialTheme {
+        ExpandedMediaPlayer(
+            onDismiss = { },
+            mediaController = PreviewMediaController,
+            currentMediaItem = MediaItem.EMPTY
+        )
+    }
 }

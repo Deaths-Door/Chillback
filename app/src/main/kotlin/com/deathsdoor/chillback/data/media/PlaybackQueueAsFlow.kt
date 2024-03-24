@@ -7,7 +7,6 @@ import androidx.media3.common.Player
 import androidx.media3.common.Player.TIMELINE_CHANGE_REASON_PLAYLIST_CHANGED
 import androidx.media3.common.Player.TimelineChangeReason
 import androidx.media3.common.Timeline
-import androidx.media3.session.MediaController
 import com.deathsdoor.chillback.data.extensions.mapMediaItems
 import com.deathsdoor.chillback.data.models.TrackDetails
 import kotlinx.coroutines.CoroutineScope
@@ -21,7 +20,7 @@ class PlaybackQueueAsFlow {
     private var listener : Player.Listener? = null
 
     @Composable
-    fun observe(coroutineScope: CoroutineScope,mediaController: MediaController): StateFlow<List<TrackDetails>> {
+    fun observe(coroutineScope: CoroutineScope,mediaController: Player): StateFlow<List<TrackDetails>> {
         var stateFlow : StateFlow<List<TrackDetails>>? = null
 
         LaunchedEffect(Unit) {

@@ -27,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.deathsdoor.chillback.ui.components.action.SelectedIcon
 import com.deathsdoor.chillback.ui.components.track.Artwork
@@ -147,6 +148,7 @@ fun AdaptiveGridThumbnail(
 fun Thumbnail(
     modifier : Modifier = Modifier,
     title : String,
+    textStyle : TextStyle = MaterialTheme.typography.bodyMedium,
     artwork : @Composable () -> Unit,
     subtitle : (@Composable ColumnScope.() -> Unit)? = null,
     trailingIcon : (@Composable RowScope.() -> Unit)? = null
@@ -159,7 +161,7 @@ fun Thumbnail(
         Text(
             modifier = Modifier.basicMarquee().weight(1f),
             text = title,
-            style = MaterialTheme.typography.bodyMedium,
+            style = textStyle,
         )
     }
 

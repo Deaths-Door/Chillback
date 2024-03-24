@@ -29,7 +29,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-// TODO : Add more providers in the future , mainly Apple && Microsoft
+// TODO : Add more providers in the future , mainly Apple && Microsoft && playgames
 @Composable
 fun ShortenAlternativeAuthOptions(
     modifier : Modifier = Modifier,

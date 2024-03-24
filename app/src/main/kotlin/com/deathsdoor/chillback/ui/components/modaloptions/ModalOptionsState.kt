@@ -8,7 +8,6 @@ import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-// TODO : USE THIS FOR RESPONSIVE UI
 @Deprecated("Replace this with modal bottomsheet maybe")
 @OptIn(ExperimentalMaterial3Api::class)
 class ModalOptionsState constructor(
