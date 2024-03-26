@@ -31,13 +31,13 @@ fun TrackCollectionScreen(repository: TrackCollectionRepository) {
                 coroutineScope = coroutineScope,
                 modifier = Modifier.padding(paddingValues),
                 tracks = trackCollection?.tracks,
-                onRemove = { index , track ->
+                onRemove = {  track ->
                     if(repository.isUserDefined) return@LazyTrackList
-                    userRepository.removeTrackFromCollection(trackCollection!!.collection,track,index)
+                    userRepository.removeTrackFromCollection(trackCollection!!.collection,track,trackCollection.tracks.indexOf(track))
                 },
                 onTracksSorted = {
                     if(repository.isUserDefined) return@LazyTrackList
-                    userRepository.rearrangeTracks(trackCollection!!.collection,it)
+                    userRepository.rearrangeTracks(trackCollection!!.collection,trackCollection.tracks)
                 },
                 placeHolderText = when (repository) {
                     is FavouriteTrackCollectionRepository -> {{

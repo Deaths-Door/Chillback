@@ -30,7 +30,7 @@ import com.deathsdoor.chillback.data.repositories.MusicRepository
 private inline val Player.mediaItemsRange get() = 0 until mediaItemCount
 fun <T> Player.mapMediaItems(transform : (MediaItem) -> T) = mediaItemsRange.map { transform(getMediaItemAt(it)) }
 
-fun MediaController.hasNotSameMediaItemsAs(tracks : List<Track>): Boolean {
+fun Player.hasNotSameMediaItemsAs(tracks : List<Track>): Boolean {
     var index = 0
     return tracks.any {
         val isNotSame= getMediaItemAt(index).mediaId != tracks[index].id.toString()
@@ -39,7 +39,7 @@ fun MediaController.hasNotSameMediaItemsAs(tracks : List<Track>): Boolean {
     }
 }
 
-fun MediaController.mediaItemOfOrNull(track : Track,transform : (Int,MediaItem) -> Unit) {
+fun Player.mediaItemOfOrNull(track : Track,transform : (Int,MediaItem) -> Unit) {
     val id = track.id.toString()
     for(index in mediaItemsRange) {
         val mediaItem = getMediaItemAt(index)

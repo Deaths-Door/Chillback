@@ -1,6 +1,12 @@
 package com.deathsdoor.chillback.ui.components.track
 
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.deathsdoor.chillback.data.models.Track
 import com.deathsdoor.chillback.data.models.TrackDetails
 import com.deathsdoor.chillback.ui.components.action.AddToQueueThumbItem
@@ -10,22 +16,20 @@ import com.deathsdoor.chillback.ui.components.action.PlayNowThumbItem
 import com.deathsdoor.chillback.ui.components.action.RingtoneSelectorThumbItem
 import com.deathsdoor.chillback.ui.components.action.ShareThumbItem
 import com.deathsdoor.chillback.ui.components.action.TrackMetadataThumbItem
-import com.deathsdoor.chillback.ui.components.modaloptions.ModalOptions
-import com.deathsdoor.chillback.ui.components.modaloptions.ModalOptionsState
 import com.deathsdoor.chillback.ui.providers.LocalAppState
 import kotlinx.coroutines.launch
 import java.io.File
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrackExtraOptions(
-    state: ModalOptionsState,
-    index : Int,
     track : Track,
     details : TrackDetails,
     tracks : List<Track>?,
-    onRemove : ((index : Int,Track) -> Unit)? = null,
-) = ModalOptions(
-    state = state,
+    onDismissRequest : () -> Unit,
+    onRemove : ((Track) -> Unit)? = null,
+) = ModalBottomSheet(
+    onDismissRequest =  onDismissRequest,
     content = {
         // TODO : Add Header item thingy -> Faviroute
         // Play Now
@@ -44,24 +48,26 @@ fun TrackExtraOptions(
         val mediaController = appState.mediaController
 
         PlayNowThumbItem(
-            onClick = onTrackItemClick(
-                mediaController = mediaController,
-                appState = appState,
-                index = index,
-                track = track,
-                tracks = tracks,
-            )
+            onClick = {
+                onTrackItemClick(
+                    mediaController = mediaController,
+                    appState = appState,
+                    track = track,
+                    tracks = tracks,
+                )
+            }
         )
 
         PlayNextThumbItem(
-            onClick = onTrackItemClick(
-                mediaController = mediaController,
-                appState = appState,
-                index = index,
-                track = track,
-                tracks = tracks,
-                addOnNext = true
-            )
+            onClick = {
+                onTrackItemClick(
+                    mediaController = mediaController,
+                    appState = appState,
+                    track = track,
+                    tracks = tracks,
+                    addOnNext = true
+                )
+            }
         )
 
         val musicRepository = appState.musicRepository
@@ -70,7 +76,7 @@ fun TrackExtraOptions(
             it?.addMediaItem(track.asMediaItem(musicRepository))
         }
 
-        TrackMetadataThumbItem(track = track) { state.dismiss() }
+        TrackMetadataThumbItem(track = track, onClick = onDismissRequest)
 
         ShareThumbItem()
 
@@ -81,7 +87,7 @@ fun TrackExtraOptions(
                 label = "Remove Track From Collection",
                 name = details.name,
                 onDelete = { _ ->
-                    it(index,track)
+                    it(track)
                 }
             )
         }
@@ -102,5 +108,8 @@ fun TrackExtraOptions(
                 }
             }
         )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
     }
 )

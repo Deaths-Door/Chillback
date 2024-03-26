@@ -3,6 +3,7 @@
 
 
 TODO : INCLUDE ONLINE MUSIC SOURCES
+TODO : intergate all data / settings with firebase
 TODO : ADD FIREBASE INTERGATION -> ApplicationLocalDatabase in sync
 TODO : MAKE IT SCREEN READER FRIENDLY
 TODO : Make it desktop with keyboard freidnly

@@ -5,22 +5,18 @@ import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -28,112 +24,151 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.PreviewDynamicColors
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import com.deathsdoor.chillback.R
 import com.deathsdoor.chillback.data.models.TrackCollection
-import com.deathsdoor.chillback.ui.components.layout.Thumbnail
-import com.deathsdoor.chillback.ui.components.track.Artwork
+import com.deathsdoor.chillback.data.repositories.UserRepository
+import com.deathsdoor.chillback.ui.ChillbackMaterialTheme
+import com.deathsdoor.chillback.ui.components.action.MoreInfoButton
+import com.deathsdoor.chillback.ui.components.layout.SelectableThumbnail
+import com.deathsdoor.chillback.ui.components.layout.SelectableThumbnailCard
+import com.deathsdoor.chillback.ui.components.layout.ThumbnailTitle
+import com.deathsdoor.chillback.ui.components.layout.applyToggleableOnSelection
+import com.deathsdoor.chillback.ui.components.track.ArtworkWithFailureInformer
+import com.deathsdoor.chillback.ui.components.track.TrackSongCount
 import com.deathsdoor.chillback.ui.extensions.themeBasedTint
+import com.deathsdoor.chillback.ui.providers.InitializeProvidersForPreview
+import com.deathsdoor.chillback.ui.providers.LocalAppState
+import com.dragselectcompose.core.DragSelectState
+import com.dragselectcompose.core.rememberDragSelectState
 import kotlinx.coroutines.delay
 
-// TODO : Finish this implementation first
-// TODO : Add MultiSelect Visual Support + Accessibilit  https://medium.com/androiddevelopers/create-a-photo-grid-with-multiselect-behavior-using-jetpack-compose-9a8d588a9b63
 @Composable
-fun TrackCollectionItem(
+@NonRestartableComposable
+fun TrackCollectionCard(
     modifier : Modifier = Modifier,
-    isSingleItemPerRow : Boolean,
-    collection: TrackCollection
-){
-    val name = collection.name
-    val uri = collection.imageSource
+    collection: TrackCollection,
+    isSelected : Boolean?,
+    draggableState : DragSelectState<TrackCollection>,
+    isPinnable  : Boolean = false
+) {
+    val userRepository = if(LocalInspectionMode.current) null else LocalAppState.current.userRepository
 
-    if(isSingleItemPerRow) Thumbnail(
-        modifier = modifier.fillMaxWidth(),
-        artwork = {
-            Artwork(
-                modifier = Modifier.size(64.dp),
-                uri = uri
+    val textModifier = Modifier.padding(start = 16.dp)
+
+    SelectableThumbnailCard(
+        modifier = modifier.applyToggleableOnSelection(
+            item = collection,
+            isSelected = isSelected,
+            draggableState = draggableState
+        ),
+        isSelected = isSelected,
+        title = {
+            ThumbnailTitle(
+                modifier = textModifier,
+                text = collection.name,
+                style = MaterialTheme.typography.headlineMedium
             )
         },
-        title = name,
-        subtitle = {
-            // TODO : Implement this shit
-            /*if(collection.isPinned) {
-                Row(modifier = Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.SpaceBetween) {
-                    TrackCollectionItemPushPinImage(
-                        modifier = artworkModifier,
-                        isPinned = collection.isPinned,
-                    )
+        artwork = {
+            ArtworkWithFailureInformer(
+                modifier = Modifier
+                    .padding(12.dp)
+                    .matchParentSize(),
+                model = collection.imageSource,
+                contentScale = ContentScale.FillBounds,
+                contentDescription = null,
+            )
+        },
+        caption  = {
+            AnimatedTrackSongCount(
+                modifier = textModifier,
+                collection = collection,
+                userRepository = userRepository
+            )
+        },
+        actionIcon = if(isPinnable) {{ actionModifier , enabled ->
+            IconToggleButton(
+                modifier = actionModifier,
+                enabled = enabled,
+                checked = collection.isPinned,
+                onCheckedChange = { userRepository?.changeTrackCollectionPinStatus(collection) },
+                content = { TrackCollectionItemPushPinImage(isPinned = collection.isPinned) }
+            )
 
-                    AnimatedTrackSongCount(trackCollection = trackCollection)
+            MoreInfoButton(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(top = 12.dp, end = 12.dp),
+                content = {
+                    // TODO : Show more info for trackCollection
                 }
-            } else AnimatedTrackSongCount(trackCollection = trackCollection)*/
-        }
-        //subtitle = artists,
-        /*leadingIcon = {
-            LikeButton(
-                modifier = Modifier.padding(end = 12.dp),
-                isLiked = track.isFavorite,
-                onValueChange = onLikeChange
             )
-        }*/
-    ) else Card(modifier = modifier.aspectRatio(1f)){
-        Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
-            Artwork(
-                modifier= Modifier.matchParentSize(),
-                uri = uri,
-                contentScale = ContentScale.FillBounds
+        }} else null
+    )
+}
+
+@Composable
+@NonRestartableComposable
+fun TrackCollectionRowItem(
+    modifier : Modifier = Modifier,
+    collection: TrackCollection,
+    isSelected : Boolean?,
+    draggableState : DragSelectState<TrackCollection>,
+    isPinnable  : Boolean = false
+) {
+    val userRepository = if(LocalInspectionMode.current) null else LocalAppState.current.userRepository
+
+    SelectableThumbnail(
+        modifier = modifier
+            .fillMaxWidth()
+            .applyToggleableOnSelection(
+                item = collection,
+                isSelected = isSelected,
+                draggableState = draggableState
+            ),
+        isSelected = isSelected,
+        title = {
+            ThumbnailTitle(
+                text = collection.name,
+                style = MaterialTheme.typography.bodyMedium
             )
-
-            /*LikeButton(
-                modifier = Modifier.align(Alignment.BottomEnd),
-                isLiked = track.isFavorite,
-                onValueChange = onLikeChange
-            )*/
-        }
-
-        val basicMarquee = Modifier.basicMarquee().padding(horizontal = 8.dp)
-
-        // From ThumbnailLayouts.kt
-        Text(
-            modifier = basicMarquee,
-            text = name,
-            style = MaterialTheme.typography.bodyMedium,
-        )
-
-        // From ThumbnailLayouts.kt
-        /*artists?.let {
-            Text(
-                modifier = basicMarquee,
-                text = it,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.surfaceVariant,
+        },
+        artwork = {
+            ArtworkWithFailureInformer(
+                modifier = Modifier.size(64.dp),
+                model = collection.imageSource,
+                contentDescription = null,
             )
-        }*/
-
-        Spacer(modifier = Modifier.height(8.dp))
-    }
-} /*ThumbnailWithText(
-    modifier = modifier.fillMaxWidth(),
-    uri = collection.imageSource,
-    title = collection.name,
-    // artworkModifier => Modifier.padding(top = 8.dp).size(16.dp)
-    // imageModifier => Modifier.size(72.dp)
-    subtitle = null/*{ //artworkModifier ->
-        /*if(trackCollection.collection.isPinned) {
-            Row(modifier = Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.SpaceBetween) {
-                TrackCollectionItemPushPinImage(
-                    modifier = artworkModifier,
-                    isPinned = trackCollection.collection.isPinned,
-                )
-
-                AnimatedTrackSongCount(trackCollection = trackCollection)
+        },
+        caption  = {
+            AnimatedTrackSongCount(
+                collection = collection,
+                userRepository = userRepository
+            )
+        },
+        actionIcon = if(isPinnable) {{ actionModifier , enabled ->
+            IconToggleButton(
+                modifier = actionModifier,
+                enabled = enabled,
+                checked = collection.isPinned,
+                onCheckedChange = { userRepository?.changeTrackCollectionPinStatus(collection) },
+                content = { TrackCollectionItemPushPinImage(isPinned = collection.isPinned) }
+            )
+        }} else null,
+        trailingIcon = {
+            MoreInfoButton {
+                // TODO : Show more info for trackCollection
             }
-        } else AnimatedTrackSongCount(trackCollection = trackCollection)*/
-    }*/
-)
-*/
+        }
+    )
+}
+
 @Composable
 @NonRestartableComposable
 fun TrackCollectionItemPushPinImage(modifier : Modifier = Modifier,isPinned : Boolean?) = Icon(
@@ -144,7 +179,11 @@ fun TrackCollectionItemPushPinImage(modifier : Modifier = Modifier,isPinned : Bo
 )
 
 @Composable
-private fun AnimatedTrackSongCount(collection: TrackCollection) {
+private fun AnimatedTrackSongCount(
+    modifier: Modifier = Modifier,
+    collection: TrackCollection,
+    userRepository: UserRepository?,
+) {
     var isVisible by remember { mutableStateOf(true) }
 
     LaunchedEffect(collection.isPinned) {
@@ -153,16 +192,42 @@ private fun AnimatedTrackSongCount(collection: TrackCollection) {
         isVisible = true
     }
 
+    var count by remember { mutableIntStateOf(0) }
+
+    userRepository?.let {
+        LaunchedEffect(Unit) {
+            count = it.tracksFor(collection)
+        }
+    }
+
     AnimatedVisibility(
+        modifier = modifier,
         visible = isVisible,
         enter = slideInHorizontally(initialOffsetX = { w -> w }) + expandHorizontally(expandFrom = Alignment.End),
         exit = slideOutHorizontally(targetOffsetX = { w -> w }) + shrinkHorizontally(shrinkTowards = Alignment.End),
         content = {
-            /*TrackSongCount(
+            TrackSongCount(
                 modifier = Modifier.padding(end = 16.dp),
-                count = tracks,
+                count = count,
                 style = MaterialTheme.typography.labelMedium
-            )*/
+            )
         }
     )
+}
+
+@PreviewScreenSizes
+@PreviewLightDark
+@PreviewDynamicColors
+@Composable
+@NonRestartableComposable
+fun TrackCollectionCardPreview() = InitializeProvidersForPreview {
+    ChillbackMaterialTheme {
+        Surface {
+           TrackCollectionCard(
+               collection = TrackCollection("test"),
+               isSelected = false,
+               draggableState = rememberDragSelectState()
+           )
+        }
+    }
 }

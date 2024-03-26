@@ -52,10 +52,6 @@ import com.deathsdoor.chillback.ui.providers.LocalAppState
 import com.deathsdoor.chillback.ui.providers.LocalWindowAdaptiveSize
 import com.deathsdoor.chillback.ui.state.ChillbackAppState
 
-// Search bar
-// Stats || Utility Options
-// Playlists
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun UserLibrary() {
     val windowAdaptiveSize = LocalWindowAdaptiveSize.current
@@ -263,10 +259,11 @@ private fun StatisticUtilityOption(
     text = "Statistics",
     painter = painterResource(R.drawable.analytics),
     background = Green80,
-    tint = Green60
-) {
-// TODO
-}
+    tint = Green60,
+    onClick = {
+        // TODO
+    }
+)
 
 @Composable
 @NonRestartableComposable

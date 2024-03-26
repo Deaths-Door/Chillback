@@ -36,6 +36,8 @@ import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.contentColorFor
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -76,6 +78,7 @@ fun ScaffoldSuiteScaffold(
     when {
         windowAdaptiveSize.widthSizeClass == WindowWidthSizeClass.Compact -> Scaffold(
             modifier = modifier,
+            containerColor = MaterialTheme.colorScheme.surface,
             snackbarHost = { StackedSnackbarHost(hostState = LocalSnackbarState.current,) },
             floatingActionButton = {
                 scope.AnimatedFloatingActionButton(
@@ -113,216 +116,232 @@ fun ScaffoldSuiteScaffold(
                 )
             }
         )
-        windowAdaptiveSize.widthSizeClass == WindowWidthSizeClass.Medium || windowAdaptiveSize.heightSizeClass == WindowHeightSizeClass.Compact -> Row(modifier) {
-            NavigationRail(
-                containerColor = scaffoldSuiteColors.navigationRailContainerColor,
-                contentColor = scaffoldSuiteColors.navigationRailContentColor,
-                content = {
-                    scope.header?.let {
-                        it(false)
-                    }
 
-                    scope.navigationItems.forEach {
-                        NavigationRailItem(
-                            modifier = it.modifier,
-                            selected = it.selected,
-                            onClick = it.onClick,
-                            icon = { NavigationItemIcon(icon = it.icon, badge = it.badge) },
-                            enabled = it.enabled,
-                            label = it.label,
-                            alwaysShowLabel = true,
-                            colors = it.colors?.navigationRailItemColors ?: NavigationRailItemDefaults.colors(),
-                            interactionSource = it.interactionSource
-                        )
-                    }
 
-                    Spacer(modifier = Modifier.weight(1f))
+        windowAdaptiveSize.widthSizeClass == WindowWidthSizeClass.Medium || windowAdaptiveSize.heightSizeClass == WindowHeightSizeClass.Compact -> Surface(
+            modifier = modifier,
+            color = MaterialTheme.colorScheme.surface,
+            contentColor = contentColorFor(MaterialTheme.colorScheme.surface),
+            content = {
+                Row {
+                    NavigationRail(
+                        containerColor = scaffoldSuiteColors.navigationRailContainerColor,
+                        contentColor = scaffoldSuiteColors.navigationRailContentColor,
+                        content = {
+                            scope.header?.let {
+                                it(false)
+                            }
 
-                    scope.footer?.let {
-                        it(false)
-                    }
-                }
-            )
-
-            Box {
-                content(null)
-
-                scope.AnimatedFloatingActionButton(
-                    anySnackBarShown = anySnackBarShown,
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(bottom = 24.dp, end = 24.dp),
-                    content = {
-                        scope.floatingActionButtonItems.forEach {
-                            when (it.label) {
-                                null -> FloatingActionButton(
+                            scope.navigationItems.forEach {
+                                NavigationRailItem(
                                     modifier = it.modifier,
+                                    selected = it.selected,
                                     onClick = it.onClick,
-                                    content = { it.icon(Modifier) }
-                                )
-                                else -> ExtendedFloatingActionButton(
-                                    modifier = it.modifier,
-                                    onClick = it.onClick,
-                                    icon = { it.icon(Modifier) },
-                                    text = it.label
+                                    icon = { NavigationItemIcon(icon = it.icon, badge = it.badge) },
+                                    enabled = it.enabled,
+                                    label = it.label,
+                                    alwaysShowLabel = true,
+                                    colors = it.colors?.navigationRailItemColors ?: NavigationRailItemDefaults.colors(),
+                                    interactionSource = it.interactionSource
                                 )
                             }
+
+                            Spacer(modifier = Modifier.weight(1f))
+
+                            scope.footer?.let {
+                                it(false)
+                            }
                         }
-                    }
-                )
+                    )
 
-                Box(
-                    modifier = Modifier.align(Alignment.BottomCenter),
-                    content = {
-                        StackedSnackbarHost(hostState = LocalSnackbarState.current,)
-                    }
-                )
-            }
-        }
-        else -> Row(modifier) {
+                    Box {
+                        content(null)
 
-            val isDesktop = windowAdaptiveSize.widthSizeClass == WindowWidthSizeClass.Expanded
-                    && windowAdaptiveSize.heightSizeClass == WindowHeightSizeClass.Expanded
+                        scope.AnimatedFloatingActionButton(
+                            anySnackBarShown = anySnackBarShown,
+                            modifier = Modifier
+                                .align(Alignment.BottomEnd)
+                                .padding(bottom = 24.dp, end = 24.dp),
+                            content = {
+                                scope.floatingActionButtonItems.forEach {
+                                    when (it.label) {
+                                        null -> FloatingActionButton(
+                                            modifier = it.modifier,
+                                            onClick = it.onClick,
+                                            content = { it.icon(Modifier) }
+                                        )
+                                        else -> ExtendedFloatingActionButton(
+                                            modifier = it.modifier,
+                                            onClick = it.onClick,
+                                            icon = { it.icon(Modifier) },
+                                            text = it.label
+                                        )
+                                    }
+                                }
+                            }
+                        )
 
-            PermanentDrawerSheet(
-                // TODO : on hover expand / collapse
-                drawerContainerColor = scaffoldSuiteColors.navigationDrawerContainerColor,
-                drawerContentColor = scaffoldSuiteColors.navigationDrawerContentColor,
-                content = {
-                    scope.header?.let {
-                        CompositionLocalProvider(value = LocalTextStyle provides MaterialTheme.typography.headlineMedium) {
-                            it(isDesktop)
-                        }
-                    }
-                    
-                    // TODO : Update this
-                    scope.navigationItems.forEach {
-                        NavigationDrawerItem(
-                            modifier = it.modifier,
-                            selected = it.selected,
-                            onClick = it.onClick,
-                            icon = it.icon,
-                            badge = it.badge,
-                            label = { it.label?.invoke() },
-                            colors = it.colors?.navigationDrawerItemColors ?: NavigationDrawerItemDefaults.colors(),
-                            interactionSource = it.interactionSource
+                        Box(
+                            modifier = Modifier.align(Alignment.BottomCenter),
+                            content = {
+                                StackedSnackbarHost(hostState = LocalSnackbarState.current,)
+                            }
                         )
                     }
-
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    scope.footer?.let {
-                        CompositionLocalProvider(value = LocalTextStyle provides MaterialTheme.typography.headlineSmall) {
-                            it(isDesktop)
-                        }
-                    }
                 }
-            )
+            }
+        )
 
-            Box {
-                content(null)
+        else -> Surface(
+            modifier = modifier,
+            color = MaterialTheme.colorScheme.surface,
+            contentColor = contentColorFor(MaterialTheme.colorScheme.surface),
+            content = {
+                Row {
+                    val isDesktop = windowAdaptiveSize.widthSizeClass == WindowWidthSizeClass.Expanded
+                            && windowAdaptiveSize.heightSizeClass == WindowHeightSizeClass.Expanded
 
-                val textStyle : TextStyle
-                val snackbarHeight : Dp
-
-                if(isDesktop) {
-                    textStyle = MaterialTheme.typography.headlineLarge
-                    snackbarHeight = 144.dp
-                } else {
-                    textStyle = MaterialTheme.typography.bodyLarge
-                    snackbarHeight = 96.dp
-                }
-
-                scope.AnimatedFloatingActionButton(
-                    anySnackBarShown = anySnackBarShown,
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(bottom = 24.dp, end = 24.dp),
-                    content = {
-                        when (it.label) {
-                            null -> LargeFloatingActionButton(
-                                modifier = it.modifier,
-                                onClick = it.onClick,
-                                content = { it.icon(Modifier) }
-                            )
-                            // Edited source code of ExtendedFloatingActionButton
-                            else -> {
-                                val fabPaddingDp : Dp
-                                val contentPaddingDp : Dp
-                                val iconSize : Dp
-
-                                if(isDesktop) {
-                                    iconSize = 40.dp
-                                    contentPaddingDp = 52.dp
-                                    fabPaddingDp = 32.dp
-                                } else {
-                                    iconSize = 32.dp
-                                    contentPaddingDp = 32.dp
-                                    fabPaddingDp = 16.dp
+                    PermanentDrawerSheet(
+                        // TODO : on hover expand / collapse
+                        drawerContainerColor = scaffoldSuiteColors.navigationDrawerContainerColor,
+                        drawerContentColor = scaffoldSuiteColors.navigationDrawerContentColor,
+                        content = {
+                            scope.header?.let {
+                                CompositionLocalProvider(value = LocalTextStyle provides MaterialTheme.typography.headlineMedium) {
+                                    it(isDesktop)
                                 }
+                            }
 
-                                FloatingActionButton(
+                            // TODO : Update this
+                            scope.navigationItems.forEach {
+                                NavigationDrawerItem(
+                                    modifier = it.modifier,
+                                    selected = it.selected,
                                     onClick = it.onClick,
-                                    modifier = it.modifier.padding(
-                                        bottom = fabPaddingDp,
-                                        end = fabPaddingDp
-                                    ),
-                                    content = {
+                                    icon = it.icon,
+                                    badge = it.badge,
+                                    label = { it.label?.invoke() },
+                                    colors = it.colors?.navigationDrawerItemColors ?: NavigationDrawerItemDefaults.colors(),
+                                    interactionSource = it.interactionSource
+                                )
+                            }
 
-                                        Row(
-                                            modifier = Modifier
-                                                .sizeIn(minWidth = 152.dp, minHeight = 96.dp)
-                                                .padding(
-                                                    start = contentPaddingDp,
-                                                    end = contentPaddingDp
-                                                ),
-                                            verticalAlignment = Alignment.CenterVertically,
-                                            horizontalArrangement = Arrangement.Start,
+                            Spacer(modifier = Modifier.weight(1f))
+
+                            scope.footer?.let {
+                                CompositionLocalProvider(value = LocalTextStyle provides MaterialTheme.typography.headlineSmall) {
+                                    it(isDesktop)
+                                }
+                            }
+                        }
+                    )
+
+                    Box {
+                        content(null)
+
+                        val textStyle : TextStyle
+                        val snackbarHeight : Dp
+
+                        if(isDesktop) {
+                            textStyle = MaterialTheme.typography.headlineLarge
+                            snackbarHeight = 144.dp
+                        } else {
+                            textStyle = MaterialTheme.typography.bodyLarge
+                            snackbarHeight = 96.dp
+                        }
+
+                        scope.AnimatedFloatingActionButton(
+                            anySnackBarShown = anySnackBarShown,
+                            modifier = Modifier
+                                .align(Alignment.BottomEnd)
+                                .padding(bottom = 24.dp, end = 24.dp),
+                            content = {
+                                when (it.label) {
+                                    null -> LargeFloatingActionButton(
+                                        modifier = it.modifier,
+                                        onClick = it.onClick,
+                                        content = { it.icon(Modifier) }
+                                    )
+                                    // Edited source code of ExtendedFloatingActionButton
+                                    else -> {
+                                        val fabPaddingDp : Dp
+                                        val contentPaddingDp : Dp
+                                        val iconSize : Dp
+
+                                        if(isDesktop) {
+                                            iconSize = 40.dp
+                                            contentPaddingDp = 52.dp
+                                            fabPaddingDp = 32.dp
+                                        } else {
+                                            iconSize = 32.dp
+                                            contentPaddingDp = 32.dp
+                                            fabPaddingDp = 16.dp
+                                        }
+
+                                        FloatingActionButton(
+                                            onClick = it.onClick,
+                                            modifier = it.modifier.padding(
+                                                bottom = fabPaddingDp,
+                                                end = fabPaddingDp
+                                            ),
                                             content = {
 
-                                                it.icon(Modifier.size(iconSize))
-
-
-                                                Spacer(Modifier.width((contentPaddingDp.value * 0.75).dp))
-
-                                                CompositionLocalProvider(
-                                                    value = LocalTextStyle provides textStyle,
+                                                Row(
+                                                    modifier = Modifier
+                                                        .sizeIn(minWidth = 152.dp, minHeight = 96.dp)
+                                                        .padding(
+                                                            start = contentPaddingDp,
+                                                            end = contentPaddingDp
+                                                        ),
+                                                    verticalAlignment = Alignment.CenterVertically,
+                                                    horizontalArrangement = Arrangement.Start,
                                                     content = {
-                                                        it.label.invoke()
+
+                                                        it.icon(Modifier.size(iconSize))
+
+
+                                                        Spacer(Modifier.width((contentPaddingDp.value * 0.75).dp))
+
+                                                        CompositionLocalProvider(
+                                                            value = LocalTextStyle provides textStyle,
+                                                            content = {
+                                                                it.label.invoke()
+                                                            }
+                                                        )
                                                     }
                                                 )
                                             }
                                         )
                                     }
-                                )
+                                }
                             }
-                        }
-                    }
-                )
+                        )
 
-                Box(
-                    modifier = Modifier.align(Alignment.BottomCenter),
-                    content = {
-                        val typography = MaterialTheme.typography
-
-                        MaterialTheme(
-                            typography = typography.copy(
-                                bodyMedium = textStyle,
-                                labelLarge = textStyle.copy(fontSize = textStyle.fontSize * 0.75)
-                            ),
+                        Box(
+                            modifier = Modifier.align(Alignment.BottomCenter),
                             content = {
-                                StackedSnackbarHost(
-                                    hostState = LocalSnackbarState.current,
-                                    modifier = Modifier
-                                        .fillMaxWidth(0.9f)
-                                        .heightIn(min = snackbarHeight)
+                                val typography = MaterialTheme.typography
+
+                                MaterialTheme(
+                                    typography = typography.copy(
+                                        bodyMedium = textStyle,
+                                        labelLarge = textStyle.copy(fontSize = textStyle.fontSize * 0.75)
+                                    ),
+                                    content = {
+                                        StackedSnackbarHost(
+                                            hostState = LocalSnackbarState.current,
+                                            modifier = Modifier
+                                                .fillMaxWidth(0.9f)
+                                                .heightIn(min = snackbarHeight)
+                                        )
+                                    }
                                 )
                             }
                         )
                     }
-                )
+                }
             }
-        }
+        )
     }
 }
 

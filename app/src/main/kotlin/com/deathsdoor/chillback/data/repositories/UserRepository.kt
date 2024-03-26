@@ -38,8 +38,8 @@ class UserRepository(private val musicRepository: MusicRepository) {
         database.trackDao.updateFavouriteStatusFor(id,status)
     }
 
-    fun deleteTrackCollection(track : TrackCollection) = launch {
-        database.trackCollectionDao.removeTrackCollection(track)
+    fun deleteTrackCollection(trackCollection : TrackCollection) = launch {
+        database.trackCollectionDao.removeTrackCollection(trackCollection.id)
     }
 
     // TODO : CUSTOM GET USER TRACK COLLECTION -> ORDER TRACKS CROSS REF BY index
@@ -51,14 +51,20 @@ class UserRepository(private val musicRepository: MusicRepository) {
         database.trackCollectionCrossReferenceDao.updateAll(references)
     }
 
-    fun changeTrackCollectionPinStatus(track : TrackCollection) = launch {
-        track.isPinned = !track.isPinned
-        database.trackCollectionDao.update(track)
+    fun changeTrackCollectionPinStatus(collection : TrackCollection) = launch {
+        collection.isPinned = !collection.isPinned
+        database.trackCollectionDao.update(collection)
     }
 
+    suspend fun tracksFor(collection : TrackCollection) = database.trackCollectionCrossReferenceDao.trackCountIn(collection.id)
+
+
+    @Deprecated("Do not use this")
     fun removeTrack(track : Track) = launch {
         database.trackDao.remove(track.id)
     }
+
+
     /*
 
 

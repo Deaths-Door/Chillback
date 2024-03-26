@@ -1,58 +1,68 @@
 package com.deathsdoor.chillback.ui.components.collection
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.DismissValue
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SwipeToDismissBoxValue
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import com.deathsdoor.chillback.data.models.TrackCollection
+import com.deathsdoor.chillback.ui.components.action.LazyOptionsRow
+import com.deathsdoor.chillback.ui.components.action.rememberIsSingleItemRow
+import com.deathsdoor.chillback.ui.components.layout.LazyDismissibleSelectableList
+import com.deathsdoor.chillback.ui.extensions.applyIf
+import com.deathsdoor.chillback.ui.extensions.styledText
+import com.dragselectcompose.core.rememberDragSelectState
 import kotlinx.coroutines.CoroutineScope
 
-// TODO: Make sure that pinned playlists for always at the top
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun LazyTrackCollectionList(
     modifier : Modifier = Modifier,
-    collections : List<TrackCollection>?,
     coroutineScope: CoroutineScope,
-    placeHolderText : (@Composable () -> AnnotatedString)? = null,
+    collections : List<TrackCollection>?,
     onPinChange : (TrackCollection) -> Unit,
-    onDelete : (TrackCollection) -> Unit
-) = Column(modifier) {
-    // TODO : Enable this again later
-/*
+    onDelete : (TrackCollection) -> Unit,
+    placeHolderText : (@Composable () -> AnnotatedString)? = null,
+    placeHolderContent: (@Composable ColumnScope.() -> Unit)? = null
+) = Column(modifier = modifier) {
     val isSingleItemPerRow = rememberIsSingleItemRow()
+    val draggableState = rememberDragSelectState<TrackCollection>()
 
     // TODO : ADD Option to sort paylists by track children / "Number of tracks",
     LazyOptionsRow(
         coroutineScope = coroutineScope,
+        draggableState = draggableState,
         isSingleItemPerRow = isSingleItemPerRow,
         data = collections,
         criteria = listOf("Name","Is pinned"),
         // TODO : Correct this later on
         fetch = { false },
         onFetch = {},
-        onSort = { a,b -> }
+        onSort = { a,b -> },
     )
 
-    LazyDismissibleList(
+    LazyDismissibleSelectableList(
+        coroutineScope = coroutineScope,
         items = collections,
-        key = { _ , collection -> collection.id },
+        key = { it.id },
         isSingleItemPerRow = isSingleItemPerRow.value,
-        confirmValueChange = { dismissValue , _ , collection ->
-            if (dismissValue.isDelete) {
-                onDelete(collection)
-                return@LazyDismissibleList true
-            }
-
-            if (dismissValue == DismissValue.DismissedToEnd) onPinChange(collection)
-
-            false
-        },
         endToStartColor = MaterialTheme.colorScheme.error.copy(alpha = 0.8f),
-        startToEndColor = MaterialTheme.colorScheme.inverseOnSurface.copy(alpha = 0.8f),
+        startToEndColor = Color(0xFFCCE5D6),
         swipeableContent = { isStartToEnd , collection ->
             if (isStartToEnd) TrackCollectionItemPushPinImage(isPinned = collection.isPinned)
             else Icon(
@@ -61,6 +71,20 @@ fun LazyTrackCollectionList(
                 tint = MaterialTheme.colorScheme.error,
             )
         },
+        confirmValueChange = { dismissValue , collection ->
+            when(dismissValue) {
+                SwipeToDismissBoxValue.EndToStart -> {
+                    onDelete(collection)
+                    true
+                }
+                SwipeToDismissBoxValue.StartToEnd -> {
+                    onPinChange(collection)
+                    false
+                }
+                else -> false
+            }
+        },
+        optionContent = { _ , state , collection -> TODO("Uncomment and update implementation of TrackCollectionExtraOptions")/*TrackCollectionExtraOptions(state,)*/ },
         placeHolder = {
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -68,33 +92,48 @@ fun LazyTrackCollectionList(
                 verticalArrangement = Arrangement.Center,
                 content = {
                     Text(
-                        // TODO : CREATE TEXT HERE
-                        text = if(placeHolderText != null) placeHolderText() else TODO(),
+                        text = if(placeHolderText != null) placeHolderText() else {
+                            styledText(
+                                plain0 = "There are no playlists to display yet.\n",
+                                colored0 = "Explore",
+                                plain1 = " and discover some music ",
+                                colored1 = "to fill your library!"
+                            )
+                        },
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.titleMedium
                     )
 
-                    // TODO : Add add tracks to playlist button here , only if user defined == false
+                    placeHolderContent?.invoke(this)
                 }
             )
         },
-        optionContent = { state , collection -> TODO("Uncomment and update implementation of TrackCollectionExtraOptions")/*TrackCollectionExtraOptions(state,)*/ },
-        content = { index , collection , isSelected , onLongClick ->
-            TrackCollectionItem(
-                collection = collection,
-                isSingleItemPerRow = isSingleItemPerRow.value,
-                modifier = Modifier
-                    .combinedClickable(
-                        onClick = { /*TODO : NAVIGATE TO APPORIATE SCREEN */ },
-                        onClickLabel = "Navigate to see tracks in songs",
-                        onLongClickLabel = "Show collections options",
-                        onLongClick = onLongClick
-                    ),
+        content = { contentModifier, item, isSelected, onLongClick ->
+            @Suppress("NAME_SHADOWING")
+            val contentModifier = contentModifier.applyIf(isSelected != null) {
+                // TODO : Implement onClick and fill in onClickLabel
+                combinedClickable(
+                    onClick = {
+
+                    },
+                    onClickLabel = "",
+                    onLongClick = onLongClick,
+                    onLongClickLabel = "Show extra options for collection",
+                )
+            }
+
+            if(isSingleItemPerRow.value) TrackCollectionRowItem(
+                modifier = contentModifier,
+                collection = item,
+                isSelected = isSelected,
+                draggableState = draggableState
+            ) else TrackCollectionCard(
+                modifier = contentModifier,
+                collection = item,
+                isSelected = isSelected,
+                draggableState = draggableState
             )
         }
-    )*/
+    )
 }
-
-@OptIn(ExperimentalMaterial3Api::class)
-private val DismissValue.isDelete get() = this == DismissValue.DismissedToStart

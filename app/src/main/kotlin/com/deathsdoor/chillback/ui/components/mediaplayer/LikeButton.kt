@@ -26,16 +26,15 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@Deprecated("Do not use")
 @Composable
 fun LikeButton(
     modifier: Modifier = Modifier,
     enabled : Boolean = true,
+    mediaController : Player? = LocalAppState.current.mediaController,
     track : Track
 ){
     var isCurrentlyLiked by remember(track.isFavorite) {  mutableStateOf(track.isFavorite) }
 
-    val mediaController = LocalAppState.current.mediaController
     LikeButtonLogicWrapper(
         modifier = modifier,
         enabled = enabled,
@@ -124,6 +123,8 @@ private fun LikeButtonLogicWrapper(
             // Update the UI immediately
             onValueChange(it)
 
+
+            // TODO : Implement this
             // If job is running and its setting isFavorite to [it] then don't start another job
             if(jobType == it && pendingJob != null) return@IconToggleButton
 

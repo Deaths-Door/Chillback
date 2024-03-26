@@ -127,8 +127,9 @@
     &quot;com.google.relay.styleTranslationOption&quot;: &quot;M3&quot;,
     &quot;com.google.relay.theme&quot;: &quot;androidx.compose.material3.MaterialTheme&quot;,
     &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
+    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
     &quot;last_directory_selection&quot;: &quot;C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/app/src/main/res/drawable&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/app/src/main/kotlin/com/deathsdoor/chillback/ui/components/mediaplayer&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/app/src/main/kotlin/com/deathsdoor/chillback/ui/components/layout/SlideFromUnderneathText.kt&quot;,
     &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
     &quot;org.rust.hideNoCargoProjectNotificationsC:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/scripts/rust/metadata1.rs&quot;: &quot;true&quot;,
     &quot;org.rust.hideNoCargoProjectNotificationsC:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/scripts/rust/metadata8.rs&quot;: &quot;true&quot;,
@@ -137,7 +138,8 @@
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;recommended.upgrade.last.time.stamp&quot;: &quot;1710955075306&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/app/src/main/kotlin/com/deathsdoor/chillback/ui/components/layout/SlideFromUnderneathText.kt&quot;
   },
   &quot;keyToStringList&quot;: {
     &quot;com.android.tools.idea.sqlite.queryhistory&quot;: [

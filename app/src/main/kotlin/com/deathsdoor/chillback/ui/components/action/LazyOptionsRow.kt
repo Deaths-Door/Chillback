@@ -1,10 +1,12 @@
 package com.deathsdoor.chillback.ui.components.action
 
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -12,7 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.deathsdoor.chillback.ui.components.modaloptions.rememberModalOptionsState
+import com.dragselectcompose.core.DragSelectState
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
@@ -20,55 +22,60 @@ fun rememberIsSingleItemRow() = remember { mutableStateOf(true) }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun <T> LazyOptionsRow(
-    coroutineScope : CoroutineScope,
-    isSingleItemPerRow : MutableState<Boolean>,
-    selectedIDs : MutableState<Set<Long>?>,
-    data : Collection<T>?,
-    criteria : Collection<String>,
-    fetch : () -> Boolean,
-    onSort : (isAscendingOrder : Boolean,appliedMethods : List<Int>) -> Unit,
-    onFetch : suspend () -> Unit,
-    key : (T) -> Long,
-) = Row(modifier = Modifier.padding(horizontal = 8.dp).fillMaxWidth()) {
+fun <T> ColumnScope.LazyOptionsRow(
+    coroutineScope: CoroutineScope,
+    isSingleItemPerRow: MutableState<Boolean>,
+    draggableState: DragSelectState<T>,
+    data: List<T>?,
+    criteria: Collection<String>,
+    fetch: () -> Boolean,
+    onSort: (isAscendingOrder: Boolean, appliedMethods: List<Int>) -> Unit,
+    onFetch: suspend () -> Unit,
+) {
+    @Suppress("UNUSED_EXPRESSION")
+    this
 
-    val optionState= rememberModalOptionsState(coroutineScope = coroutineScope)
+    Row(
+        modifier = Modifier
+            .padding(horizontal = 8.dp)
+            .fillMaxWidth()
+    ) {
+        val enabled = remember(data) { mutableStateOf(!data.isNullOrEmpty()) }
 
-    val enabled = remember(data) { mutableStateOf(!data.isNullOrEmpty()) }
+        SortFilterButton(
+            coroutineScope = coroutineScope,
+            enabled = enabled,
+            criteria = criteria,
+            fetch = fetch,
+            onFetch = onFetch,
+            onSort = onSort
+        )
 
-    SortFilterButton(
-        coroutineScope = coroutineScope,
-        state = optionState,
-        enabled = enabled,
-        criteria = criteria,
-        fetch = fetch,
-        onFetch = onFetch,
-        onSort = onSort
-    )
+        Spacer(modifier = Modifier.weight(1f))
 
-    Spacer(modifier = Modifier.weight(1f))
+        IconButton(
+            enabled = enabled.value,
+            onClick = {
+                when {
+                    // Enter Selection Mode
+                    !draggableState.inSelectionMode -> draggableState.enableSelectionMode()
 
-    IconButton(
-        enabled = enabled.value,
-        onClick = {
-            selectedIDs.value = when {
-                // Enter Selection Mode
-                selectedIDs.value == null -> setOf()
+                    // Since the values in the list are always unique , hence
+                    // Deselect All
+                    draggableState.selected.size == data!!.size -> draggableState.disableSelectionMode()
 
-                // Since the values in the list are always unique , hence
-                // Deselect All
-                selectedIDs.value!!.size == data!!.size -> null
+                    // Select All
+                    draggableState.selected.isNotEmpty() -> draggableState.updateSelected(data)
 
-                // Select All
-                selectedIDs.value!!.isNotEmpty() -> data.map { key(it) }.toSet()
+                    // Exit Selection Mode
+                    else -> draggableState.disableSelectionMode()
+                }
+            },
+            content = { SelectedIcon(isSelected = draggableState.selected.isEmpty()) }
+        )
 
-                // Exit Selection Mode
-                else -> null
-            }
-        },
-        // TODO : Fix Icons
-        content = { SelectedIcon(isSelected = selectedIDs.value?.isEmpty() ?: false) }
-    )
+        LazyLayoutChangeButton(isSingleItemPerRow = isSingleItemPerRow,enabled = enabled.value)
+    }
 
-    LazyLayoutChangeButton(isSingleItemPerRow = isSingleItemPerRow,enabled = enabled.value)
+    HorizontalDivider(modifier = Modifier.padding(horizontal = 12.dp))
 }

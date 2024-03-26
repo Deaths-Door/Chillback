@@ -147,6 +147,9 @@ dependencies {
 
     // For Dropdowns
     implementation("io.github.androidpoet:dropdown:1.1.2")
+
+    // For MultiSelect
+    implementation("com.dragselectcompose:grid:2.2.6")
 }
 
 // Due to [this](https://github.com/rizmaulana/compose-stacked-snackbar?tab=readme-ov-file)

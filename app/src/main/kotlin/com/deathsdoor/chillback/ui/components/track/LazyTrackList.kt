@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -24,7 +25,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewModelScope
-import androidx.media3.session.MediaController
+import androidx.media3.common.Player
 import com.deathsdoor.chillback.data.extensions.hasNotSameMediaItemsAs
 import com.deathsdoor.chillback.data.models.Track
 import com.deathsdoor.chillback.data.models.TrackDetails
@@ -32,84 +33,88 @@ import com.deathsdoor.chillback.data.repositories.MusicRepository
 import com.deathsdoor.chillback.ui.components.action.LazyOptionsRow
 import com.deathsdoor.chillback.ui.components.action.createCompartorFrom
 import com.deathsdoor.chillback.ui.components.action.rememberIsSingleItemRow
-import com.deathsdoor.chillback.ui.components.layout.LazyDismissibleList
-import com.deathsdoor.chillback.ui.components.layout.rememberSelectedIDsOrNotInMultiSelectMode
+import com.deathsdoor.chillback.ui.components.layout.LazyDismissibleSelectableList
 import com.deathsdoor.chillback.ui.components.mediaplayer.LikeButton
+import com.deathsdoor.chillback.ui.extensions.applyIf
 import com.deathsdoor.chillback.ui.extensions.styledText
 import com.deathsdoor.chillback.ui.providers.LocalAppState
 import com.deathsdoor.chillback.ui.state.ChillbackAppState
+import com.dragselectcompose.core.rememberDragSelectState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-@OptIn(
-    ExperimentalMaterial3Api::class,
-    ExperimentalFoundationApi::class
-)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun LazyTrackList(
     modifier : Modifier = Modifier,
+    mediaController: Player? = LocalAppState.current.mediaController,
     coroutineScope: CoroutineScope,
     tracks: List<Track>?,
-    onTracksSorted : (sorted : List<Track>) -> Unit,
-    onRemove : ((index : Int,Track) -> Unit)? = null,
-    placeHolderText : (@Composable () -> AnnotatedString)? = null
+    onRemove : ((Track) -> Unit)? = null,
+    onTracksSorted : (() -> Unit)? = null,
+    placeHolderText : (@Composable () -> AnnotatedString)? = null,
+    placeHolderContent: (@Composable ColumnScope.() -> Unit)? = null
 ) = Column(modifier = modifier) {
+
     val isSingleItemPerRow = rememberIsSingleItemRow()
+    val draggableState = rememberDragSelectState<Track>()
+
     val details = remember { mutableStateListOf<TrackDetails>() }
-
-    val musicRepository = LocalAppState.current.musicRepository
-
-    val selectedIDs = rememberSelectedIDsOrNotInMultiSelectMode()
+    val appState = LocalAppState.current
 
     LazyOptionsRow(
         coroutineScope = coroutineScope,
         isSingleItemPerRow = isSingleItemPerRow,
-        selectedIDs = selectedIDs,
+        draggableState = draggableState,
         data = tracks,
         criteria = listOf("Name","Genre","Album","Album Artists","Artists","Has Artwork","Is Favourite"),
         fetch = { tracks!!.size != details.size },
-        key = { it.id },
         onFetch = {
             details.subList(0,tracks!!.size).forEachIndexed { index, _ ->
                 receiveTrackDetails(
-                    musicRepository = musicRepository,
+                    musicRepository = appState.musicRepository,
                     details = details,
-                    track = tracks[index],
                     index = index,
+                    track = tracks[index],
+                    tracks = tracks,
                     run = { it() }
                 )
             }
         },
         onSort = { isAscendingOrder , appliedMethods ->
-            onTracksSorted(
-                tracks!!.sortBasedOn(
-                    isAscending = isAscendingOrder,
-                    sortMethods = appliedMethods,
-                    details = details
-                )
+            tracks!!.sortBasedOn(
+                isAscending = isAscendingOrder,
+                sortMethods = appliedMethods,
+                details = details
             )
+
+            onTracksSorted?.invoke()
         }
     )
 
-    LazyDismissibleList(
+    LazyDismissibleSelectableList(
+        coroutineScope = coroutineScope,
         items = tracks,
-        key = { _, track -> track.id },
+        key = { it.id },
         isSingleItemPerRow = isSingleItemPerRow.value,
-        selectedIDs = selectedIDs,
-        confirmValueChange = { dismissValue, index ,track ->
+        confirmValueChange = { dismissValue , item ->
             if (dismissValue == SwipeToDismissBoxValue.EndToStart && onRemove != null) {
-                onRemove(index, track)
-                return@LazyDismissibleList true
+                onRemove(item)
+                return@LazyDismissibleSelectableList true
             }
 
             false
         },
         startToEndColor = Color(0xFFCCE5D6),
         endToStartColor = MaterialTheme.colorScheme.error.copy(alpha = 0.8f),
-        swipeableContent = { isStartToEnd , track ->
-            if(isStartToEnd) LikeButton(track = track,enabled = false)
+        swipeableContent = { isStartToEnd, item ->
+            if(isStartToEnd) LikeButton(
+                track = item,
+                mediaController = mediaController,
+                enabled = false
+            )
             else Icon(
                 imageVector = Icons.Default.Delete,
                 contentDescription = null,
@@ -136,80 +141,73 @@ fun LazyTrackList(
                         style = MaterialTheme.typography.titleMedium
                     )
 
-                    // TODO : Add add tracks to playlist button here , only if user defined == false
+                    placeHolderContent?.invoke(this)
                 }
             )
         },
-        // TODO : ADD PLAY ALL Option
-        // TODO : ADD A SELECT ALL BOTTOM SHEET / FAB
-        optionContent = { state,index, track ->
+        optionContent = { index , item, onDismiss ->
             TrackExtraOptions(
-                state = state,
-                index = index,
-                track = track,
-                tracks = tracks,
+                track = item,
                 details = details[index],
+                tracks = tracks,
+                onDismissRequest = onDismiss,
                 onRemove = onRemove
             )
         },
-        content = { index , track , isSelected , onLongClick ->
-            val appState = LocalAppState.current
+        content = { contentModifier, item, isSelected, onLongClick ->
             val trackDetails = receiveTrackDetails(
                 musicRepository = appState.musicRepository,
                 details = details,
-                track = track,
-                index = index,
+                track = item,
+                tracks = tracks!!,
                 run = { LaunchedEffect(Unit) { it() } }
             )
 
-            val mediaController = appState.mediaController
-
-            TrackItem(
-                modifier = if(isSelected != null) Modifier
-                else Modifier.combinedClickable(
-                    onClick = onTrackItemClick(
-                        mediaController = mediaController,
-                        track = track,
-                        tracks = tracks,
-                        appState = appState,
-                        index = index
-                    ),
+            @Suppress("NAME_SHADOWING")
+            val contentModifier = contentModifier.applyIf(isSelected != null) {
+                combinedClickable(
+                    onClick = {
+                        onTrackItemClick(
+                            mediaController = mediaController,
+                            track = item,
+                            tracks = tracks,
+                            appState = appState,
+                        )
+                    },
                     onClickLabel = "Play this track",
                     onLongClick = if(trackDetails != null) onLongClick else null,
                     onLongClickLabel = if(trackDetails != null) "Show extra options for track" else null,
-                ),
-                track = track,
+                )
+            }
+
+
+            if(isSingleItemPerRow.value) TrackRowItem(
+                modifier = contentModifier,
+                mediaController = mediaController,
+                track = item,
                 details = trackDetails,
-                isSingleItemPerRow = isSingleItemPerRow.value,
-                isSelected =  isSelected,
-                selectedIDs = selectedIDs
+                isSelected = isSelected,
+                draggableState = draggableState
+            ) else TrackCard(
+                modifier = contentModifier,
+                mediaController = mediaController,
+                track = item,
+                details = trackDetails,
+                isSelected = isSelected,
+                draggableState = draggableState
             )
         }
     )
 }
 
-private inline fun receiveTrackDetails(
-    details : SnapshotStateList<TrackDetails>,
-    musicRepository: MusicRepository,
-    track : Track,
-    index : Int,
-    run: (receiver : suspend () -> Unit) -> Unit
-): TrackDetails? {
-    val detail = details.getOrNull(index)
-    if(detail == null) run {
-        details.add(index,musicRepository.trackDetails(track))
-    }
-    return detail
-}
 
 fun onTrackItemClick(
-    mediaController: MediaController?,
+    mediaController: Player?,
     track : Track,
     tracks : List<Track>?,
     appState : ChillbackAppState,
-    index : Int,
     addOnNext : Boolean = false
-) : () -> Unit = {
+) {
     mediaController?.let { controller ->
         val trackId = track.id.toString()
 
@@ -241,13 +239,30 @@ fun onTrackItemClick(
             return@let
         }
 
-        controller.seekToPlay(index)
+        controller.seekToPlay(tracks.indexOf(track))
     }
 }
 
-private fun MediaController.seekToPlay(index : Int) {
+private fun Player.seekToPlay(index : Int) {
     seekToDefaultPosition(index)
     play()
+}
+
+private inline fun receiveTrackDetails(
+    details : SnapshotStateList<TrackDetails>,
+    musicRepository: MusicRepository,
+    track : Track,
+    index : Int? = null,
+    tracks: List<Track>,
+    run: (receiver : suspend () -> Unit) -> Unit
+): TrackDetails? {
+    @Suppress("NAME_SHADOWING")
+    val index = index ?: tracks.indexOf(track)
+    val detail = details.getOrNull(index)
+    if(detail == null) run {
+        details.add(index,musicRepository.trackDetails(track))
+    }
+    return detail
 }
 
 private fun List<Track>.sortBasedOn(

@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
@@ -27,7 +25,7 @@ fun rememberModalOptionsState(
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     skipPartiallyExpanded: Boolean = false,
     confirmValueChange: (SheetValue) -> Boolean = { true }
-): ModalOptionsState = ModalOptionsState(coroutineScope = coroutineScope, sheetState =  rememberModalBottomSheetState(
+): ModalOptionsState  = ModalOptionsState(coroutineScope = coroutineScope, sheetState =  rememberModalBottomSheetState(
     skipPartiallyExpanded = skipPartiallyExpanded,
     confirmValueChange = confirmValueChange,
 ))
