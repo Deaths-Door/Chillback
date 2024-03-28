@@ -15,10 +15,13 @@ pluginManagement {
 
         id("com.google.gms.google-services") version(extra["google.services.version"] as String)
 
+        id("com.google.devtools.ksp") version(extra["devtools.ksp"] as String)
+
         kotlin("plugin.serialization") version(extra["kotlin.version"] as String)
     }
 }
 dependencyResolutionManagement {
+    @Suppress("UnstableApiUsage")
     repositories {
         google()
         mavenCentral()
