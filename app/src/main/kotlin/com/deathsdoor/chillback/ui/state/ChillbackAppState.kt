@@ -8,12 +8,12 @@ import androidx.media3.session.MediaController
 import androidx.navigation.NavHostController
 import com.deathsdoor.chillback.data.database.ApplicationLocalDatabase
 import com.deathsdoor.chillback.data.media.MediaPlaybackPreferences
-import com.deathsdoor.chillback.data.media.MediaPlaybackService
 import com.deathsdoor.chillback.data.media.TrackCollectionRepository
 import com.deathsdoor.chillback.data.preferences.ApplicationSettings
-import com.deathsdoor.chillback.data.preferences.ApplicationSettings.Settings.Companion.update
 import com.deathsdoor.chillback.data.repositories.MusicRepository
 import com.deathsdoor.chillback.data.repositories.UserRepository
+import com.deathsdoor.chillback.data.services.MediaPlaybackPreferenceWorkManager
+import com.deathsdoor.chillback.data.services.MediaPlaybackService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -49,14 +49,17 @@ class ChillbackAppState(
 
             // Needs to be called from the main thread
             withContext(Dispatchers.Main) {
-                val preferences = settings.music.playback(mediaController!!).current().first()
-                preferences.apply(database,musicRepository,mediaController!!)
+                settings.music.playback.update(MediaPlaybackPreferences.from(mediaController!!))
+                settings.music.playback.current().first()?.apply(database,musicRepository,mediaController!!)
             }
         }
     }
 
     override fun onCleared() {
-        mediaController?.let { viewModelScope.update(settings.music.playback(it),MediaPlaybackPreferences.from(it)); }
         super.onCleared()
+
+        mediaController?.let {
+            MediaPlaybackPreferenceWorkManager.start(context,it)
+        }
     }
 }

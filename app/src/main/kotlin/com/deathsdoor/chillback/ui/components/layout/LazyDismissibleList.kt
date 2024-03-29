@@ -31,6 +31,7 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.deathsdoor.chillback.ui.extensions.applyIf
 import com.deathsdoor.chillback.ui.providers.LocalWindowAdaptiveSize
 import com.dragselectcompose.core.DragSelectState
 import com.dragselectcompose.core.rememberDragSelectState
@@ -167,22 +168,25 @@ fun<T> LazyDismissibleSelectableList(
         content = {
             items(key = key) { item ->
                 val isSelected by remember {
-                    derivedStateOf { draggableState.isSelected(item) }
+                    derivedStateOf {  if(draggableState.inSelectionMode) draggableState.isSelected(item)
+                    else null }
                 }
 
                 val contentModifier = Modifier
-                    .dragSelectToggleableItem(
-                        state = draggableState,
-                        item = item,
-                        semanticsLabel = "Select",
-                        interactionSource = MutableInteractionSource(),
-                    ).animateSelection(isSelected, AnimateSelectionDefaults.Default)
+                    .applyIf(isSelected != null) {
+                        dragSelectToggleableItem(
+                            state = draggableState,
+                            item = item,
+                            semanticsLabel = "Select",
+                            interactionSource = MutableInteractionSource(),
+                        ).animateSelection(isSelected!!, AnimateSelectionDefaults.Default)
+                    }
+
 
                 itemContents(
                     contentModifier,
                     item,
-                    if(draggableState.inSelectionMode) draggableState.isSelected(item)
-                    else null
+                    isSelected
                 )
             }
         }

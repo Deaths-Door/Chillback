@@ -1,8 +1,10 @@
 package com.deathsdoor.chillback.data.models
 
+import androidx.media3.common.MediaItem
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.deathsdoor.chillback.data.extensions.isFavorite
 import com.deathsdoor.chillback.data.repositories.MusicRepository
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -21,6 +23,11 @@ data class Track(@ColumnInfo(name = "source_path") val sourcePath : String) {
 
     companion object {
         fun decodeSourcePath(sourcePath : String): String = URLDecoder.decode(sourcePath,"UTF-8")
+
+        fun from(mediaItem: MediaItem) = Track(mediaItem.requestMetadata.mediaUri.toString()).apply {
+            id = mediaItem.mediaId.toLong()
+            isFavorite = mediaItem.isFavorite()
+        }
     }
 
     override fun equals(other: Any?): Boolean {

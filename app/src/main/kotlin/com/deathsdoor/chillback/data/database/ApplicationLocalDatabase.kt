@@ -11,12 +11,13 @@ import com.deathsdoor.chillback.data.models.TrackCollectionCrossReference
 
 
 @Database(
-    version = 8,
+    version = 9,
     entities = [Track::class, TrackCollection::class,TrackCollectionCrossReference::class]
 )
 @TypeConverters(
     value = [UriTypeConvertor::class]
 )
+// TODO : Use work managers to clean databases
 abstract class ApplicationLocalDatabase : RoomDatabase() {
     abstract val trackDao : TrackDao
     abstract val trackCollectionDao : TrackCollectionDao

@@ -120,6 +120,9 @@ dependencies {
     // For Music Metadata
     implementation("net.jthink:jaudiotagger:3.0.1")
 
+    // For WorkManager
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
+
     // For Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
 

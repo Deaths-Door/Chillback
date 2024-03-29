@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AnalysisUIOptions">
+    <option name="ANALYZE_INJECTED_CODE" value="false" />
     <option name="SCOPE_TYPE" value="4" />
   </component>
   <component name="AndroidLayouts">
@@ -75,9 +76,9 @@
         <option value="Kotlin Interface" />
         <option value="Kotlin Enum" />
         <option value="Kotlin Object" />
-        <option value="Kotlin Class" />
         <option value="resourceFile" />
         <option value="Kotlin File" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -86,7 +87,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.media3/media3-session/1.2.0/bde8910dc57fbada7eee10372a612444e73d3db3/media3-session-1.2.0-sources.jar!/androidx/media3/session/MediaController.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/me.onebone/toolbar-compose/2.3.5/630ed6692243bc3d9edb787672ab943fcffdbdfd/toolbar-compose-2.3.5-sources.jar!/me/onebone/toolbar/CollapsingToolbar.kt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/bin/data/mediaplayer/MediaPlaybackPreferences.kt" root0="SKIP_INSPECTION" />
   </component>
   <component name="KotlinCodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
@@ -99,8 +100,9 @@
   </component>
   <component name="ProblemsViewState">
     <option name="autoscrollToSource" value="true" />
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
     <option name="showPreview" value="true" />
+    <option name="sortByName" value="true" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -112,42 +114,43 @@
     <option name="showLibraryContents" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;PROJECT_TRUSTED_KEY&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;TODO_SCOPE&quot;: &quot;Open Files&quot;,
-    &quot;ToolWindowLogcat.ShowToolbar&quot;: &quot;false&quot;,
-    &quot;ToolWindowRun.ShowToolbar&quot;: &quot;false&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.google.relay.customTranslationFile&quot;: &quot;&quot;,
-    &quot;com.google.relay.styleTranslationOption&quot;: &quot;M3&quot;,
-    &quot;com.google.relay.theme&quot;: &quot;androidx.compose.material3.MaterialTheme&quot;,
-    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
-    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
-    &quot;last_directory_selection&quot;: &quot;C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/app/src/main/res/drawable&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/app/src/main/kotlin/com/deathsdoor/chillback/ui/components/layout/SlideFromUnderneathText.kt&quot;,
-    &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
-    &quot;org.rust.hideNoCargoProjectNotificationsC:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/scripts/rust/metadata1.rs&quot;: &quot;true&quot;,
-    &quot;org.rust.hideNoCargoProjectNotificationsC:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/scripts/rust/metadata8.rs&quot;: &quot;true&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;recommended.upgrade.last.time.stamp&quot;: &quot;1710955075306&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;,
-    &quot;two.files.diff.last.used.file&quot;: &quot;C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/app/src/main/kotlin/com/deathsdoor/chillback/ui/components/layout/SlideFromUnderneathText.kt&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "PROJECT_TRUSTED_KEY": "true",
+    "ResourceManagerPrefKey.ResourceType": "STRING",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "TODO_SCOPE": "Open Files",
+    "ToolWindowLogcat.ShowToolbar": "false",
+    "ToolWindowRun.ShowToolbar": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "com.google.relay.customTranslationFile": "",
+    "com.google.relay.styleTranslationOption": "M3",
+    "com.google.relay.theme": "androidx.compose.material3.MaterialTheme",
+    "com.google.services.firebase.aqiPopupShown": "true",
+    "full.screen.before.presentation.mode": "false",
+    "last_directory_selection": "C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/app/src/main/res/drawable",
+    "last_opened_file_path": "C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/app/src/main/kotlin/com/deathsdoor/chillback/ui/components/layout/SlideFromUnderneathText.kt",
+    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
+    "org.rust.hideNoCargoProjectNotificationsC:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/scripts/rust/metadata1.rs": "true",
+    "org.rust.hideNoCargoProjectNotificationsC:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/scripts/rust/metadata8.rs": "true",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "recommended.upgrade.last.time.stamp": "1710955075306",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.toDoOptions",
+    "two.files.diff.last.used.file": "C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/app/src/main/kotlin/com/deathsdoor/chillback/ui/components/layout/SlideFromUnderneathText.kt"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.android.tools.idea.sqlite.queryhistory&quot;: [
-      &quot;SELECT * FROM track_collections&quot;,
-      &quot;SELECT * FROM TrackCollection&quot;
+  "keyToStringList": {
+    "com.android.tools.idea.sqlite.queryhistory": [
+      "SELECT * FROM track_collections",
+      "SELECT * FROM TrackCollection"
     ]
   }
-}</component>
+}]]></component>
   <component name="PsdUISettings">
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>
@@ -163,11 +166,11 @@
       <recent name="com.deathsdoor.chillback" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\app\src\main\kotlin\com\deathsdoor\chillback\ui\screens\mediaplayer" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\app\src\main\kotlin\com\deathsdoor\chillback\ui\screens\app" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\app\src\main\kotlin\com\deathsdoor\chillback\ui\components\auth" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\app\src\main\kotlin\com\deathsdoor\chillback\ui\components\action" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\backend" />
-      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\app\src\main\res\drawable" />
     </key>
     <key name="CreateKotlinClassDialog.RecentsKey">
       <recent name="com.deathsdoor.chillback.data.repositories" />
@@ -176,6 +179,7 @@
       <recent name="com.deathsdoor.chillback.data.navigation" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="com.deathsdoor.chillback.data.services" />
       <recent name="com.deathsdoor.chillback.data.repositories" />
       <recent name="com.deathsdoor.chillback.ui.components.layout.modalsheet" />
     </key>
@@ -506,20 +510,14 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/kotlin/com/deathsdoor/chillback/data/models/TrackMetadata.kt</url>
-          <line>92</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.compose.animation/animation-android/1.7.0-alpha01/8db7d443b6b2fc0bf4b5bbb3ac38752409bcbfc1/animation-android-1.7.0-alpha01-sources.jar!/commonMain/androidx/compose/animation/EnterExitTransition.kt</url>
-          <line>491</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$USER_HOME$/.gradle/caches/transforms-3/f83ce3afe43110bac63a022f8a001d96/transformed/amplituda-2.2.2/jars/classes.jar!/linc/com/amplituda/exceptions/AmplitudaException.class</url>
-          <line>6</line>
-          <option name="timeStamp" value="17" />
+        <line-breakpoint enabled="true" type="kotlin-function">
+          <url>file://$PROJECT_DIR$/app/src/main/kotlin/com/deathsdoor/chillback/data/database/TrackDao.kt</url>
+          <line>10</line>
+          <properties class="com.deathsdoor.chillback.data.database.TrackDao" method="tracksFrom">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

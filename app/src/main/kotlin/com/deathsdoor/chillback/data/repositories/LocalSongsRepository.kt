@@ -18,18 +18,18 @@ import java.util.Locale
 import kotlin.time.Duration.Companion.minutes
 
 class LocalSongsRepository(val musicRepository: MusicRepository) {
-    private val _tracks : MutableStateFlow<List<Track>?> = MutableStateFlow(null)
+    private val _tracks: MutableStateFlow<List<Track>?> = MutableStateFlow(null)
     var tracks = _tracks.asStateFlow()
-  //  val tracks : List<Track> get() = _tracks
+    //  val tracks : List<Track> get() = _tracks
 
-    private val groupByCache = Cache.Builder<Int, Map<String,List<Track>>>()
+    private val groupByCache = Cache.Builder<Int, Map<String, List<Track>>>()
         .maximumCacheSize(3) // Ensure this value is always Self.items.size - 1
         .expireAfterAccess(2.minutes)
         .build()
 
-    suspend fun sorted(currentItem : Int): List<TrackCollection> = groupByCache.get(currentItem) {
+    suspend fun sorted(currentItem: Int): List<TrackCollection> = groupByCache.get(currentItem) {
         _tracks.value!!.groupBy {
-            when(currentItem) {
+            when (currentItem) {
                 1 -> musicRepository.trackGenre(it) ?: ""
                 2 -> musicRepository.trackAlbum(it) ?: ""
                 3 -> musicRepository.trackArtists(it) ?: ""
@@ -61,6 +61,10 @@ class LocalSongsRepository(val musicRepository: MusicRepository) {
         coroutineScope.launch(Dispatchers.IO) {
             val tracks = extractExternalMusicFiles()
             _tracks.emit(tracks)
+
+            ApplicationLocalDatabase(musicRepository.context)
+                .trackDao
+                .insertOrUpdateAll(*tracks.toTypedArray())
         }
     }
 
@@ -79,17 +83,17 @@ class LocalSongsRepository(val musicRepository: MusicRepository) {
             MediaStore.Audio.Media.DEFAULT_SORT_ORDER
         )?.use { cursor ->
             while (cursor.moveToNext()) {
-                val column =  cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
+                val column = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
                 val source = cursor.getString(column)
 
                 val indexedItem = indexedTrackMap[source]
-                if(indexedItem != null) {
+                if (indexedItem != null) {
                     tracks.add(indexedItem)
                     continue
                 }
 
                 // Same as  File(..).extension
-                val extension= source.substringAfterLast('.', "").uppercase(Locale.getDefault())
+                val extension = source.substringAfterLast('.', "").uppercase(Locale.getDefault())
 
                 try {
                     // Check if it is a supported type then only add it
@@ -98,7 +102,7 @@ class LocalSongsRepository(val musicRepository: MusicRepository) {
                     val track = Track(source)
                     discoveredTracks.add(track)
                     tracks.add(track)
-                } catch (exception : IllegalArgumentException) {
+                } catch (exception: IllegalArgumentException) {
                     // TODO : Inform user about skipped files??
                     // Exception in thread "main" java.lang.IllegalArgumentException: No enum constant SupportedFileFormat.$extension
                 }

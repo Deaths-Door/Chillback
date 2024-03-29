@@ -68,13 +68,16 @@ fun CollapsableTrackCollectionScaffold(
     }
 
     val coroutineScope = rememberCoroutineScope()
+
     val optionState = rememberModalOptionsState(coroutineScope = coroutineScope,skipPartiallyExpanded = true)
 
     val title = trackCollection.nonNullCollectionName()
     val titleModifier = Modifier.basicMarquee()
 
     val headerContent : @Composable BoxScope.() -> Unit = {
-        Column(modifier = Modifier.align(Alignment.BottomStart).padding(start = 16.dp,bottom = 16.dp)) {
+        Column(modifier = Modifier
+            .align(Alignment.BottomStart)
+            .padding(start = 16.dp, bottom = 16.dp)) {
             Text(
                 modifier = titleModifier,
                 text = title,
@@ -100,7 +103,7 @@ fun CollapsableTrackCollectionScaffold(
 
     val playPauseEnterAnimation = fadeIn() + scaleIn()
     val playPauseExitAnimation = fadeOut() + scaleOut()
-// TODO : Use Collapsable Scaffold Instead
+
     val playPauseButton = @Composable { condition : Boolean, innerModifier : Modifier ->
         AnimatedVisibility(
             modifier = innerModifier,
@@ -132,7 +135,10 @@ fun CollapsableTrackCollectionScaffold(
 
                     if(isExpanded) headerContent()
 
-                    playPauseButton(isExpanded,Modifier.align(Alignment.BottomEnd).padding(bottom = 16.dp,end = 16.dp))
+                    playPauseButton(isExpanded,
+                        Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(bottom = 16.dp, end = 16.dp))
                 }
             )
 

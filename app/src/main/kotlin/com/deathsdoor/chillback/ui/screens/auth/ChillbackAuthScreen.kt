@@ -1,4 +1,4 @@
-package com.deathsdoor.chillback.auth
+package com.deathsdoor.chillback.ui.screens.auth
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -31,7 +31,6 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import com.deathsdoor.chillback.ui.ChillbackMaterialTheme
-import com.deathsdoor.chillback.ui.components.auth.TermsAndPolicyDisclaimer
 import com.deathsdoor.chillback.ui.components.action.BackButton
 import com.deathsdoor.chillback.ui.components.auth.AuthButton
 import com.deathsdoor.chillback.ui.components.auth.EmailOutlinedTextField
@@ -39,6 +38,7 @@ import com.deathsdoor.chillback.ui.components.auth.ForgotPassword
 import com.deathsdoor.chillback.ui.components.auth.FullAlternativeAuthOptions
 import com.deathsdoor.chillback.ui.components.auth.PasswordOutlinedTextField
 import com.deathsdoor.chillback.ui.components.auth.ShortenAlternativeAuthOptions
+import com.deathsdoor.chillback.ui.components.auth.TermsAndPolicyDisclaimer
 import com.deathsdoor.chillback.ui.components.auth.ToggleAuthMode
 import com.deathsdoor.chillback.ui.components.layout.CenteredDivider
 import com.deathsdoor.chillback.ui.providers.InitializeProvidersForPreview

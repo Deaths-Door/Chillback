@@ -14,6 +14,7 @@ private const val BASE = "base"
 private const val TRACK_EXTRA_OPTIONS_METADATA = "metadata"
 private const val SOURCE_PATH = "sourcePath"
 private const val ID = "id"
+//private const val PLAYBACKQUEUE = "playbackqueue"
 const val TRACK_EXTRA_OPTIONS_METADATA_ROUTE = "$TRACK_EXTRA_OPTIONS_METADATA/{$ID}/{$SOURCE_PATH}"
 
 fun NavGraphBuilder.addTrackExtraOptionsRoutes() {
@@ -21,25 +22,33 @@ fun NavGraphBuilder.addTrackExtraOptionsRoutes() {
         composable(BASE) {}
         composable(
             route = TRACK_EXTRA_OPTIONS_METADATA_ROUTE,
-            arguments = listOf(
+            arguments =  listOf(
                 navArgument(ID) { type = NavType.LongType },
                 navArgument(SOURCE_PATH) { type = NavType.StringType }
             ),
             content = { backStackEntry ->
-                val arguments = backStackEntry.arguments!!
-
-                val track : Track = Track(
-                    sourcePath = Track.decodeSourcePath(sourcePath = arguments.getString(SOURCE_PATH)!!),
-                ).apply { id = arguments.getLong(ID) }
-
-                TrackMetadataScreen(track = track)
+                TrackMetadataScreen(
+                    track = Track(
+                        sourcePath = Track.decodeSourcePath(sourcePath = backStackEntry.arguments!!.getString(SOURCE_PATH)!!),
+                    ).apply { id = backStackEntry.arguments!!.getLong(ID) }
+                )
             }
         )
+
+        /*if(
+            !(windowAdaptiveSize.widthSizeClass == WindowWidthSizeClass.Expanded &&
+                    windowAdaptiveSize.heightSizeClass != WindowHeightSizeClass.Compact)
+        ) composable(route = PLAYBACKQUEUE) { PlaybackQueuePortraitScreen() }*/
     }
 }
-
 
 fun NavController.navigateToTrackMetadataScreen(track : Track) {
     navigate(TRACK_EXTRA_OPTIONS_ROUTE)
     navigate("$TRACK_EXTRA_OPTIONS_METADATA/${track.id}/${track.encodeSourcePath()}")
 }
+
+/*
+fun NavController.navigateToPlaybackScreen(track : Track) {
+    navigate(TRACK_EXTRA_OPTIONS_ROUTE)
+    navigate(PLAYBACKQUEUE)
+}*/

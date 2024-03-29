@@ -8,7 +8,9 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.deathsdoor.chillback.data.models.TrackDetails
-import com.deathsdoor.chillback.ui.components.layout.ThumbnailWithText
+import com.deathsdoor.chillback.ui.components.layout.Thumbnail
+import com.deathsdoor.chillback.ui.components.layout.ThumbnailCaption
+import com.deathsdoor.chillback.ui.components.layout.ThumbnailTitle
 import com.deathsdoor.chillback.ui.extensions.fadedRightEdge
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,11 +24,18 @@ fun TrackSmuggedArtworkCard(
     modifier = modifier,
     onClick = onClick,
     content = {
-        ThumbnailWithText(
-            artworkModifier = Modifier.size(90.dp).fadedRightEdge(),
-            uri = details.artwork,
-            title = details.name,
-            subtitle = details.artistWithOthers()
+        Thumbnail(
+            artwork = {
+                ArtworkWithFailureInformer(
+                    modifier = Modifier
+                        .size(90.dp)
+                        .fadedRightEdge(),
+                    model = details.artwork,
+                    contentDescription = null
+                )
+            },
+            title = { ThumbnailTitle(text = details.name)},
+            caption = { details.artistWithOthers()?.let { ThumbnailCaption(text = it) } }
         )
     }
 )

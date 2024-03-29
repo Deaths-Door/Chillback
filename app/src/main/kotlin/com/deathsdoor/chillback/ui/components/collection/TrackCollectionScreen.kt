@@ -48,7 +48,15 @@ fun TrackCollectionScreen(repository: TrackCollectionRepository) {
                             colored1 = "to spice things up"
                         )
                     }}
-                    else -> null
+                    // Default Value
+                    else -> {{
+                        styledText(
+                            plain0 = "There are no track to display yet.\n",
+                            colored0 = "Explore",
+                            plain1 = " and discover some music ",
+                            colored1 = "to fill your library!"
+                        )
+                    }}
                 }
             )
         }

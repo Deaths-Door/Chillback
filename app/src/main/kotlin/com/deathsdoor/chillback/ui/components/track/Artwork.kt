@@ -4,7 +4,6 @@ import StackedSnackbarDuration
 import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
@@ -46,7 +45,7 @@ fun ArtworkWithFailureInformer(
     val snackbar = LocalSnackbarState.current
 
     AsyncImage(
-        modifier = modifier.clip(CircleShape),
+        modifier = modifier,
         model = model,
         contentScale = contentScale,
         contentDescription = contentDescription,

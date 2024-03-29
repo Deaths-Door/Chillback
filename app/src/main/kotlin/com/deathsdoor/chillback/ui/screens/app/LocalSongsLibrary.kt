@@ -116,7 +116,8 @@ fun LocalSongsLibraryScreen() {
                     },
                     coroutineScope = coroutineScope,
                     onPinChange = { throw IllegalStateException("Should be unreachable") },
-                    onDelete = { throw IllegalStateException("Should be unreachable") }
+                    onDelete = { throw IllegalStateException("Should be unreachable") },
+                    onClick = { TODO() }
                 )
             }
         )

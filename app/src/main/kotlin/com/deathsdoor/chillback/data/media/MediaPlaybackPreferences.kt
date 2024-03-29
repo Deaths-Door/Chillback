@@ -9,7 +9,6 @@ import com.deathsdoor.chillback.data.repositories.MusicRepository
 import kotlinx.coroutines.delay
 import kotlinx.serialization.Serializable
 
-// TODO : CHECK IF MUSIC PREFERENcE SAVING IS WORKING
 @Serializable
 class MediaPlaybackPreferences private constructor(
     private val queue : List<Long>,
@@ -17,6 +16,7 @@ class MediaPlaybackPreferences private constructor(
     private val shuffleModeEnabled : Boolean,
     private val repeatMode : @RepeatMode Int,
 ) {
+
     suspend fun apply(
         database: ApplicationLocalDatabase,
         musicRepository : MusicRepository,
@@ -28,7 +28,6 @@ class MediaPlaybackPreferences private constructor(
         addMediaItems(database.trackDao.tracksFrom(this@MediaPlaybackPreferences.queue).asMediaItems(musicRepository))
 
         delay(500)
-
         seekTo(this@MediaPlaybackPreferences.currentMediaItemIndex,0)
     }
 

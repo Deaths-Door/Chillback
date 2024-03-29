@@ -131,10 +131,15 @@ fun ChillbackApp() {
 
     val windowAdaptiveSize = LocalWindowAdaptiveSize.current
 
+    // TODO : Check if this condition is correct
+    // TODO : For desktop/large screens , make a mini-playbackqueue that doesnt take up full screen with pane
     when(windowAdaptiveSize.widthSizeClass != WindowWidthSizeClass.Compact && windowAdaptiveSize.heightSizeClass != WindowHeightSizeClass.Compact) {
         // desktop
         true -> uiContent { paddingValues ->
-            Column(modifier = Modifier.applyOnNotNull(paddingValues) { padding(it) }.fillMaxSize()) {
+            Column(modifier = Modifier
+                .applyOnNotNull(paddingValues) { padding(it) }
+                .fillMaxSize()
+            ) {
                 navHost(Modifier.weight(1f))
                 MusicPlayerBar(modifier = Modifier.padding(vertical = 16.dp))
             }

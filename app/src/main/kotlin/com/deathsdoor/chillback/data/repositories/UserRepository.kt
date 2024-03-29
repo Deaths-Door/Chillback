@@ -6,13 +6,17 @@ import com.deathsdoor.chillback.data.models.TrackCollection
 import com.deathsdoor.chillback.data.models.TrackCollectionCrossReference
 import com.deathsdoor.chillback.data.models.TrackCollectionWithTracks
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onSubscription
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.util.concurrent.Callable
 
 class UserRepository(private val musicRepository: MusicRepository) {
     val favouriteTracks by lazy { FavouriteTrackCollectionRepository(musicRepository) }
@@ -69,9 +73,9 @@ class UserRepository(private val musicRepository: MusicRepository) {
         database.trackDao.remove(track.id)
     }
 
-    private val _userTrackCollections = MutableStateFlow<List<TrackCollection>?>(null)
-    val userTrackCollections = _userTrackCollections.onSubscription {
-        if(_userTrackCollections.value == null) initializeUserTrackCollections()
+    private val _rawUserTrackCollections = MutableStateFlow<List<TrackCollection>?>(null)
+    val userTrackCollections = _rawUserTrackCollections.onSubscription {
+        if(_rawUserTrackCollections.value == null) initializeUserTrackCollections()
     }.stateIn(
         scope = musicRepository.coroutineScope,
         started = SharingStarted.WhileSubscribed(1000L),
@@ -83,7 +87,18 @@ class UserRepository(private val musicRepository: MusicRepository) {
             .collectLatest { trackCollections ->
                 val value = trackCollections.sortedBy { it.isPinned }
 
-                _userTrackCollections.emit(value)
+                _rawUserTrackCollections.emit(value)
             }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun tracksForCollection(collection: TrackCollection): Flow<List<Track>> {
+        return database.runInTransaction(Callable {
+            database.trackCollectionCrossReferenceDao.trackCrossRefsFor(collection.id).mapLatest { references ->
+                database.trackDao.tracksFrom(
+                    references.sortedBy { it.index }.map { it.track_id }
+                )
+            }
+        })
     }
 }

@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.media3.common.Player
 import com.deathsdoor.chillback.R
 import com.deathsdoor.chillback.ui.providers.LocalAppState
+import kotlin.contracts.ExperimentalContracts
 
 @Composable
 fun PlayPauseButton(
@@ -29,7 +30,6 @@ fun PlayPauseButton(
 
     if(isShowing) {
         mediaController!!
-
         val isPlaying by rememberMediaControllerIsPlaying(mediaController)
         IconButton(
             modifier = modifier.size(64.dp),

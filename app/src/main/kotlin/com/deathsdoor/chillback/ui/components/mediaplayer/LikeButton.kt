@@ -17,7 +17,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
-import com.deathsdoor.chillback.data.extensions.isLiked
+import com.deathsdoor.chillback.data.extensions.isFavorite
 import com.deathsdoor.chillback.data.extensions.mediaItemOfOrNull
 import com.deathsdoor.chillback.data.extensions.setIsFavourite
 import com.deathsdoor.chillback.data.models.Track
@@ -61,7 +61,7 @@ fun LikeButton(
     mediaController : Player,
     currentMediaItem : MediaItem,
 ) {
-    var isCurrentlyLiked by remember(currentMediaItem.mediaMetadata) { mutableStateOf(currentMediaItem.isLiked()) }
+    var isCurrentlyLiked by remember(currentMediaItem.mediaMetadata) { mutableStateOf(currentMediaItem.isFavorite()) }
 
     LikeButtonLogicWrapper(
         modifier = modifier,

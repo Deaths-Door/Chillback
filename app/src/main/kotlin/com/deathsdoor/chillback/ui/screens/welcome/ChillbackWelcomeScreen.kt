@@ -49,7 +49,7 @@ import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.deathsdoor.chillback.R
-import com.deathsdoor.chillback.auth.ChillbackAuthScreen
+import com.deathsdoor.chillback.ui.screens.auth.ChillbackAuthScreen
 import com.deathsdoor.chillback.ui.ChillbackMaterialTheme
 import com.deathsdoor.chillback.ui.components.auth.TermsAndPolicyDisclaimer
 import com.deathsdoor.chillback.ui.components.layout.BackgroundImage

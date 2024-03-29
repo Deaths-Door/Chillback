@@ -3,8 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Used for MediaPlaybackSession Service -->
+    <!-- For Services in general-->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <!-- Used for MediaPlaybackSession Service -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -24,7 +26,7 @@
 
         <!-- Used for MediaPlaybackService -->
         <service
-            android:name=".data.media.MediaPlaybackService"
+            android:name=".data.services.MediaPlaybackService"
             android:foregroundServiceType="mediaPlayback"
             android:exported="true">
             <intent-filter>

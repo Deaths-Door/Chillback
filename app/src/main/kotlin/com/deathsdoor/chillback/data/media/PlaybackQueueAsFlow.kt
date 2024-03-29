@@ -21,7 +21,7 @@ class PlaybackQueueAsFlow {
 
     @Composable
     fun observe(coroutineScope: CoroutineScope,mediaController: Player): StateFlow<List<TrackDetails>> {
-        var stateFlow : StateFlow<List<TrackDetails>>? = null
+        var stateFlow : StateFlow<List<TrackDetails>> = mutableFlow
 
         LaunchedEffect(Unit) {
             stateFlow = mutableFlow.stateIn(
@@ -45,10 +45,10 @@ class PlaybackQueueAsFlow {
 
         DisposableEffect(Unit) {
             onDispose {
-                mediaController.removeListener(listener!!)
+                listener?.let { mediaController.removeListener(it) }
             }
         }
 
-        return stateFlow!!
+        return stateFlow
     }
 }

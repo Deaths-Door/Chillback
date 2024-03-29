@@ -1,9 +1,8 @@
-package com.deathsdoor.chillback.data.media
+package com.deathsdoor.chillback.data.services
 
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.media.session.MediaSession.QueueItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaController
 import androidx.media3.session.MediaSession

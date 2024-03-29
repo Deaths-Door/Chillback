@@ -54,7 +54,14 @@ fun LazyTrackList(
     tracks: List<Track>?,
     onRemove : ((Track) -> Unit)? = null,
     onTracksSorted : (() -> Unit)? = null,
-    placeHolderText : (@Composable () -> AnnotatedString)? = null,
+    placeHolderText : @Composable () -> AnnotatedString = {
+        styledText(
+            plain0 = "There are no track to display yet.\n",
+            colored0 = "Explore",
+            plain1 = " and discover some music ",
+            colored1 = "to fill your library!"
+        )
+    },
     placeHolderContent: (@Composable ColumnScope.() -> Unit)? = null
 ) = Column(modifier = modifier) {
 
@@ -128,14 +135,7 @@ fun LazyTrackList(
                 verticalArrangement = Arrangement.Center,
                 content = {
                     Text(
-                        text = if(placeHolderText != null) placeHolderText() else {
-                            styledText(
-                                plain0 = "There are no playlists to display yet.\n",
-                                colored0 = "Explore",
-                                plain1 = " and discover some music ",
-                                colored1 = "to fill your library!"
-                            )
-                        },
+                        text = placeHolderText(),
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.titleMedium
@@ -164,7 +164,7 @@ fun LazyTrackList(
             )
 
             @Suppress("NAME_SHADOWING")
-            val contentModifier = contentModifier.applyIf(isSelected != null) {
+            val contentModifier = contentModifier.applyIf(isSelected == null) {
                 combinedClickable(
                     onClick = {
                         onTrackItemClick(

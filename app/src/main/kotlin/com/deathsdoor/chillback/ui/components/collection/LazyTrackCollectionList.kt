@@ -20,12 +20,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import com.deathsdoor.chillback.data.media.TrackCollectionRepository
 import com.deathsdoor.chillback.data.models.TrackCollection
 import com.deathsdoor.chillback.ui.components.action.LazyOptionsRow
 import com.deathsdoor.chillback.ui.components.action.rememberIsSingleItemRow
 import com.deathsdoor.chillback.ui.components.layout.LazyDismissibleSelectableList
 import com.deathsdoor.chillback.ui.extensions.applyIf
 import com.deathsdoor.chillback.ui.extensions.styledText
+import com.deathsdoor.chillback.ui.navigation.navigateToTrackCollectionScreen
 import com.deathsdoor.chillback.ui.providers.LocalAppState
 import com.dragselectcompose.core.rememberDragSelectState
 import kotlinx.coroutines.CoroutineScope
@@ -36,9 +38,19 @@ fun LazyTrackCollectionList(
     modifier : Modifier = Modifier,
     coroutineScope: CoroutineScope,
     collections : List<TrackCollection>?,
+    onClickLabel : String = "Open Collection",
+    onClick : (TrackCollection) -> TrackCollectionRepository,
     onPinChange : (TrackCollection) -> Unit,
     onDelete : (TrackCollection) -> Unit,
-    placeHolderText : (@Composable () -> AnnotatedString)? = null,
+    placeHolderText : @Composable () -> AnnotatedString = {
+        styledText(
+            plain0 = "There are no playlists to display yet.\n",
+            colored0 = "Explore",
+            plain1 = " and discover some music ",
+            colored1 = "to fill your library!"
+        )
+    },
+
     placeHolderContent: (@Composable ColumnScope.() -> Unit)? = null
 ) = Column(modifier = modifier) {
     val isSingleItemPerRow = rememberIsSingleItemRow()
@@ -56,6 +68,8 @@ fun LazyTrackCollectionList(
         onFetch = {},
         onSort = { a,b -> },
     )
+
+    val appState = LocalAppState.current
 
     LazyDismissibleSelectableList(
         coroutineScope = coroutineScope,
@@ -93,14 +107,7 @@ fun LazyTrackCollectionList(
                 verticalArrangement = Arrangement.Center,
                 content = {
                     Text(
-                        text = if(placeHolderText != null) placeHolderText() else {
-                            styledText(
-                                plain0 = "There are no playlists to display yet.\n",
-                                colored0 = "Explore",
-                                plain1 = " and discover some music ",
-                                colored1 = "to fill your library!"
-                            )
-                        },
+                        text = placeHolderText(),
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.titleMedium
@@ -113,12 +120,11 @@ fun LazyTrackCollectionList(
         content = { contentModifier, item, isSelected, onLongClick ->
             @Suppress("NAME_SHADOWING")
             val contentModifier = contentModifier.applyIf(isSelected != null) {
-                // TODO : Implement onClick and fill in onClickLabel
                 combinedClickable(
                     onClick = {
-
+                        appState.navigateToTrackCollectionScreen(repository = onClick(item))
                     },
-                    onClickLabel = "",
+                    onClickLabel = onClickLabel,
                     onLongClick = onLongClick,
                     onLongClickLabel = "Show extra options for collection",
                 )

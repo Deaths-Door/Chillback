@@ -5,6 +5,7 @@ import Easing
 import EnterAnimation
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Settings
@@ -15,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -31,7 +33,7 @@ import dropDownMenu
 @Composable
 @NonRestartableComposable
 fun UserProfilePhoto(modifier : Modifier = Modifier) = ArtworkWithFailureInformer(
-    modifier = modifier,
+    modifier = modifier.clip(CircleShape),
     model = if(LocalInspectionMode.current) null else Firebase.auth.currentUser?.photoUrl,
     contentDescription = "Your Profile Picture",
     placeHolder = rememberVectorPainter(image =  Icons.Default.AccountCircle),

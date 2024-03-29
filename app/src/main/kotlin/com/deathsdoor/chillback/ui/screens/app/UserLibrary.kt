@@ -6,18 +6,24 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.FlowRowScope
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DockedSearchBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -28,6 +34,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,6 +52,7 @@ import androidx.compose.ui.unit.dp
 import androidx.media3.common.Player
 import androidx.media3.session.MediaController
 import com.deathsdoor.chillback.R
+import com.deathsdoor.chillback.data.repositories.UserTrackCollectionRepository
 import com.deathsdoor.chillback.ui.ChillbackMaterialTheme
 import com.deathsdoor.chillback.ui.components.collection.LazyTrackCollectionList
 import com.deathsdoor.chillback.ui.components.layout.Thumbnail
@@ -70,22 +78,28 @@ fun UserLibrary() {
     when {
         width == WindowWidthSizeClass.Expanded -> when(height) {
             // Landscape Phone
-            WindowHeightSizeClass.Compact -> Row {
-                val style = MaterialTheme.typography.labelSmall
+            WindowHeightSizeClass.Compact -> Column {
+                ScreenDockedSearchBar(modifier = Modifier)
 
-                UtilitySection(
-                    modifier = modifier.weight(1f),
-                    maxItemsInEachRow = 1,
-                    style = style,
-                    utility = {
-                        StatisticUtilityOption(modifier = it,style = style)
-                    }
-                )
+                Row {
+                    val style = MaterialTheme.typography.labelSmall
 
-                UserPlaylists(modifier = Modifier.weight(1f))
+                    UtilitySection(
+                        modifier = modifier.weight(1f),
+                        maxItemsInEachRow = 1,
+                        style = style,
+                        utility = {
+                            StatisticUtilityOption(modifier = it, style = style)
+                        }
+                    )
+
+                    UserPlaylists(modifier = Modifier.weight(1f))
+                }
             }
             // Desktop / Large screens
             else -> Column {
+                ScreenDockedSearchBar(modifier = Modifier.padding(vertical = 12.dp))
+
                 UtilitySection(
                     modifier = modifier.fillMaxWidth(),
                     maxItemsInEachRow = 3,
@@ -109,10 +123,12 @@ fun UserLibrary() {
             }
         }
         // Portrait Phone / unfolded device
-        else -> Column {
+        else -> Column(modifier = Modifier.fillMaxSize()) {
+            ScreenSearchBar()
+
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .width(IntrinsicSize.Max)
                     .padding(top = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -154,6 +170,52 @@ fun UserLibrary() {
         }
     }
 
+}
+
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ScreenSearchBar() {
+    var query by remember { mutableStateOf("") }
+    var active by remember { mutableStateOf(false) }
+
+    // TODO : Implement this
+    SearchBar(
+        query = query,
+        onQueryChange = { query = it },
+        active = active,
+        onActiveChange = { active = it },
+        onSearch = {
+
+        },
+        content = {
+
+        }
+    )
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ScreenDockedSearchBar(modifier: Modifier) {
+    var query by remember { mutableStateOf("") }
+    var active by remember { mutableStateOf(false) }
+
+    // TODO : Implement this
+    DockedSearchBar(
+        modifier = modifier,
+        query = query,
+        onQueryChange = { query = it },
+        active = active,
+        onActiveChange = { active = it },
+        onSearch = {
+
+        },
+        content = {
+
+        }
+    )
 }
 
 private val Blue60 = Color(0xFF2F9EBE)
@@ -224,7 +286,8 @@ private fun UtilitySection(
                 onClick = { appState?.navigateToTopPlayedScreen() }
             )
 
-            AnimatedVisibility(isPlaybackQueueShown) {
+            // TODO : Check if this is needed
+            if(content != null) AnimatedVisibility(isPlaybackQueueShown) {
                 UtilityOption(
                     modifier = contentModifier,
                     text = "Queue",
@@ -304,7 +367,8 @@ private fun UtilityOption(
 
 @Composable
 private fun UserPlaylists(modifier: Modifier = Modifier) {
-    val userRepository = LocalAppState.current.userRepository
+    val appState = LocalAppState.current
+    val userRepository = appState.userRepository
 
     val coroutineScope = rememberCoroutineScope()
     val collections by userRepository.userTrackCollections.collectAsState()
@@ -313,6 +377,13 @@ private fun UserPlaylists(modifier: Modifier = Modifier) {
         modifier = modifier.padding(top = 16.dp),
         coroutineScope = coroutineScope,
         collections = collections,
+        onClick = {
+            UserTrackCollectionRepository(
+                userRepository = appState.userRepository,
+                musicRepository = appState.musicRepository,
+                collection = it
+            )
+        },
         onDelete = { userRepository.deleteTrackCollection(it) },
         onPinChange = { userRepository.changeTrackCollectionPinStatus(it) },
         placeHolderText = {

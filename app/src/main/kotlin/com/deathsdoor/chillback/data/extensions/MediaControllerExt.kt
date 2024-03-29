@@ -23,7 +23,6 @@ import androidx.media3.common.VideoSize
 import androidx.media3.common.text.CueGroup
 import androidx.media3.common.util.Size
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.session.MediaController
 import com.deathsdoor.chillback.data.models.Track
 import com.deathsdoor.chillback.data.repositories.MusicRepository
 
@@ -50,7 +49,7 @@ suspend fun Collection<Track>.asMediaItems(musicRepository : MusicRepository) = 
 
 fun MediaMetadata.Builder.setIsFavourite(isFavorite : Boolean) = setExtras(Bundle().apply { putBoolean("isFavorite",isFavorite) })
 fun MediaMetadata.Builder.setIsFavourite(track : Track) = setIsFavourite(track.isFavorite)
-fun MediaItem?.isLiked() = this?.mediaMetadata?.extras?.getBoolean("isFavorite") ?: false
+fun MediaItem?.isFavorite() = this?.mediaMetadata?.extras?.getBoolean("isFavorite") ?: false
 
 @UnstableApi
 val PreviewMediaController = object :Player {

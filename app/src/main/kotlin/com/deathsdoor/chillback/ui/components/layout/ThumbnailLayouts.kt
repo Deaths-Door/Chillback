@@ -1,6 +1,5 @@
 package com.deathsdoor.chillback.ui.components.layout
 
-import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.shrinkHorizontally
@@ -29,65 +28,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import com.deathsdoor.chillback.data.models.TrackCollection
 import com.deathsdoor.chillback.ui.components.action.SelectedIcon
-import com.deathsdoor.chillback.ui.components.track.Artwork
 import com.deathsdoor.chillback.ui.providers.LocalWindowAdaptiveSize
 import com.dragselectcompose.core.DragSelectState
 
-@Deprecated("Do not use")
-@Composable
-@NonRestartableComposable
-fun ThumbnailWithText(
-    modifier : Modifier = Modifier,
-    artworkModifier: Modifier = Modifier,
-    uri : Uri?,
-    title : String,
-    subtitle : String? = null,
-    trailingIcon : (@Composable RowScope.() -> Unit)? = null
-) = Thumbnail(
-    modifier = modifier,
-    title = title,
-    trailingIcon = trailingIcon,
-    artwork = {
-        Artwork(
-            modifier = artworkModifier,
-            uri = uri
-        )
-    },
-    subtitle = if(subtitle != null) {{
-        // Should only be executed when subtitle is not null
-        Text(
-            modifier = Modifier.basicMarquee(),
-            text = subtitle,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.surfaceVariant,
-        )
-    }} else null
-)
-
 private fun Boolean?.nonNullEnabledForIsSelected() = if(this == null) true else !this
-
-@Deprecated("Do not use")
-@Composable
-fun AdaptiveGridThumbnail(
-    modifier : Modifier = Modifier,
-    title : String,
-    subtitle : String?,
-    uri : Uri?,
-    isSingleItemPerRow : Boolean,
-    selectedIds : MutableState<Set<Long>?>,
-    isSelected : Boolean?,
-    id : () -> Long,
-    actionIcon : (@Composable (modifier : Modifier,enabled : Boolean) -> Unit)? = null,
-) = Unit
 
 @Deprecated("Do not use")
 @Composable
