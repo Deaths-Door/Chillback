@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.FlowRowScope
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -24,9 +23,11 @@ import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,14 +35,18 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.Player
 import androidx.media3.session.MediaController
 import com.deathsdoor.chillback.R
 import com.deathsdoor.chillback.ui.ChillbackMaterialTheme
+import com.deathsdoor.chillback.ui.components.collection.LazyTrackCollectionList
 import com.deathsdoor.chillback.ui.components.layout.Thumbnail
 import com.deathsdoor.chillback.ui.components.playbackqueue.PlaybackQueueRowSection
 import com.deathsdoor.chillback.ui.navigation.navigateToFavoritesScreen
@@ -52,6 +57,7 @@ import com.deathsdoor.chillback.ui.providers.LocalAppState
 import com.deathsdoor.chillback.ui.providers.LocalWindowAdaptiveSize
 import com.deathsdoor.chillback.ui.state.ChillbackAppState
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun UserLibrary() {
     val windowAdaptiveSize = LocalWindowAdaptiveSize.current
@@ -60,12 +66,13 @@ fun UserLibrary() {
 
     val modifier = Modifier.padding(16.dp)
 
-    // TODO : Search bar
+    // TODO : Search bar + USER library + Create new playlist button(for all screens except desktop where , it could be on the lazyoptionsrow composable row) text here
     when {
         width == WindowWidthSizeClass.Expanded -> when(height) {
             // Landscape Phone
             WindowHeightSizeClass.Compact -> Row {
                 val style = MaterialTheme.typography.labelSmall
+
                 UtilitySection(
                     modifier = modifier.weight(1f),
                     maxItemsInEachRow = 1,
@@ -75,8 +82,7 @@ fun UserLibrary() {
                     }
                 )
 
-                // TODO : playlists -> placeholder
-                Spacer(modifier = Modifier.weight(1f))
+                UserPlaylists(modifier = Modifier.weight(1f))
             }
             // Desktop / Large screens
             else -> Column {
@@ -99,7 +105,7 @@ fun UserLibrary() {
                     }
                 )
 
-                // TODO : playlists
+                UserPlaylists()
             }
         }
         // Portrait Phone / unfolded device
@@ -107,7 +113,7 @@ fun UserLibrary() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+                    .padding(top = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 content = {
@@ -144,7 +150,7 @@ fun UserLibrary() {
                 }
             )
 
-            // TODO : playlist
+            UserPlaylists()
         }
     }
 
@@ -281,7 +287,7 @@ private fun UtilityOption(
     onClick = onClick,
     content = {
         Thumbnail(
-            modifier = Modifier.padding(vertical = 12.dp, horizontal = 24.dp),
+            modifier = Modifier.padding(vertical = 24.dp, horizontal = 24.dp),
             title = text,
             textStyle = style,
             artwork = {
@@ -295,9 +301,35 @@ private fun UtilityOption(
     }
 )
 
-/*= Column {
-    UserLibrarySearchBar()
 
+@Composable
+private fun UserPlaylists(modifier: Modifier = Modifier) {
+    val userRepository = LocalAppState.current.userRepository
+
+    val coroutineScope = rememberCoroutineScope()
+    val collections by userRepository.userTrackCollections.collectAsState()
+
+    LazyTrackCollectionList(
+        modifier = modifier.padding(top = 16.dp),
+        coroutineScope = coroutineScope,
+        collections = collections,
+        onDelete = { userRepository.deleteTrackCollection(it) },
+        onPinChange = { userRepository.changeTrackCollectionPinStatus(it) },
+        placeHolderText = {
+            buildAnnotatedString {
+                withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                    append("No Playlists created")
+                }
+            }
+        },
+        placeHolderContent = {
+            // TODO : Implement this
+            // CreateTrackCollectionButton(iconSize = 24.dp)
+        }
+    )
+}
+
+/*=
     Row(modifier = Modifier.padding(top = 16.dp)) {
         Text(
             modifier = Modifier.weight(1f),
@@ -305,51 +337,6 @@ private fun UtilityOption(
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.headlineSmall
         )
-
-        // TODO : ADD SORT BUTTON && CHANGE OREINATION BUTTON
-        CreateTrackCollectionButton(iconSize = 24.dp)
-    }
-
-    val musicRepository = LocalAppState.current.musicRepository
-    val collections by musicRepository.userTrackCollections.collectAsState()
-
-    LazyTrackCollectionList(
-        modifier = Modifier.padding(top = 16.dp),
-        collections = collections,
-        onDelete = { musicRepository.deleteUserTrackCollection(it) },
-        onPinChange = { musicRepository.changeUserTrackCollectionPinStatus(it) },
-        placeHolder = {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
-                content = {
-                    Text(
-                        text = "No Playlists created",
-                        style = MaterialTheme.typography.headlineSmall
-                    )
-                }
-            )
-        }
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun UserLibrarySearchBar() {
-    var active by remember { mutableStateOf(false) }
-    var query by remember { mutableStateOf("") }
-    SearchBar(
-        active = active,
-        onActiveChange = { active = it },
-        query = query,
-        onQueryChange = { query = it },
-        placeholder = {  Text("Search for Media") },
-        leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-        trailingIcon = { /* TODO(ADD PROFILE PIC / SETTINGS ICON HERE )*/ },
-        onSearch = { TODO() },
-        content = {
-            // TODO : ADD DIFFERENT SORTING OPTIONS ETC HERE
-        }
 */
 
 

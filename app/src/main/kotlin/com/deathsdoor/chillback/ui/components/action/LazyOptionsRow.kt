@@ -71,7 +71,9 @@ fun <T> ColumnScope.LazyOptionsRow(
                     else -> draggableState.disableSelectionMode()
                 }
             },
-            content = { SelectedIcon(isSelected = draggableState.selected.isEmpty()) }
+            content = {
+                if(draggableState.inSelectionMode) SelectedIcon(isSelected = draggableState.selected.isEmpty())
+            }
         )
 
         LazyLayoutChangeButton(isSingleItemPerRow = isSingleItemPerRow,enabled = enabled.value)

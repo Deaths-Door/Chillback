@@ -6,6 +6,12 @@ import com.deathsdoor.chillback.data.models.TrackCollection
 import com.deathsdoor.chillback.data.models.TrackCollectionCrossReference
 import com.deathsdoor.chillback.data.models.TrackCollectionWithTracks
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.onSubscription
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class UserRepository(private val musicRepository: MusicRepository) {
@@ -42,7 +48,6 @@ class UserRepository(private val musicRepository: MusicRepository) {
         database.trackCollectionDao.removeTrackCollection(trackCollection.id)
     }
 
-    // TODO : CUSTOM GET USER TRACK COLLECTION -> ORDER TRACKS CROSS REF BY index
     fun rearrangeTracks(trackCollection: TrackCollection,rearrangedTracks : List<Track>) = launch {
         val references = rearrangedTracks.mapIndexed { index, track ->
             TrackCollectionCrossReference(trackCollection,track,index)
@@ -64,28 +69,21 @@ class UserRepository(private val musicRepository: MusicRepository) {
         database.trackDao.remove(track.id)
     }
 
-
-    /*
-
-
-
-    private val _userTrackCollections = MutableStateFlow<List<TrackCollectionWithTracks>?>(null)
+    private val _userTrackCollections = MutableStateFlow<List<TrackCollection>?>(null)
     val userTrackCollections = _userTrackCollections.onSubscription {
-            if(_userTrackCollections.value == null) initializeUserTrackCollections()
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(1000L),
-            initialValue = null
-        )
+        if(_userTrackCollections.value == null) initializeUserTrackCollections()
+    }.stateIn(
+        scope = musicRepository.coroutineScope,
+        started = SharingStarted.WhileSubscribed(1000L),
+        initialValue = null
+    )
 
-    private fun initializeUserTrackCollections() = viewModelScope.launch {
-        ApplicationLocalDatabase(context)
-            .trackCollectionDao
-            .trackCollections()
-            .distinctUntilChanged()
-            .collect { trackCollections ->
-                val value = trackCollections.map { TrackCollectionWithTracks(collection = it) }
+    private fun initializeUserTrackCollections() = musicRepository.coroutineScope.launch {
+        database.trackCollectionDao.trackCollections().distinctUntilChanged()
+            .collectLatest { trackCollections ->
+                val value = trackCollections.sortedBy { it.isPinned }
+
                 _userTrackCollections.emit(value)
             }
-    }*/
+    }
 }

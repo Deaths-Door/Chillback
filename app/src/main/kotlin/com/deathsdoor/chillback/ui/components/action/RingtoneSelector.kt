@@ -1,21 +1,26 @@
 package com.deathsdoor.chillback.ui.components.action
 
+import StackedSnackbarDuration
+import StackedSnakbarHostState
 import android.content.ContentValues
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Card
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,27 +28,36 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.center
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewDynamicColors
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewModelScope
@@ -52,23 +66,29 @@ import com.deathsdoor.chillback.R
 import com.deathsdoor.chillback.data.models.Track
 import com.deathsdoor.chillback.data.models.TrackDetails
 import com.deathsdoor.chillback.ui.components.layout.Thumbnail
-import com.deathsdoor.chillback.ui.components.mediaplayer.AnimatedDuration
-import com.deathsdoor.chillback.ui.components.mediaplayer.currentMediaItemPositionAsFlow
-import com.deathsdoor.chillback.ui.components.mediaplayer.formatAsTime
-import com.deathsdoor.chillback.ui.components.mediaplayer.rememberMediaItemDuration
+import com.deathsdoor.chillback.ui.components.layout.ThumbnailTitle
+import com.deathsdoor.chillback.ui.components.mediaplayer.AnimatedAmplitudes
+import com.deathsdoor.chillback.ui.components.mediaplayer.PlayPauseButton
+import com.deathsdoor.chillback.ui.components.mediaplayer.rememberMediaControllerIsPlaying
 import com.deathsdoor.chillback.ui.providers.LocalAppState
-import com.deathsdoor.chillback.ui.providers.LocalErrorSnackbarState
+import com.deathsdoor.chillback.ui.providers.LocalSnackbarState
+import com.linc.audiowaveform.AudioWaveform
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import linc.com.amplituda.Amplituda
+import linc.com.amplituda.AmplitudaResult
+import linc.com.amplituda.Cache
+import linc.com.amplituda.callback.AmplitudaErrorListener
 
-//TODO:Option to select default ringtone from device https://stackoverflow.com/questions/2724871/how-to-bring-up-list-of-available-notification-sounds-on-android
 @Composable
 fun RingtoneSelectorThumbItem(track: Track, details : TrackDetails){
-    val label = "Set As Ringtone"
-    var isDialogOpen by remember { mutableStateOf(false) }
+    val label = stringResource(R.string.set_as_ringtone)
+    val isDialogOpen = remember { mutableStateOf(false) }
+
     Thumbnail(
         modifier = Modifier
             .clickable(onClickLabel = label) {
-                isDialogOpen = true
+                isDialogOpen.value = true
             }
             .optionsItemSpacing(),
         artwork = {
@@ -77,68 +97,184 @@ fun RingtoneSelectorThumbItem(track: Track, details : TrackDetails){
                 contentDescription = label
             )
         },
-        title = label
+        title = { ThumbnailTitle(text = label) }
     )
 
-    if(!isDialogOpen) return
+    if(!isDialogOpen.value) return
 
+    RingtoneSelectorAlertDialog(isDialogOpen = isDialogOpen, track = track, details = details)
+}
+
+@Composable
+fun RingtoneSelectorDropDownItem(
+    track: Track,
+    enabled : Boolean,
+    details : () -> TrackDetails
+) {
+    val label = stringResource(R.string.set_as_ringtone)
+    val isDialogOpen = remember { mutableStateOf(false) }
+
+    DropdownMenuItem(
+        enabled = enabled,
+        text = { Text(label) },
+        onClick = { isDialogOpen.value = true },
+        leadingIcon = {
+            Icon(
+                painter = painterResource(id = R.drawable.media3_notification_play),
+                contentDescription = label
+            )
+        },
+    )
+
+    if(!isDialogOpen.value) return
+
+    RingtoneSelectorAlertDialog(isDialogOpen = isDialogOpen, track = track, details = details())
+}
+
+private const val LINE_WIDTH = 8f
+
+private fun Amplituda.audioData(
+    track: Track,
+    snackbarState : StackedSnakbarHostState,
+    onSuccess : (AmplitudaResult<String>) -> Unit
+): Unit = onSuccess(
+    processAudio(
+        track.sourcePath,
+        Cache.withParams(Cache.REUSE),
+    )
+        .get(AmplitudaErrorListener {
+        runBlocking {
+            snackbarState.showErrorSnackbar(
+                title = "Unable to open file",
+                description = "Please try again. Cause: ${it.message}",
+                duration = StackedSnackbarDuration.Long,
+                actionTitle = "Retry",
+                action = {
+                    this@audioData.audioData(track,snackbarState,onSuccess)
+                },
+            )
+        }
+    })
+)
+
+
+@Composable
+private fun RingtoneSelectorAlertDialog(isDialogOpen : MutableState<Boolean>,track: Track, details : TrackDetails) {
     val context = LocalContext.current
 
     AlertDialog(
-        onDismissRequest = { isDialogOpen = false },
+        onDismissRequest = { isDialogOpen.value = false },
         properties = DialogProperties(usePlatformDefaultWidth = false),
-        title = { Text("Set As Ringtone") },
+        title = { Text(stringResource(R.string.set_as_ringtone)) },
         text = {
-            val snackbarStateError = LocalErrorSnackbarState.current
+            val snackbarState = LocalSnackbarState.current
             val appState = LocalAppState.current
-            val musicRepository = appState.musicRepository
 
-            var waveformProgress by remember { mutableStateOf<Float?>(null) }
-            val amplitudes = mutableStateListOf<Int>()
-            var totalDuration by remember { mutableStateOf(-1L) }
             val mediaController = remember {
                 ExoPlayer.Builder(context).build().apply { prepare() }
             }
+
+            val coroutineScope = rememberCoroutineScope()
+            val amplitudes = remember { mutableStateListOf<Int>() }
+            var totalDuration by remember { mutableLongStateOf(-1L) }
 
             DisposableEffect(Unit) {
                 onDispose { mediaController.release() }
             }
 
             LaunchedEffect(Unit) {
-               /* val amplituda = Amplituda(context)
-                val audioData = amplituda.processAudio(track.sourcePath, Cache.withParams(Cache.REUSE))
-                    .get(AmplitudaErrorListener {
-                        runBlocking {
-                            snackbarStateError.showSnackbar("Unable to open file. Please try again.\n Cause is ${it.message}")
+                val amplituda = Amplituda(context)
+                amplituda.audioData(
+                    track = track,
+                    snackbarState = snackbarState,
+                    onSuccess = {
+                        totalDuration = it.getAudioDuration(AmplitudaResult.DurationUnit.MILLIS)
+                        amplitudes.addAll(it.amplitudesAsList())
+                        coroutineScope.launch {
+                            mediaController.addMediaItem(track.asMediaItem(musicRepository = appState.musicRepository))
                         }
-                    })
-
-                totalDuration = audioData.getAudioDuration(AmplitudaResult.DurationUnit.MILLIS)
-
-                val _amplitudes = audioData.amplitudesAsList()
-                Log.d("waveform","duration = $totalDuration\namplitudes=${_amplitudes}")
-                amplitudes.addAll(_amplitudes)*/
-                waveformProgress = 0F
-                mediaController.addMediaItem(track.asMediaItem(musicRepository = musicRepository))
+                    }
+                )
             }
 
-            if(waveformProgress == null) {
+            if(amplitudes.isEmpty()) {
                 Text("Wait a second .. Fetching data!")
                 return@AlertDialog
             }
 
+            val modifier = Modifier.fillMaxWidth()
 
-            LaunchedEffect(waveformProgress) {
-                Log.d("waveform","duration=${totalDuration}\nprogress -> $waveformProgress\n${totalDuration * waveformProgress!!}")
-            }
+            var waveformProgress by remember { mutableStateOf<Float?>(null) }
 
             Column {
-                // TODO : Check why doesn't this show as
-                // TODO : SEEK TO WaVE PROGERESS DEFEing on the thing
-                // TODO : cuttable
+                val containerSize by remember { mutableStateOf(IntSize.Zero) }
+                Box(modifier = modifier) {
+                    val density = LocalDensity.current
+                    var height by remember { mutableStateOf(Dp.Hairline) }
+
+                    AudioWaveform(
+                        modifier = Modifier.onSizeChanged {
+                             height = with(density) { it.height.toDp() }
+                        },
+                        progressBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                        waveformBrush = SolidColor(Color.LightGray),
+                        spikeWidth = 4.dp,
+                        spikePadding = 2.dp,
+                        spikeRadius = 4.dp,
+                        progress = waveformProgress!!,
+                        amplitudes = amplitudes,
+                        onProgressChange = { waveformProgress = it },
+                        onProgressChangeFinished = { mediaController.seekTo((totalDuration * waveformProgress!!).toLong()) }
+                    )
+
+                    val containerWidth = with(density){ containerSize.width.toDp() }
+
+                    DraggableBar(
+                        modifier = modifier,
+                        initialX = DRAGGABLE_BAR_THICKNESS,
+                        minimumValue = DRAGGABLE_BAR_THICKNESS,
+                        maximumValue = containerWidth
+                    )
+
+                    DraggableBar(
+                        modifier = modifier,
+                        initialX = containerWidth - DRAGGABLE_BAR_THICKNESS,
+                        minimumValue = DRAGGABLE_BAR_THICKNESS,
+                        maximumValue = containerWidth - DRAGGABLE_BAR_THICKNESS
+                    )
+                }
+
+
+                val isPlaying by  rememberMediaControllerIsPlaying(mediaController = mediaController){
+                    // Change the state of the app MediaController so that it does not overlap with this one
+                    if(it) appState.mediaController?.pause() else appState.mediaController?.play()
+                }
+
+                Box(
+                    modifier = modifier.padding(horizontal = 8.dp),
+                    contentAlignment = Alignment.Center,
+                    content = {
+                        AnimatedAmplitudes(
+                            modifier = Modifier.matchParentSize(),
+                            barWidth = 3.dp,
+                            gapWidth = 2.dp,
+                            isAnimating = isPlaying,
+                        )
+
+                        PlayPauseButton(mediaController = mediaController)
+                    }
+                )
+            }
+
+            /*
+
+            Column {
+                // TOO : Check why doesn't this show as
+                // TDO : SEEK TO WaVE PROGERESS DEFEing on the thing
+                // TDO : cuttable
 
                 val coroutineScope = rememberCoroutineScope()
-                // TODO : Update this somehow
+                // TO : Update this somehow
                 val showDurationMarker by remember { mutableStateOf(true) }
 
                 val modifier = Modifier.fillMaxWidth()
@@ -170,32 +306,8 @@ fun RingtoneSelectorThumbItem(track: Track, details : TrackDetails){
                     )
                 }
 
-                // TODO : Finsih the draggable bars , with custom duration etc and then finish this screen
-                AnimatedDuration(
-                    modifier = modifier,
-                    mediaController = mediaController,
-                  //  coroutineScope = coroutineScope,
-                  //  showDurationMarker = showDurationMarker,
-                    onPlayChanged = { if(it) appState.mediaController?.pause() else appState.mediaController?.play() },
-                    /*content = {
-                        // TODO : Check why this works without the if text above and collapses on click
-                        AudioWaveform(
-                            progressBrush = SolidColor(MaterialTheme.colorScheme.primary),
-                            waveformBrush = SolidColor(Color.LightGray),
-                            spikeWidth = 4.dp,
-                            spikePadding = 2.dp,
-                            spikeRadius = 4.dp,
-                            progress = waveformProgress!!,
-                            amplitudes = amplitudes,
-                            onProgressChange = { waveformProgress = it },
-                            onProgressChangeFinished = { mediaController.seekTo((totalDuration * waveformProgress!!).toLong()) }
-                        )
-
-
-                    }*/
-                )
-
-                // TODO : Let user input custom range , to save that one
+                // T : Finsih the draggable bars , with custom duration etc and then finish this screen
+                // TO : Let user input custom range , to save that one
                 Row(modifier = Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.SpaceBetween) {
                     val currentPosition by mediaController.currentMediaItemPositionAsFlow(coroutineScope).collectAsState()
 
@@ -211,7 +323,7 @@ fun RingtoneSelectorThumbItem(track: Track, details : TrackDetails){
                         color = MaterialTheme.colorScheme.onPrimary,
                     )
                 }
-            }
+            }*/
         },
         confirmButton = {
             // As this should be updated even if the screen is removed
@@ -220,6 +332,7 @@ fun RingtoneSelectorThumbItem(track: Track, details : TrackDetails){
             TextButton(
                 onClick = {
                     coroutineScope.launch {
+                        // TODO : Respect custom start , end position of track by user
                         val values = ContentValues().apply {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                                 put(MediaStore.Audio.Media.GENRE, details.genre)
@@ -250,7 +363,7 @@ fun RingtoneSelectorThumbItem(track: Track, details : TrackDetails){
                 },
                 content = {
                     Text(
-                        text = "Set Ringtone",
+                        text = stringResource(id = R.string.set_as_ringtone),
                         color = MaterialTheme.colorScheme.primary
                     )
                 }
@@ -259,7 +372,66 @@ fun RingtoneSelectorThumbItem(track: Track, details : TrackDetails){
     )
 }
 
-private const val LINE_WIDTH = 8f
+private val DRAGGABLE_BAR_THICKNESS = 4.dp
+@Composable
+private fun DraggableBar(
+    modifier : Modifier = Modifier,
+    initialX : Dp,
+    minimumValue: Dp,
+    maximumValue: Dp
+) {
+    var offsetX by remember { mutableStateOf(initialX) }
+    var isDragging by remember { mutableStateOf(false) }
+
+    Box(
+        modifier = modifier
+            .offset(x = offsetX)
+            .pointerInput(Unit) {
+                detectHorizontalDragGestures(
+                    onDragStart = { isDragging = true },
+                    onDragEnd = { isDragging = false },
+                    onHorizontalDrag = { change, dragAmount ->
+                        change.consume()
+                        offsetX =
+                            (offsetX.value + dragAmount).dp.coerceIn(minimumValue, maximumValue)
+                    }
+                )
+            },
+        content = {
+            val color = MaterialTheme.colorScheme.primary
+
+            Canvas(Modifier.height(DRAGGABLE_BAR_THICKNESS)) {
+                val canvasHeight = size.height
+
+                drawLine(
+                    color = color,
+                    cap = StrokeCap.Round,
+                    strokeWidth = DRAGGABLE_BAR_THICKNESS.toPx(),
+                    start = Offset(DRAGGABLE_BAR_THICKNESS.toPx() / 2, 0f),
+                    end = Offset(DRAGGABLE_BAR_THICKNESS.toPx() / 2, canvasHeight),
+                )
+
+                val rectangleSize = Size(width = LINE_WIDTH * 2,height = canvasHeight / 3)
+                val rectangleTopLeftY = size.center.y - canvasHeight / 6
+                val rectangleCornerRadius = CornerRadius(x = 16f,y=16f)
+
+                drawRoundRect(
+                    color = color,
+                    topLeft = size.center.copy(x = offsetX.toPx() - LINE_WIDTH,y = rectangleTopLeftY),
+                    cornerRadius = rectangleCornerRadius,
+                    size = rectangleSize
+                )
+            }
+
+            // TODO : Complete this -> speech bubble with animated size content date picker inside
+            AnimatedVisibility(visible = !isDragging) {
+                Card {
+                    Text("duration")
+                }
+            }
+        }
+    )
+}
 
 @Composable
 private fun DraggableBars(modifier : Modifier = Modifier) {
@@ -267,43 +439,8 @@ private fun DraggableBars(modifier : Modifier = Modifier) {
     var offsetLeftX by remember { mutableStateOf(LINE_WIDTH) }
     var offsetRightX : Float? by remember { mutableStateOf(null) }
 
-    var isLeftSideBarSelected by remember { mutableStateOf(true) }
-
     Canvas(
-        modifier = modifier
-            .pointerInput(Unit) {
-               /*detectHorizontalDragGestures(
-                    onDragStart = { offset ->
-                        sidebarPaths.forEachIndexed { index, it ->
-                            val difference = Path.combine(
-                                operation = PathOperation.Difference,
-                                path1 = touchPath,
-                                path2 = it
-                            )
-
-                            if(difference.isEmpty) touchedIndex = index
-                        }
-                    },
-                    onDragCancel = { touchedIndex = -1 },
-                    onDragEnd = { touchedIndex = -1 },
-                    onHorizontalDrag = { change, dragAmount ->
-                        change.consume()
-
-                        val pathData = sidebarPaths.getOrNull(touchedIndex)
-
-                        pathData?.let {
-                            val matrix = Matrix().apply {
-                                postTranslate(dragAmount, 0f)
-                            }
-
-                            pathData.asAndroidPath().transform(matrix)
-                        }
-
-                        if(touchedIndex == 0) offsetLeftX += dragAmount
-                        else offsetRightX = offsetRightX?.plus(dragAmount)
-                    }
-                )*/
-            },
+        modifier = modifier,
         onDraw = {
             val canvasWidth = size.width
             val canvasHeight = size.height

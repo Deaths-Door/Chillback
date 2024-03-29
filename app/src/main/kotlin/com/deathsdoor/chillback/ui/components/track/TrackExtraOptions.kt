@@ -6,9 +6,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.deathsdoor.chillback.R
 import com.deathsdoor.chillback.data.models.Track
 import com.deathsdoor.chillback.data.models.TrackDetails
+import com.deathsdoor.chillback.data.repositories.UserRepository
 import com.deathsdoor.chillback.ui.components.action.AddToQueueThumbItem
 import com.deathsdoor.chillback.ui.components.action.DeleteThumbItem
 import com.deathsdoor.chillback.ui.components.action.PlayNextThumbItem
@@ -17,6 +20,7 @@ import com.deathsdoor.chillback.ui.components.action.RingtoneSelectorThumbItem
 import com.deathsdoor.chillback.ui.components.action.ShareThumbItem
 import com.deathsdoor.chillback.ui.components.action.TrackMetadataThumbItem
 import com.deathsdoor.chillback.ui.providers.LocalAppState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -31,7 +35,10 @@ fun TrackExtraOptions(
 ) = ModalBottomSheet(
     onDismissRequest =  onDismissRequest,
     content = {
+
         // TODO : Add Header item thingy -> Faviroute
+
+        // Keep this sync with TrackItem::MoreInfoButtonContent
         // Play Now
         // Play Next
         // Add to Playback Queue
@@ -84,7 +91,7 @@ fun TrackExtraOptions(
 
         onRemove?.let {
             DeleteThumbItem(
-                label = "Remove Track From Collection",
+                label = stringResource(R.string.remove_track_from_collection),
                 name = details.name,
                 onDelete = { _ ->
                     it(track)
@@ -95,21 +102,23 @@ fun TrackExtraOptions(
         val userRepository = LocalAppState.current.userRepository
 
         DeleteThumbItem(
-            label = "Delete Track from Device",
+            label = stringResource(R.string.delete_track_from_device),
             name = details.name,
             onDelete = { coroutineScope ->
-                coroutineScope.launch {
-                    val job = userRepository.removeTrack(track)
-
-                    val file = File(track.sourcePath)
-                    file.delete()
-
-                    job.join()
-                }
+                coroutineScope.trackOnDelete(userRepository, track)
             }
         )
 
         Spacer(modifier = Modifier.height(24.dp))
-
     }
 )
+
+fun CoroutineScope.trackOnDelete(userRepository : UserRepository, track: Track) = launch {
+    // Remove it form the database
+    val job = userRepository.removeTrack(track)
+
+    val file = File(track.sourcePath)
+    file.delete()
+
+    job.join()
+}

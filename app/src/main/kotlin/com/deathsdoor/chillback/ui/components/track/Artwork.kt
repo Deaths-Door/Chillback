@@ -20,8 +20,6 @@ import coil.compose.rememberAsyncImagePainter
 import com.deathsdoor.chillback.R
 import com.deathsdoor.chillback.ui.providers.LocalSnackbarState
 
-// TODO: MAYBE ALLOW SAME PAINTER, SO IT CAN BE REMEMBERED -> MORE EFFICENT for lists
-// TODO : FIX THIS SO IT load
 @Composable
 @NonRestartableComposable
 @Deprecated("Do not use this")

@@ -208,4 +208,11 @@
     <string name="settings_backuprestore_description">Backup and restore your settings, songs, and playlists</string>
     <string name="settings_about_title">About</string>
     <string name="settings_about_description">Learn about the app and its creator</string>
+    <string name="play_now">Play Now</string>
+    <string name="play_next">Play Next</string>
+    <string name="add_to_queue">Add to queue</string>
+    <string name="metadata">Metadata</string>
+    <string name="remove_track_from_collection">Remove Track From Collection</string>
+    <string name="delete_track_from_device">Delete Track from Device</string>
+    <string name="set_as_ringtone">Set As Ringtone</string>
 </resources>

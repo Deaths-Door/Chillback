@@ -187,14 +187,19 @@ fun LazyTrackList(
                 track = item,
                 details = trackDetails,
                 isSelected = isSelected,
-                draggableState = draggableState
+                draggableState = draggableState,
+                tracks = tracks,
+                onRemove = onRemove,
+
             ) else TrackCard(
                 modifier = contentModifier,
                 mediaController = mediaController,
                 track = item,
                 details = trackDetails,
                 isSelected = isSelected,
-                draggableState = draggableState
+                draggableState = draggableState,
+                tracks = tracks,
+                onRemove = onRemove
             )
         }
     )

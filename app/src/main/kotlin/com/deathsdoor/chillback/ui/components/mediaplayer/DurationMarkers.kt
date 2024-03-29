@@ -53,29 +53,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
 
-@Composable
-fun AnimatedDuration(
-    modifier: Modifier = Modifier,
-    mediaController : Player,
-    onPlayChanged : ((Boolean) -> Unit)? = null,
-) {
-    val isPlaying by rememberMediaControllerIsPlaying(mediaController = mediaController,onPlayChanged = onPlayChanged)
-
-    Box(
-        modifier = modifier.padding(horizontal = 8.dp),
-        contentAlignment = Alignment.Center,
-        content = {
-            AnimatedAmplitudes(
-                modifier = Modifier.matchParentSize(),
-                barWidth = 3.dp,
-                gapWidth = 2.dp,
-                isAnimating = isPlaying,
-            )
-
-            PlayPauseButton(mediaController = mediaController)
-        }
-    )
-}
 @Deprecated("Do not use this")
 @Composable
 fun AnimatedDurationMarker(
@@ -172,7 +149,7 @@ fun AnimatedDurationMarker(
 
 const val MaxLinesCount = 100
 @Composable
-private fun AnimatedAmplitudes(
+fun AnimatedAmplitudes(
     modifier: Modifier = Modifier,
     barWidth: Dp = 2.dp,
     gapWidth: Dp = 2.dp,
