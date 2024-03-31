@@ -1,5 +1,6 @@
 package com.deathsdoor.chillback.ui.components.track
 
+import StackedSnakbarHostState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +28,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.Player
 import com.deathsdoor.chillback.data.extensions.hasNotSameMediaItemsAs
+import com.deathsdoor.chillback.data.extensions.orJustReport
+import com.deathsdoor.chillback.data.extensions.orReport
 import com.deathsdoor.chillback.data.models.Track
 import com.deathsdoor.chillback.data.models.TrackDetails
 import com.deathsdoor.chillback.data.repositories.MusicRepository
@@ -38,6 +41,7 @@ import com.deathsdoor.chillback.ui.components.mediaplayer.LikeButton
 import com.deathsdoor.chillback.ui.extensions.applyIf
 import com.deathsdoor.chillback.ui.extensions.styledText
 import com.deathsdoor.chillback.ui.providers.LocalAppState
+import com.deathsdoor.chillback.ui.providers.LocalSnackbarState
 import com.deathsdoor.chillback.ui.state.ChillbackAppState
 import com.dragselectcompose.core.rememberDragSelectState
 import kotlinx.coroutines.CoroutineScope
@@ -70,6 +74,7 @@ fun LazyTrackList(
 
     val details = remember { mutableStateListOf<TrackDetails>() }
     val appState = LocalAppState.current
+    val stackedSnackbarHostState = LocalSnackbarState.current
 
     LazyOptionsRow(
         coroutineScope = coroutineScope,
@@ -81,11 +86,13 @@ fun LazyTrackList(
         onFetch = {
             details.subList(0,tracks!!.size).forEachIndexed { index, _ ->
                 receiveTrackDetails(
+                    stackedSnackbarHostState = stackedSnackbarHostState,
                     musicRepository = appState.musicRepository,
                     details = details,
                     index = index,
                     track = tracks[index],
                     tracks = tracks,
+                    onRemove = onRemove,
                     run = { it() }
                 )
             }
@@ -156,10 +163,12 @@ fun LazyTrackList(
         },
         content = { contentModifier, item, isSelected, onLongClick ->
             val trackDetails = receiveTrackDetails(
+                stackedSnackbarHostState = stackedSnackbarHostState,
                 musicRepository = appState.musicRepository,
                 details = details,
                 track = item,
                 tracks = tracks!!,
+                onRemove = onRemove,
                 run = { LaunchedEffect(Unit) { it() } }
             )
 
@@ -172,6 +181,7 @@ fun LazyTrackList(
                             track = item,
                             tracks = tracks,
                             appState = appState,
+                            stackedSnackbarHostState = stackedSnackbarHostState
                         )
                     },
                     onClickLabel = "Play this track",
@@ -207,6 +217,7 @@ fun LazyTrackList(
 
 
 fun onTrackItemClick(
+    stackedSnackbarHostState: StackedSnakbarHostState,
     mediaController: Player?,
     track : Track,
     tracks : List<Track>?,
@@ -230,15 +241,15 @@ fun onTrackItemClick(
             // This means this queue is definitely not part of this track list , hence add it
             // ViewModel scope as it should be a global action
             appState.viewModelScope.launch {
-                val mediaItem = track.asMediaItem(appState.musicRepository)
-
-                withContext(Dispatchers.Main) {
-                    // Since we add one , hence [int mediaItemIndex] should be [mediaItemCount - 1]
-                    if (addOnNext) mediaController.addMediaItem(mediaItem) else mediaController.addMediaItem(
-                        controller.currentMediaItemIndex + 1,
-                        mediaItem
-                    )
-                    mediaController.seekToPlay(mediaItemCount)
+                track.asMediaItem(appState.musicRepository).orReport(stackedSnackbarHostState,"Cannot play mediaItem as we failed to read its data") {
+                    withContext(Dispatchers.Main) {
+                        // Since we add one , hence [int mediaItemIndex] should be [mediaItemCount - 1]
+                        if (addOnNext) mediaController.addMediaItem(it) else mediaController.addMediaItem(
+                            controller.currentMediaItemIndex + 1,
+                            it
+                        )
+                        mediaController.seekToPlay(mediaItemCount)
+                    }
                 }
             }
             return@let
@@ -256,16 +267,20 @@ private fun Player.seekToPlay(index : Int) {
 private inline fun receiveTrackDetails(
     details : SnapshotStateList<TrackDetails>,
     musicRepository: MusicRepository,
+    stackedSnackbarHostState : StackedSnakbarHostState,
     track : Track,
     index : Int? = null,
     tracks: List<Track>,
+    noinline onRemove : ((Track) -> Unit)? = null,
     run: (receiver : suspend () -> Unit) -> Unit
 ): TrackDetails? {
     @Suppress("NAME_SHADOWING")
     val index = index ?: tracks.indexOf(track)
     val detail = details.getOrNull(index)
     if(detail == null) run {
-        details.add(index,musicRepository.trackDetails(track))
+        val value = musicRepository.trackDetails(track).orJustReport(stackedSnackbarHostState,description = "Hence removing track from list")
+        if(value == null) onRemove?.invoke(track)
+        else details.add(index,value)
     }
     return detail
 }

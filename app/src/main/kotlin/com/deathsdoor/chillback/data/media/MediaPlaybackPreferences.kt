@@ -1,9 +1,10 @@
 package com.deathsdoor.chillback.data.media
 
+import StackedSnakbarHostState
 import androidx.media3.common.Player.RepeatMode
 import androidx.media3.session.MediaController
 import com.deathsdoor.chillback.data.database.ApplicationLocalDatabase
-import com.deathsdoor.chillback.data.extensions.asMediaItems
+import com.deathsdoor.chillback.data.extensions.asMediaItemsOrReport
 import com.deathsdoor.chillback.data.extensions.mapMediaItems
 import com.deathsdoor.chillback.data.repositories.MusicRepository
 import kotlinx.coroutines.delay
@@ -20,12 +21,17 @@ class MediaPlaybackPreferences private constructor(
     suspend fun apply(
         database: ApplicationLocalDatabase,
         musicRepository : MusicRepository,
-        mediaController: MediaController
+        mediaController: MediaController,
+        stackedSnackbarHostState: StackedSnakbarHostState
     ) : MediaController = mediaController.apply {
         shuffleModeEnabled = this@MediaPlaybackPreferences.shuffleModeEnabled
         repeatMode = this@MediaPlaybackPreferences.repeatMode
 
-        addMediaItems(database.trackDao.tracksFrom(this@MediaPlaybackPreferences.queue).asMediaItems(musicRepository))
+        val mediaItems = database.trackDao
+            .tracksFrom(this@MediaPlaybackPreferences.queue)
+            .asMediaItemsOrReport(musicRepository,stackedSnackbarHostState)
+
+        addMediaItems(mediaItems)
 
         delay(500)
         seekTo(this@MediaPlaybackPreferences.currentMediaItemIndex,0)

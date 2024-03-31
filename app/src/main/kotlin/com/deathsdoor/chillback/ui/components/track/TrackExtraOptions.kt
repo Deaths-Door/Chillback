@@ -13,13 +13,16 @@ import com.deathsdoor.chillback.data.models.Track
 import com.deathsdoor.chillback.data.models.TrackDetails
 import com.deathsdoor.chillback.data.repositories.UserRepository
 import com.deathsdoor.chillback.ui.components.action.AddToQueueThumbItem
+import com.deathsdoor.chillback.ui.components.action.AddTrackToQueueShared
 import com.deathsdoor.chillback.ui.components.action.DeleteThumbItem
 import com.deathsdoor.chillback.ui.components.action.PlayNextThumbItem
 import com.deathsdoor.chillback.ui.components.action.PlayNowThumbItem
 import com.deathsdoor.chillback.ui.components.action.RingtoneSelectorThumbItem
+import com.deathsdoor.chillback.ui.components.action.SearchTrackOnlineThumbItem
 import com.deathsdoor.chillback.ui.components.action.ShareThumbItem
 import com.deathsdoor.chillback.ui.components.action.TrackMetadataThumbItem
 import com.deathsdoor.chillback.ui.providers.LocalAppState
+import com.deathsdoor.chillback.ui.providers.LocalSnackbarState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.io.File
@@ -35,9 +38,6 @@ fun TrackExtraOptions(
 ) = ModalBottomSheet(
     onDismissRequest =  onDismissRequest,
     content = {
-
-        // TODO : Add Header item thingy -> Faviroute
-
         // Keep this sync with TrackItem::MoreInfoButtonContent
         // Play Now
         // Play Next
@@ -47,11 +47,11 @@ fun TrackExtraOptions(
         // Share
         // Set As Ringtone
         // Lyrics -> TODO
-        // Edit File (length etc) -> TODO
         // Search In Youtube/Other Services -> TODO
         // Delete / Remove from list
 
         val appState = LocalAppState.current
+        val stackedSnackbarHostState = LocalSnackbarState.current
         val mediaController = appState.mediaController
 
         PlayNowThumbItem(
@@ -61,6 +61,7 @@ fun TrackExtraOptions(
                     appState = appState,
                     track = track,
                     tracks = tracks,
+                    stackedSnackbarHostState = stackedSnackbarHostState,
                 )
             }
         )
@@ -72,15 +73,14 @@ fun TrackExtraOptions(
                     appState = appState,
                     track = track,
                     tracks = tracks,
-                    addOnNext = true
+                    addOnNext = true,
+                    stackedSnackbarHostState = stackedSnackbarHostState,
                 )
             }
         )
 
-        val musicRepository = appState.musicRepository
-
-        AddToQueueThumbItem {
-            it?.addMediaItem(track.asMediaItem(musicRepository))
+        AddTrackToQueueShared(track) {
+            AddToQueueThumbItem(it)
         }
 
         TrackMetadataThumbItem(track = track, onClick = onDismissRequest)
@@ -88,6 +88,8 @@ fun TrackExtraOptions(
         ShareThumbItem()
 
         RingtoneSelectorThumbItem(track = track,details = details)
+
+        SearchTrackOnlineThumbItem(track = track,details = details)
 
         onRemove?.let {
             DeleteThumbItem(

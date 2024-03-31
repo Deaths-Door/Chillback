@@ -17,11 +17,13 @@ import com.deathsdoor.chillback.R
 import com.deathsdoor.chillback.data.models.Track
 import com.deathsdoor.chillback.data.models.TrackDetails
 import com.deathsdoor.chillback.ui.components.action.AddToQueueDropDownItem
+import com.deathsdoor.chillback.ui.components.action.AddTrackToQueueShared
 import com.deathsdoor.chillback.ui.components.action.DeleteDropDownItem
 import com.deathsdoor.chillback.ui.components.action.MoreInfoButton
 import com.deathsdoor.chillback.ui.components.action.PlayNexDropDownItem
 import com.deathsdoor.chillback.ui.components.action.PlayNowDropDownItem
 import com.deathsdoor.chillback.ui.components.action.RingtoneSelectorDropDownItem
+import com.deathsdoor.chillback.ui.components.action.SearchTrackOnlineDropDownItem
 import com.deathsdoor.chillback.ui.components.action.ShareThumbItem
 import com.deathsdoor.chillback.ui.components.action.TrackMetadataDropDownItem
 import com.deathsdoor.chillback.ui.components.layout.SelectableThumbnail
@@ -31,6 +33,7 @@ import com.deathsdoor.chillback.ui.components.layout.ThumbnailTitle
 import com.deathsdoor.chillback.ui.components.layout.applyToggleableOnSelection
 import com.deathsdoor.chillback.ui.components.mediaplayer.LikeButton
 import com.deathsdoor.chillback.ui.providers.LocalAppState
+import com.deathsdoor.chillback.ui.providers.LocalSnackbarState
 import com.dragselectcompose.core.DragSelectState
 
 @Composable
@@ -154,6 +157,7 @@ private fun ColumnScope.MoreInfoButtonContent(
 ) {
     @Suppress("UNUSED_EXPRESSION") this
     val appState = LocalAppState.current
+    val stackedSnackbarHostState = LocalSnackbarState.current
     val mediaController = appState.mediaController
 
     PlayNowDropDownItem(
@@ -163,6 +167,7 @@ private fun ColumnScope.MoreInfoButtonContent(
                 appState = appState,
                 track = track,
                 tracks = tracks,
+                stackedSnackbarHostState = stackedSnackbarHostState
             )
         }
     )
@@ -174,15 +179,14 @@ private fun ColumnScope.MoreInfoButtonContent(
                 appState = appState,
                 track = track,
                 tracks = tracks,
-                addOnNext = true
+                addOnNext = true,
+                stackedSnackbarHostState = stackedSnackbarHostState,
             )
         }
     )
 
-    val musicRepository = appState.musicRepository
-
-    AddToQueueDropDownItem {
-        it?.addMediaItem(track.asMediaItem(musicRepository))
+    AddTrackToQueueShared(track) {
+        AddToQueueDropDownItem(it)
     }
 
     TrackMetadataDropDownItem(track = track)
@@ -194,6 +198,8 @@ private fun ColumnScope.MoreInfoButtonContent(
         details = { details!! },
         enabled = details != null,
     )
+
+    SearchTrackOnlineDropDownItem(track = track,details = details)
 
     onRemove?.let {
         DeleteDropDownItem(

@@ -36,30 +36,7 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Chillback" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Chillback" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Chillback" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Chillback" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="other" type="c8890929:TasksNode$1" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -100,7 +77,7 @@
   </component>
   <component name="ProblemsViewState">
     <option name="autoscrollToSource" value="true" />
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
     <option name="showPreview" value="true" />
     <option name="sortByName" value="true" />
   </component>
@@ -141,7 +118,7 @@
     "project.structure.side.proportion": "0.2",
     "recommended.upgrade.last.time.stamp": "1710955075306",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.toDoOptions",
+    "settings.editor.selected.configurable": "experimental",
     "two.files.diff.last.used.file": "C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/app/src/main/kotlin/com/deathsdoor/chillback/ui/components/layout/SlideFromUnderneathText.kt"
   },
   "keyToStringList": {
@@ -190,9 +167,10 @@
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="cargo" />
+      <command value="gradle cargo" />
     </option>
   </component>
-  <component name="RunManager" selected="Android App.app">
+  <component name="RunManager" selected="Gradle.Chillback [cargo]">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="Chillback.app.main" />
       <option name="DEPLOY" value="true" />
@@ -464,14 +442,38 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Chillback [cargo]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="cargo" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Android App.app" />
       <item itemvalue="Compose Preview.ChillbackAppPreview - Unfolded Foldable" />
       <item itemvalue="Compose Preview.DraggableBars" />
       <item itemvalue="Compose Preview.AppScreen" />
+      <item itemvalue="Gradle.Chillback [cargo]" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.Chillback [cargo]" />
         <item itemvalue="Compose Preview.ChillbackAppPreview - Unfolded Foldable" />
         <item itemvalue="Compose Preview.DraggableBars" />
         <item itemvalue="Compose Preview.AppScreen" />

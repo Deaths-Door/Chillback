@@ -37,6 +37,7 @@ fun InitializeProviders(activity: Activity,content : @Composable () -> Unit) {
     val appState = viewModel {
         ChillbackAppState(
             application = activity.application,
+            stackedSnackbarHostState = stackedSnackbarHostState,
             navController = navController,
         )
     }

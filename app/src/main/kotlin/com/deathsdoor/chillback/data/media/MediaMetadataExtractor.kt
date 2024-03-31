@@ -11,7 +11,6 @@ import java.io.File
 @JvmInline
 value class MediaMetadataExtractor private constructor(private val audioFile: AudioFile) {
     companion object {
-        // TODO : DON"T CATCH ALL EXCEPTIONS MAYBE
         operator fun invoke(track : Track): MediaMetadataExtractor? {
             return try {
                 val file = File(track.sourcePath)

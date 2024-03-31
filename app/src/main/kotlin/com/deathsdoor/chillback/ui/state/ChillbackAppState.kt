@@ -1,5 +1,6 @@
 package com.deathsdoor.chillback.ui.state
 
+import StackedSnakbarHostState
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
@@ -21,6 +22,7 @@ import kotlinx.coroutines.withContext
 
 class ChillbackAppState(
     application : Application,
+    stackedSnackbarHostState: StackedSnakbarHostState,
     val navController: NavHostController,
 ) : AndroidViewModel(application) {
     private val context: Context get() = this.getApplication<Application>().applicationContext
@@ -50,7 +52,12 @@ class ChillbackAppState(
             // Needs to be called from the main thread
             withContext(Dispatchers.Main) {
                 settings.music.playback.update(MediaPlaybackPreferences.from(mediaController!!))
-                settings.music.playback.current().first()?.apply(database,musicRepository,mediaController!!)
+                settings.music.playback.current().first()?.apply(
+                    database = database,
+                    musicRepository = musicRepository,
+                    mediaController = mediaController!!,
+                    stackedSnackbarHostState = stackedSnackbarHostState
+                )
             }
         }
     }

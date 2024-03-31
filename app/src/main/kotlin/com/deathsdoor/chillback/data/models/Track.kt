@@ -17,7 +17,7 @@ data class Track(@ColumnInfo(name = "source_path") val sourcePath : String) {
     @ColumnInfo(name = "is_favourite")
     var isFavorite : Boolean = false
 
-    suspend fun asMediaItem(musicRepository : MusicRepository) = musicRepository.trackDetails(this).asMediaItem(this)
+    suspend fun asMediaItem(musicRepository : MusicRepository) = musicRepository.trackDetails(this)?.asMediaItem(this)
 
     fun encodeSourcePath(): String = URLEncoder.encode(sourcePath,"UTF-8")
 

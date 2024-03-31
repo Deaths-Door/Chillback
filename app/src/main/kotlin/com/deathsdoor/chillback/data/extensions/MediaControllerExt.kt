@@ -1,5 +1,7 @@
 package com.deathsdoor.chillback.data.extensions
 
+import StackedSnackbarDuration
+import StackedSnakbarHostState
 import android.os.Bundle
 import android.os.Looper
 import android.view.Surface
@@ -24,7 +26,52 @@ import androidx.media3.common.text.CueGroup
 import androidx.media3.common.util.Size
 import androidx.media3.common.util.UnstableApi
 import com.deathsdoor.chillback.data.models.Track
+import com.deathsdoor.chillback.data.models.TrackDetails
 import com.deathsdoor.chillback.data.repositories.MusicRepository
+
+inline fun MediaItem?.orReport(
+    snackbarState: StackedSnakbarHostState,
+    description : String? = null,
+    run :  (MediaItem) -> Unit
+) = if(this != null) run(this)
+else snackbarState.showErrorSnackbar(
+    title = "Failed to read Metadata for MediaItem",
+    description = description,
+    duration = StackedSnackbarDuration.Short
+)
+
+fun TrackDetails?.orJustReport(
+    snackbarState: StackedSnakbarHostState,
+    description : String? = null,
+): TrackDetails? {
+    if(this == null) snackbarState.showErrorSnackbar(
+        title = "Failed to read Metadata for track",
+        description = description,
+        duration = StackedSnackbarDuration.Short
+    )
+
+    return this
+}
+
+
+suspend fun Collection<Track>.asMediaItemsOrReport(
+    musicRepository : MusicRepository,
+    snackbarState: StackedSnakbarHostState,
+) : List<MediaItem> {
+    val sizeBefore = this.size
+    val output = mapNotNull {
+        it.asMediaItem(musicRepository)
+    }
+
+    if(sizeBefore != output.size) snackbarState.showErrorSnackbar(
+        title = "Failed to read Metadata for ${sizeBefore - output.size} mediaitems",
+        duration = StackedSnackbarDuration.Short
+    )
+
+    return output
+}
+
+
 
 private inline val Player.mediaItemsRange get() = 0 until mediaItemCount
 fun <T> Player.mapMediaItems(transform : (MediaItem) -> T) = mediaItemsRange.map { transform(getMediaItemAt(it)) }
@@ -45,7 +92,6 @@ fun Player.mediaItemOfOrNull(track : Track,transform : (Int,MediaItem) -> Unit) 
         if(mediaItem.mediaId == id) transform(index,mediaItem)
     }
 }
-suspend fun Collection<Track>.asMediaItems(musicRepository : MusicRepository) = map { it.asMediaItem(musicRepository) }
 
 fun MediaMetadata.Builder.setIsFavourite(isFavorite : Boolean) = setExtras(Bundle().apply { putBoolean("isFavorite",isFavorite) })
 fun MediaMetadata.Builder.setIsFavourite(track : Track) = setIsFavourite(track.isFavorite)

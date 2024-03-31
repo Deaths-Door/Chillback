@@ -24,17 +24,29 @@ class MusicRepository(
 
     fun trackDetailsOrNull(track: Track) : TrackDetails? = tracksDetails.get(track.id)
 
-    // TODO : Figure out a better solution then this , temporary fix
-    suspend fun trackDetails(track : Track): TrackDetails = tracksDetails.get(track.id) {
-        val extractor = MediaMetadataExtractor(track) //?: return@apply null
-        TrackDetails(
-            name = extractor?.name() ?: "Failed reading data",
-            artwork = extractor?.artwork(),
-            artists = extractor?.artists()?.joinToString(","),
-            genre = extractor?.genre() ?: "Failed reading data",
-            album = extractor?.album() ?: "Failed reading data",
-            albumArtists = extractor?.albumArtists()?.joinToString(",")
-        )
+    suspend fun trackDetails(track : Track): TrackDetails? {
+        return trackDetailsOrNull(track = track) ?: run {
+            val extractor = MediaMetadataExtractor(track) ?:  return@run null
+            val name = extractor.name()
+            val artwork = extractor.artwork()
+            val artists = extractor.artists()
+            val genre = extractor.genre()
+            val album = extractor.album()
+            val albumArtists = extractor.albumArtists()
+
+            val details = TrackDetails(
+                name = name,
+                artwork = artwork,
+                artists = artists.joinToString(","),
+                genre = genre,
+                album = album,
+                albumArtists = albumArtists.joinToString(",")
+            )
+
+            tracksDetails.put(track.id,details)
+
+            details
+        }
     }
 
     suspend fun trackArtwork(track : Track) = tracksDetails.get(track.id)?.artwork ?: MediaMetadataExtractor(track)?.artwork()

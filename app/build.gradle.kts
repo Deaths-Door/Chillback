@@ -67,7 +67,7 @@ tasks.whenTaskAdded {
 cargo {
     module = "../backend"
     libname = "backend"
-    targets = listOf("arm", "arm64", "x86", "x86_64")
+    targets = listOf("x86", "x86_64")
     profile = "release"
 }
 

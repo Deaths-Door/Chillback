@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenuItem
@@ -51,11 +50,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewDynamicColors
-import androidx.compose.ui.tooling.preview.PreviewFontScale
-import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -174,7 +168,6 @@ private fun RingtoneSelectorAlertDialog(isDialogOpen : MutableState<Boolean>,tra
                 ExoPlayer.Builder(context).build().apply { prepare() }
             }
 
-            val coroutineScope = rememberCoroutineScope()
             val amplitudes = remember { mutableStateListOf<Int>() }
             var totalDuration by remember { mutableLongStateOf(-1L) }
 
@@ -190,9 +183,8 @@ private fun RingtoneSelectorAlertDialog(isDialogOpen : MutableState<Boolean>,tra
                     onSuccess = {
                         totalDuration = it.getAudioDuration(AmplitudaResult.DurationUnit.MILLIS)
                         amplitudes.addAll(it.amplitudesAsList())
-                        coroutineScope.launch {
-                            mediaController.addMediaItem(track.asMediaItem(musicRepository = appState.musicRepository))
-                        }
+
+                        mediaController.addMediaItem(details.asMediaItem(track))
                     }
                 )
             }
