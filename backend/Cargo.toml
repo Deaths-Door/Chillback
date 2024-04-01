@@ -13,7 +13,7 @@ path = "uniffi-bindgen.rs"
 
 [dependencies]
 # For compiling this library , without installing more shit
-openssl = { version = "0.10", features = ["vendored"] }
+#openssl = { version = "0.10", features = ["vendored"] }
 
 # For youtube
 google-youtube3 = " 5.0.4+20240303"

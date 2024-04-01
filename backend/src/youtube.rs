@@ -1,6 +1,6 @@
-use std::{error::Error, fs::File, io::Read};
+use std::{fs::File, io::Read};
 
-use google_youtube3::{client::remove_json_null_values, hyper, hyper_rustls, oauth2::{ApplicationSecret,InstalledFlowAuthenticator,InstalledFlowReturnMethod}, YouTube};
+use google_youtube3::{hyper, hyper_rustls, oauth2::{ApplicationSecret,InstalledFlowAuthenticator,InstalledFlowReturnMethod}, YouTube};
 use rusty_ytdl::{reqwest::Proxy, RequestOptions, Video, VideoOptions, VideoSearchOptions};
 
 #[derive(Debug,thiserror::Error,uniffi::Error)]
@@ -11,6 +11,8 @@ pub enum YoutubeError {
     Video(String),
     #[error("{}",.0)]
     Proxy(String),
+    #[error("{}",.0)]
+    File(String),
 }
 
 /// Downloads a YouTube video and saves it to a file.
@@ -51,27 +53,49 @@ pub async fn download_youtube_video(
         ..Default::default()
     };
 
+    // TODO : Download audio instead of video
     let video = Video::new_with_options(video_url, video_options).map_err(|e| YoutubeError::Video(e.to_string()))?;
     
     video.download(output_file).await.map_err(|e| YoutubeError::Download(e.to_string()))
 }
 
-// TODO : Get this to work in the future 
-pub async fn search_youtube(
+/// Searches for a YouTube video based on provided criteria and downloads the audio track.
+
+/// # Arguments
+/// * `track_name`: A string slice containing the name of the track to search for.
+/// * `track_artist`: A string slice containing the artist name (optional).
+/// * `lyrics`: A boolean indicating whether to use lyrics (if available) to refine the search (optional).
+/// * `filter_moderate`: An `Option<bool>` specifying the search filter strictness.
+///     * `None`: No specific filter applied.
+///     * `Some(false)`: Strict filter (might return fewer results).
+///     * `Some(true)`: Moderate filter (might return more irrelevant results).
+/// * `output_file`: A string slice containing the path and filename where the downloaded audio will be saved.
+/// * `scheme` (Optional): An `Option<String>` specifying the proxy scheme to use for the download. If `None`, no proxy will be used.
+/// * `username` (Optional): An `Option<String>` containing a username for proxy authentication. This is only used if a proxy scheme is specified.
+/// * `password` (Optional): An `Option<String>` containing a password for proxy authentication. This is only used if a proxy scheme is specified.
+#[uniffi::export]
+pub async fn search_and_download_youtube(
     track_name : &str,
     track_artist : &str,
     lyrics: bool,
     // none , strict , moderate
-    filter_moderate : Option<bool>
-    // TODO : Return smth more useful
-) -> Result<(),String>  {
+    filter_moderate : Option<bool>,
+    output_file : &str,
+    scheme : Option<String>,
+    // Username Password
+    username : Option<String>,
+    password : Option<String>
+) -> Result<(),YoutubeError>  {
     // Get an ApplicationSecret instance by reading local file
     let mut file_content = String::new();
     
+    // TODO : In the future, create a free and paid tier, or ask users for credientals instead of making a paid tier 
+    // so that in the free tier , every user has eg 5 calls per day and then they need to wait , or explore other options 
+    // provided. 
     File::open("youtube_data_api_secret.json")
-        .map_err(|e| e.to_string())?
+        .map_err(|e| YoutubeError::File(e.to_string()))?
         .read_to_string(&mut file_content)
-        .map_err(|e| e.to_string())?;
+        .map_err(|e| YoutubeError::File(e.to_string()))?;
 
     let secret = serde_json::from_str::<ApplicationSecret>(&file_content).unwrap();
     
@@ -96,9 +120,9 @@ pub async fn search_youtube(
 
     // You can configure optional parameters by calling the respective setters at will, and
     // execute the final call using `doit()`.
-    // Values shown here are possibly random and not representative !
-    let lyrics = if lyrics { "lyrics" } else { "" };
-    let query = format!("{track_name} by {track_artist} {lyrics}");
+    const LYRICS : &str = "lyrics";
+    let lyrics_str = if lyrics { LYRICS } else { "" };
+    let query = format!("{track_name} by {track_artist} {lyrics_str}");
     let safe_search = match filter_moderate {
         None => "none",
         Some(true) => "moderate",
@@ -115,15 +139,59 @@ pub async fn search_youtube(
         .doit()
         .await;
 
-    let (response ,output_schema) = result.unwrap();
+    // We do not need output_schema for now
+    let (response ,_output_schema) = result.unwrap();
 
+    let json = hyper::body::to_bytes(response.into_body()).await.map_err(|e| YoutubeError::Video(e.to_string()))?;
+    let value = serde_json::value::to_value(&*json).unwrap();
+    let snippets = value["items"].as_array().unwrap();
+
+    if snippets.is_empty() {
+        return Err(YoutubeError::Video("Search Query returned no results".into()))
+    }
+
+    let score : fn(&str,&str,&str,&str,&str) -> u8 = match lyrics {
+        true => |title : &str,description : &str,channel : &str,track_artist : &str,_ : &str| -> u8 {
+            title.contains(LYRICS) as u8 +
+            description.contains(LYRICS) as u8 + 
+            channel.contains(track_artist) as u8 
+        },
+        false => |title : &str,description : &str,channel : &str,track_artist : &str,track_name : &str| -> u8 {
+            title.contains(track_name) as u8 + 
+            title.contains(track_artist) as u8 + 
+            description.contains(track_name) as u8 + 
+            description.contains(track_artist) as u8 +
+            channel.contains(track_name) as u8 + 
+            channel.contains(track_artist) as u8
+        }
+    };
+     
+    let track_artist = &track_artist.to_lowercase();
+    let track_name = &track_name.to_lowercase();
     
-    let mut value = serde_json::value::to_value(&output_schema).expect("serde to work");
-    remove_json_null_values(&mut value);
+    let (_,video_id) = snippets.iter()
+        .map(|item| {
+            let snippet = &value["snippet"];
+            let title = &snippet["title"].as_str().unwrap();
+            let description = &snippet["description"].as_str().unwrap();
+            let channel = &snippet["channelTitle"].as_str().unwrap();
+            let id = &item["videoId"];
 
-    println!("{:?} \n---------\n {:?}",response,output_schema);
+            let score = score(title,description,channel,track_artist,track_name);
+            (score,id)
+        })
+        .max_by(|x,y| x.0.cmp(&y.0))
+        // As we return early if snippets are empty
+        .unwrap();
 
-    Ok(())
+
+    download_youtube_video(
+        video_id.as_str().unwrap(),
+        output_file,
+        scheme,
+        username,
+        password
+    ).await
 }
 
 #[cfg(test)]
