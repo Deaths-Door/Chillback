@@ -118,8 +118,6 @@ pub async fn search_and_download_youtube(
     let client = hyper::Client::builder().build(connector);
     let hub = YouTube::new(client, auth);
 
-    // You can configure optional parameters by calling the respective setters at will, and
-    // execute the final call using `doit()`.
     const LYRICS : &str = "lyrics";
     let lyrics_str = if lyrics { LYRICS } else { "" };
     let query = format!("{track_name} by {track_artist} {lyrics_str}");

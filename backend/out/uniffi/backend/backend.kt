@@ -699,6 +699,8 @@ internal interface UniffiForeignFutureCompleteVoid : com.sun.jna.Callback {
 
 
 
+
+
 // A JNA Library to expose the extern-C FFI definitions.
 // This is an implementation detail which will be called internally by the public API.
 
@@ -715,6 +717,8 @@ internal interface UniffiLib : Library {
     }
 
     fun uniffi_backend_fn_func_download_youtube_video(`videoUrl`: RustBuffer.ByValue,`outputFile`: RustBuffer.ByValue,`scheme`: RustBuffer.ByValue,`username`: RustBuffer.ByValue,`password`: RustBuffer.ByValue,
+    ): Long
+    fun uniffi_backend_fn_func_search_and_download_youtube(`trackName`: RustBuffer.ByValue,`trackArtist`: RustBuffer.ByValue,`lyrics`: Byte,`filterModerate`: RustBuffer.ByValue,`outputFile`: RustBuffer.ByValue,`scheme`: RustBuffer.ByValue,`username`: RustBuffer.ByValue,`password`: RustBuffer.ByValue,
     ): Long
     fun ffi_backend_rustbuffer_alloc(`size`: Long,uniffi_out_err: UniffiRustCallStatus, 
     ): RustBuffer.ByValue
@@ -830,6 +834,8 @@ internal interface UniffiLib : Library {
     ): Unit
     fun uniffi_backend_checksum_func_download_youtube_video(
     ): Short
+    fun uniffi_backend_checksum_func_search_and_download_youtube(
+    ): Short
     fun ffi_backend_uniffi_contract_version(
     ): Int
     
@@ -848,6 +854,9 @@ private fun uniffiCheckContractApiVersion(lib: UniffiLib) {
 @Suppress("UNUSED_PARAMETER")
 private fun uniffiCheckApiChecksums(lib: UniffiLib) {
     if (lib.uniffi_backend_checksum_func_download_youtube_video() != 64976.toShort()) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if (lib.uniffi_backend_checksum_func_search_and_download_youtube() != 884.toShort()) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
 }
@@ -929,6 +938,26 @@ inline fun <T : Disposable?, R> T.use(block: (T) -> R) =
 
 /** Used to instantiate an interface without an actual pointer, for fakes in tests, mostly. */
 object NoPointer
+
+public object FfiConverterBoolean: FfiConverter<Boolean, Byte> {
+    override fun lift(value: Byte): Boolean {
+        return value.toInt() != 0
+    }
+
+    override fun read(buf: ByteBuffer): Boolean {
+        return lift(buf.get())
+    }
+
+    override fun lower(value: Boolean): Byte {
+        return if (value) 1.toByte() else 0.toByte()
+    }
+
+    override fun allocationSize(value: Boolean) = 1UL
+
+    override fun write(value: Boolean, buf: ByteBuffer) {
+        buf.put(lower(value))
+    }
+}
 
 public object FfiConverterString: FfiConverter<String, RustBuffer.ByValue> {
     // Note: we don't inherit from FfiConverterRustBuffer, because we use a
@@ -1014,6 +1043,14 @@ sealed class YoutubeException: Exception() {
             get() = "=${ `` }"
     }
     
+    class File(
+        
+        val ``: kotlin.String
+        ) : YoutubeException() {
+        override val message
+            get() = "=${ `` }"
+    }
+    
 
     companion object ErrorHandler : UniffiRustCallStatusErrorHandler<YoutubeException> {
         override fun lift(error_buf: RustBuffer.ByValue): YoutubeException = FfiConverterTypeYoutubeError.lift(error_buf)
@@ -1036,6 +1073,9 @@ public object FfiConverterTypeYoutubeError : FfiConverterRustBuffer<YoutubeExcep
             3 -> YoutubeException.Proxy(
                 FfiConverterString.read(buf),
                 )
+            4 -> YoutubeException.File(
+                FfiConverterString.read(buf),
+                )
             else -> throw RuntimeException("invalid error enum value, something is very wrong!!")
         }
     }
@@ -1053,6 +1093,11 @@ public object FfiConverterTypeYoutubeError : FfiConverterRustBuffer<YoutubeExcep
                 + FfiConverterString.allocationSize(value.``)
             )
             is YoutubeException.Proxy -> (
+                // Add the size for the Int that specifies the variant plus the size needed for all fields
+                4UL
+                + FfiConverterString.allocationSize(value.``)
+            )
+            is YoutubeException.File -> (
                 // Add the size for the Int that specifies the variant plus the size needed for all fields
                 4UL
                 + FfiConverterString.allocationSize(value.``)
@@ -1077,9 +1122,43 @@ public object FfiConverterTypeYoutubeError : FfiConverterRustBuffer<YoutubeExcep
                 FfiConverterString.write(value.``, buf)
                 Unit
             }
+            is YoutubeException.File -> {
+                buf.putInt(4)
+                FfiConverterString.write(value.``, buf)
+                Unit
+            }
         }.let { /* this makes the `when` an expression, which ensures it is exhaustive */ }
     }
 
+}
+
+
+
+
+public object FfiConverterOptionalBoolean: FfiConverterRustBuffer<kotlin.Boolean?> {
+    override fun read(buf: ByteBuffer): kotlin.Boolean? {
+        if (buf.get().toInt() == 0) {
+            return null
+        }
+        return FfiConverterBoolean.read(buf)
+    }
+
+    override fun allocationSize(value: kotlin.Boolean?): ULong {
+        if (value == null) {
+            return 1UL
+        } else {
+            return 1UL + FfiConverterBoolean.allocationSize(value)
+        }
+    }
+
+    override fun write(value: kotlin.Boolean?, buf: ByteBuffer) {
+        if (value == null) {
+            buf.put(0)
+        } else {
+            buf.put(1)
+            FfiConverterBoolean.write(value, buf)
+        }
+    }
 }
 
 
@@ -1131,6 +1210,37 @@ public object FfiConverterOptionalString: FfiConverterRustBuffer<kotlin.String?>
      suspend fun `downloadYoutubeVideo`(`videoUrl`: kotlin.String, `outputFile`: kotlin.String, `scheme`: kotlin.String?, `username`: kotlin.String?, `password`: kotlin.String?) {
         return uniffiRustCallAsync(
         UniffiLib.INSTANCE.uniffi_backend_fn_func_download_youtube_video(FfiConverterString.lower(`videoUrl`),FfiConverterString.lower(`outputFile`),FfiConverterOptionalString.lower(`scheme`),FfiConverterOptionalString.lower(`username`),FfiConverterOptionalString.lower(`password`),),
+        { future, callback, continuation -> UniffiLib.INSTANCE.ffi_backend_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.INSTANCE.ffi_backend_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.INSTANCE.ffi_backend_rust_future_free_void(future) },
+        // lift function
+        { Unit },
+        
+        // Error FFI converter
+        YoutubeException.ErrorHandler,
+    )
+    }
+
+        /**
+         * Searches for a YouTube video based on provided criteria and downloads the audio track.
+         * # Arguments
+         * * `track_name`: A string slice containing the name of the track to search for.
+         * * `track_artist`: A string slice containing the artist name (optional).
+         * * `lyrics`: A boolean indicating whether to use lyrics (if available) to refine the search (optional).
+         * * `filter_moderate`: An `Option<bool>` specifying the search filter strictness.
+         * * `None`: No specific filter applied.
+         * * `Some(false)`: Strict filter (might return fewer results).
+         * * `Some(true)`: Moderate filter (might return more irrelevant results).
+         * * `output_file`: A string slice containing the path and filename where the downloaded audio will be saved.
+         * * `scheme` (Optional): An `Option<String>` specifying the proxy scheme to use for the download. If `None`, no proxy will be used.
+         * * `username` (Optional): An `Option<String>` containing a username for proxy authentication. This is only used if a proxy scheme is specified.
+         * * `password` (Optional): An `Option<String>` containing a password for proxy authentication. This is only used if a proxy scheme is specified.
+         */
+    @Throws(YoutubeException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+     suspend fun `searchAndDownloadYoutube`(`trackName`: kotlin.String, `trackArtist`: kotlin.String, `lyrics`: kotlin.Boolean, `filterModerate`: kotlin.Boolean?, `outputFile`: kotlin.String, `scheme`: kotlin.String?, `username`: kotlin.String?, `password`: kotlin.String?) {
+        return uniffiRustCallAsync(
+        UniffiLib.INSTANCE.uniffi_backend_fn_func_search_and_download_youtube(FfiConverterString.lower(`trackName`),FfiConverterString.lower(`trackArtist`),FfiConverterBoolean.lower(`lyrics`),FfiConverterOptionalBoolean.lower(`filterModerate`),FfiConverterString.lower(`outputFile`),FfiConverterOptionalString.lower(`scheme`),FfiConverterOptionalString.lower(`username`),FfiConverterOptionalString.lower(`password`),),
         { future, callback, continuation -> UniffiLib.INSTANCE.ffi_backend_rust_future_poll_void(future, callback, continuation) },
         { future, continuation -> UniffiLib.INSTANCE.ffi_backend_rust_future_complete_void(future, continuation) },
         { future -> UniffiLib.INSTANCE.ffi_backend_rust_future_free_void(future) },
