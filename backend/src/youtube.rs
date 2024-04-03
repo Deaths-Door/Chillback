@@ -1,13 +1,10 @@
 use std::{fs::File, io::Read};
 
 use google_youtube3::{hyper, hyper_rustls, oauth2::{ApplicationSecret,InstalledFlowAuthenticator,InstalledFlowReturnMethod}, YouTube};
-//use r2d2::PooledConnection;
-//use r2d2_sqlite::SqliteConnectionManager;
-//use rusqlite::Connection;
+use rusqlite::{named_params,OptionalExtension};
 use rusty_ytdl::{reqwest::Proxy, RequestOptions, Video, VideoOptions, VideoSearchOptions};
 
-//use crate::database::cache_instance;
-
+use crate::database::cache_instance;
 
 type YoutubeResult<T> = Result<T,YoutubeError>;
 
@@ -23,14 +20,14 @@ pub enum YoutubeError {
     File(String),
 }
 
-/// Downloads a YouTube video and saves it to a file.
+/// Downloads a YouTube video audio and saves it to a file.
 /// # Arguments
 /// * `video_url`: A string slice containing the URL of the YouTube video to download.
 /// * `output_file`: A string slice containing the path and filename where the downloaded video will be saved.
 /// * `scheme` (Optional): An `Option<String>` specifying the proxy scheme to use for the download. If `None`, no proxy will be used.
 /// * `authentication` (Optional): An `Option<(String, String)>` containing a username and password for proxy authentication. This is only used if a proxy scheme is specified.
 #[uniffi::export]
-pub async fn download_youtube_video(
+pub async fn download_youtube_video_audio(
     video_url : &str,
     output_file : &str,
     scheme : Option<String>,
@@ -61,25 +58,10 @@ pub async fn download_youtube_video(
         ..Default::default()
     };
 
-    // TODO : Download audio instead of video
     let video = Video::new_with_options(video_url, video_options).map_err(|e| YoutubeError::Video(e.to_string()))?;
     
     video.download(output_file).await.map_err(|e| YoutubeError::Download(e.to_string()))
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[tokio::test]
-    async fn download_mp3() {
-        super::download_youtube_video("https://www.youtube.com/shorts/pmcTmWO7ZOQ", "test.mp4", None, None, None).await.expect("Failure");
-        super::download_youtube_video("https://www.youtube.com/shorts/pmcTmWO7ZOQ", "test.mp3", None, None, None).await.expect("Failure");
-
-    }
-}
-
-/*
 
 /// Searches for a YouTube video based on provided criteria and returns its `videoId` to pass as an argument to [download_youtube_video]
 /// # Arguments
@@ -95,18 +77,14 @@ mod tests {
 /// * `username` (Optional): An `Option<String>` containing a username for proxy authentication. This is only used if a proxy scheme is specified.
 /// * `password` (Optional): An `Option<String>` containing a password for proxy authentication. This is only used if a proxy scheme is specified.
 #[uniffi::export]
-pub async fn search_and_download_youtube(
+pub async fn search_youtube_video(
     track_name : &str,
     track_artist : &str,
     lyrics: bool,
     // none , strict , moderate
     filter_moderate : Option<bool>,
-    output_file : &str,
-    scheme : Option<String>,
-    // Username Password
-    username : Option<String>,
-    password : Option<String>
 ) -> YoutubeResult<String>  {
+    // Build Query
     const LYRICS : &str = "lyrics";
     let lyrics_str = if lyrics { LYRICS } else { "" };
     let query = format!("{track_name} by {track_artist} {lyrics_str}");
@@ -116,8 +94,16 @@ pub async fn search_and_download_youtube(
         Some(false) => "strict"
     };
 
-    create_table();
-
+    let create_table_result = create_table();
+    
+    // Look at cached results before fetching new one
+    if let Ok(_) = create_table_result {
+        // TODO : Check why does this not work even though there is data in the database
+        if let Ok(video_id) = cached_search_results(track_name,track_artist,lyrics,filter_moderate) {
+            return Ok(video_id)
+        } 
+    }
+   
     // Get an ApplicationSecret instance by reading local file
     let mut file_content = String::new();
     
@@ -130,7 +116,7 @@ pub async fn search_and_download_youtube(
         .map_err(|e| YoutubeError::File(e.to_string()))?;
 
     let secret = serde_json::from_str::<ApplicationSecret>(&file_content).unwrap();
-    
+
     // Instantiate the authenticator. It will choose a suitable authentication flow for you, 
     // unless you replace  `None` with the desired Flow.
     // Provide your own `AuthenticatorDelegate` to adjust the way it operates and get feedback about 
@@ -146,7 +132,7 @@ pub async fn search_and_download_youtube(
         .https_or_http()
         .enable_http1()
         .build();
-
+    
     let client = hyper::Client::builder().build(connector);
     let hub = YouTube::new(client, auth);
     
@@ -159,6 +145,7 @@ pub async fn search_and_download_youtube(
         .add_type("video")
         .doit()
         .await;
+
 
     // We do not need output_schema for now
     let (response ,_output_schema) = result.unwrap();
@@ -186,7 +173,7 @@ pub async fn search_and_download_youtube(
             channel.contains(track_artist) as u8
         }
     };
-     
+
     let track_artist = &track_artist.to_lowercase();
     let track_name = &track_name.to_lowercase();
     
@@ -204,49 +191,83 @@ pub async fn search_and_download_youtube(
         .max_by(|x,y| x.0.cmp(&y.0))
         // As we return early if snippets are empty
         .unwrap();
-    
 
-    cache_search_results(&query, filter_moderate, video_id);
+    let video_id = video_id.as_str().unwrap().to_string();
 
-    Ok(video_id.as_str().unwrap().to_string())
+    if let Ok(_) = create_table_result {
+        let _ = insert_search_result(&video_id,track_name,track_artist,lyrics,filter_moderate);
+    }
+
+    Ok(video_id)
 }
 
+/// Cleans the YouTube cache by deleting all entries from the `youtube_cache` table.
+#[uniffi::export]
+pub fn clean_youtube_cache() {
+    const SQL : &str = "DELETE FROM youtube_cache";
+    // TODO : Report something to the caller function
+    let _ = cache_instance().execute(SQL,[]);
+}
 
-fn create_table() -> Result<(),()> {
-    if let Ok(cache) = cache_instance().lock() {
-        if let Ok(instance) = cache.get() {
-            instance.execute(
-                "CREATE TABLE IF NOT EXISTS youtube_cache ( video_id INTEGER,filter_moderate BIT,query TEXT NOT NULL PRIMARY KEY )"
-                , [])?;
+// TODO : In the future potentially log all the database interactions and even report errors caused by the database during debug mode using https://docs.rs/android_logger/latest/android_logger/
+fn create_table() -> rusqlite::Result<usize> {
+    const SQL : &str = "CREATE TABLE IF NOT EXISTS youtube_cache ( video_id INTEGER,filter_moderate BIT,lyrics BIT NOT NULL,track_name TEXT NOT NULL,track_artist TEXT NOT NULL,PRIMARY KEY (lyrics,filter_moderate,track_name,track_artist))";
+    cache_instance().execute(SQL, [])
+}
 
-        }
+fn cached_search_results(track_name : &str,track_artist : &str,lyrics : bool,filter_moderate : Option<bool>) -> rusqlite::Result<String>  {
+    const SQL : &str = "SELECT video_id FROM youtube_cache WHERE lyrics = :lyrics AND filter_moderate = :filter_moderate AND track_name = :track_name AND track_artist = :track_artist";
+    let cache = cache_instance();
+    let mut statement = cache.prepare_cached(SQL)?;
+    let params = named_params!{
+        ":lyrics" : lyrics,
+        ":filter_moderate" : filter_moderate,
+        ":track_name" : track_name,
+        ":track_artist" : track_artist
     };
 
-    Err(())
+    // Get Video ID
+    statement.query_row(params,|row| row.get(0))
 }
 
-fn cache_search_results(query : &str,filter_moderate : Option<bool>,video_id : &str) {
-    cache_instance().lock()
-        .unwrap()
-        .get()
-        .unwrap()
-        .prepare_cached(sql);
+fn insert_search_result(video_id : &str,track_name : &str,track_artist : &str,lyrics : bool,filter_moderate : Option<bool>) -> rusqlite::Result<usize> {
+    const SQL : &str = "INSERT INTO youtube_cache (video_id,filter_moderate,lyrics,track_name,track_artist) VALUES (:video_id, :filter_moderate, :lyrics, :track_name, :track_artist)";
+    cache_instance().prepare(SQL)?
+        .execute(named_params!{
+            ":video_id" : video_id,
+            ":lyrics" : lyrics,
+            ":filter_moderate" : filter_moderate,
+            ":track_name" : track_name.to_lowercase().replace(" ",""),
+            ":track_artist" : track_artist.to_lowercase().replace(" ","")
+        })
 }
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[tokio::test]
+    async fn download_mp3() {
+        download_youtube_video_audio("https://www.youtube.com/shorts/pmcTmWO7ZOQ", "test.mp4", None, None, None).await.expect("Failure");
+        // This works !!
+        download_youtube_video_audio("https://www.youtube.com/shorts/pmcTmWO7ZOQ", "test.mp3", None, None, None).await.expect("Failure");
+    }
+
+    #[tokio::test]
     async fn search_videos() {
-        search_and_download_youtube(
+        // To delete previous database
+        std::fs::remove_file("cache.db").expect("Failure");
+        
+        create_table().expect("Failure");
+        
+        // To avoid calling youtube api again and again during testing
+        insert_search_result("testIds","let her go","passenger",true,None).expect("Failure");
+
+        search_youtube_video(
             "let her go",
             "passenger",
-            false,
-            None,
-            "test.mp4",
-            None,
-            None,
+            true,
             None
         ).await.expect("Failure");
     } 
-}*/
+}
