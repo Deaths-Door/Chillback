@@ -1,7 +1,15 @@
 use std::{fs::File, io::Read};
 
 use google_youtube3::{hyper, hyper_rustls, oauth2::{ApplicationSecret,InstalledFlowAuthenticator,InstalledFlowReturnMethod}, YouTube};
+//use r2d2::PooledConnection;
+//use r2d2_sqlite::SqliteConnectionManager;
+//use rusqlite::Connection;
 use rusty_ytdl::{reqwest::Proxy, RequestOptions, Video, VideoOptions, VideoSearchOptions};
+
+//use crate::database::cache_instance;
+
+
+type YoutubeResult<T> = Result<T,YoutubeError>;
 
 #[derive(Debug,thiserror::Error,uniffi::Error)]
 pub enum YoutubeError {
@@ -29,7 +37,7 @@ pub async fn download_youtube_video(
     // Username Password
     username : Option<String>,
     password : Option<String>
-) -> Result<(),YoutubeError> {
+) -> YoutubeResult<()> {
     let video_options = VideoOptions {
         quality : rusty_ytdl::VideoQuality::HighestAudio,
         filter : VideoSearchOptions::Audio,
@@ -59,8 +67,21 @@ pub async fn download_youtube_video(
     video.download(output_file).await.map_err(|e| YoutubeError::Download(e.to_string()))
 }
 
-/// Searches for a YouTube video based on provided criteria and downloads the audio track.
+#[cfg(test)]
+mod tests {
+    use super::*;
 
+    #[tokio::test]
+    async fn download_mp3() {
+        super::download_youtube_video("https://www.youtube.com/shorts/pmcTmWO7ZOQ", "test.mp4", None, None, None).await.expect("Failure");
+        super::download_youtube_video("https://www.youtube.com/shorts/pmcTmWO7ZOQ", "test.mp3", None, None, None).await.expect("Failure");
+
+    }
+}
+
+/*
+
+/// Searches for a YouTube video based on provided criteria and returns its `videoId` to pass as an argument to [download_youtube_video]
 /// # Arguments
 /// * `track_name`: A string slice containing the name of the track to search for.
 /// * `track_artist`: A string slice containing the artist name (optional).
@@ -85,7 +106,18 @@ pub async fn search_and_download_youtube(
     // Username Password
     username : Option<String>,
     password : Option<String>
-) -> Result<(),YoutubeError>  {
+) -> YoutubeResult<String>  {
+    const LYRICS : &str = "lyrics";
+    let lyrics_str = if lyrics { LYRICS } else { "" };
+    let query = format!("{track_name} by {track_artist} {lyrics_str}");
+    let safe_search = match filter_moderate {
+        None => "none",
+        Some(true) => "moderate",
+        Some(false) => "strict"
+    };
+
+    create_table();
+
     // Get an ApplicationSecret instance by reading local file
     let mut file_content = String::new();
     
@@ -117,15 +149,6 @@ pub async fn search_and_download_youtube(
 
     let client = hyper::Client::builder().build(connector);
     let hub = YouTube::new(client, auth);
-
-    const LYRICS : &str = "lyrics";
-    let lyrics_str = if lyrics { LYRICS } else { "" };
-    let query = format!("{track_name} by {track_artist} {lyrics_str}");
-    let safe_search = match filter_moderate {
-        None => "none",
-        Some(true) => "moderate",
-        Some(false) => "strict"
-    };
     
     let result = hub.search()
         .list(&vec!["snippet".to_string()])
@@ -181,28 +204,49 @@ pub async fn search_and_download_youtube(
         .max_by(|x,y| x.0.cmp(&y.0))
         // As we return early if snippets are empty
         .unwrap();
+    
 
+    cache_search_results(&query, filter_moderate, video_id);
 
-    download_youtube_video(
-        video_id.as_str().unwrap(),
-        output_file,
-        scheme,
-        username,
-        password
-    ).await
+    Ok(video_id.as_str().unwrap().to_string())
 }
 
+
+fn create_table() -> Result<(),()> {
+    if let Ok(cache) = cache_instance().lock() {
+        if let Ok(instance) = cache.get() {
+            instance.execute(
+                "CREATE TABLE IF NOT EXISTS youtube_cache ( video_id INTEGER,filter_moderate BIT,query TEXT NOT NULL PRIMARY KEY )"
+                , [])?;
+
+        }
+    };
+
+    Err(())
+}
+
+fn cache_search_results(query : &str,filter_moderate : Option<bool>,video_id : &str) {
+    cache_instance().lock()
+        .unwrap()
+        .get()
+        .unwrap()
+        .prepare_cached(sql);
+}
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[tokio::test]
     async fn search_videos() {
-        search_youtube(
+        search_and_download_youtube(
             "let her go",
             "passenger",
             false,
+            None,
+            "test.mp4",
+            None,
+            None,
             None
-        ).await.unwrap()
+        ).await.expect("Failure");
     } 
-}
+}*/
