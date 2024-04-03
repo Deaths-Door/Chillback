@@ -199,7 +199,7 @@ private fun ColumnScope.MoreInfoButtonContent(
         enabled = details != null,
     )
 
-    SearchTrackOnlineDropDownItem(track = track,details = details)
+    SearchTrackOnlineDropDownItem(details = details)
 
     onRemove?.let {
         DeleteDropDownItem(

@@ -47,7 +47,7 @@ fun TrackExtraOptions(
         // Share
         // Set As Ringtone
         // Lyrics -> TODO
-        // Search In Youtube/Other Services -> TODO
+        // Search In Youtube/Other Services
         // Delete / Remove from list
 
         val appState = LocalAppState.current
@@ -89,7 +89,7 @@ fun TrackExtraOptions(
 
         RingtoneSelectorThumbItem(track = track,details = details)
 
-        SearchTrackOnlineThumbItem(track = track,details = details)
+        SearchTrackOnlineThumbItem(details = details)
 
         onRemove?.let {
             DeleteThumbItem(

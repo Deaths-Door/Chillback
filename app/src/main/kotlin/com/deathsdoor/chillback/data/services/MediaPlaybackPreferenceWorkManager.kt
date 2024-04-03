@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
+
 class MediaPlaybackPreferenceWorkManager(context : Context,workerParameters: WorkerParameters) : Worker(context,workerParameters) {
     private val job = SupervisorJob()
     private val scope = CoroutineScope(Dispatchers.IO + job)

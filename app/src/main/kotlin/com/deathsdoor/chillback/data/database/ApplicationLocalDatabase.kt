@@ -1,6 +1,7 @@
 package com.deathsdoor.chillback.data.database
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -12,7 +13,7 @@ import com.deathsdoor.chillback.data.models.TrackCollectionCrossReference
 
 @Database(
     version = 9,
-    entities = [Track::class, TrackCollection::class,TrackCollectionCrossReference::class]
+    entities = [Track::class, TrackCollection::class,TrackCollectionCrossReference::class],
 )
 @TypeConverters(
     value = [UriTypeConvertor::class]

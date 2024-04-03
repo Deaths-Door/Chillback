@@ -36,7 +36,7 @@ def build_and_generate_kotlin_bindings() :
 
     # Fix compile errors in generated bindings
     with open(os.path.join(output_dir, "backend.kt"), "r+") as file:
-        contents = file.read().replace("``","`_`")
+        contents = file.read().replace("``","`_`").replace("package com.deathsdoor.chillback.backend","package com.deathsdoor.chillback.backend")
 
         # Move file pointer back to the beginning to overwrite
         file.seek(0)
