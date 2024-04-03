@@ -54,8 +54,8 @@
         <option value="Kotlin Enum" />
         <option value="Kotlin Object" />
         <option value="resourceFile" />
-        <option value="Kotlin Class" />
         <option value="Kotlin File" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>

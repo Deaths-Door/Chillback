@@ -47,14 +47,14 @@ class MediaPlaybackPreferenceWorkManager(context : Context,workerParameters: Wor
                 .enqueueUniqueWork(
                     NAME,
                     ExistingWorkPolicy.REPLACE,
-                    OneTimeWorkRequestBuilder<MediaPlaybackPreferenceWorkManager>().apply {
-                        setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
-                        setInputData(
+                    OneTimeWorkRequestBuilder<CacheWorkManager>()
+                        .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+                        .setInputData(
                             Data.Builder()
                                 .putString(DATA, Json.encodeToString(MediaPlaybackPreferences.from(mediaController)))
                                 .build()
                         )
-                    }.build()
+                        .build()
                 )
         }
     }

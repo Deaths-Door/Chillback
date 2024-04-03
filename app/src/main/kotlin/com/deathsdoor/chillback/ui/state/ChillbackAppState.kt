@@ -13,7 +13,6 @@ import com.deathsdoor.chillback.data.media.TrackCollectionRepository
 import com.deathsdoor.chillback.data.preferences.ApplicationSettings
 import com.deathsdoor.chillback.data.repositories.MusicRepository
 import com.deathsdoor.chillback.data.repositories.UserRepository
-import com.deathsdoor.chillback.data.services.MediaPlaybackPreferenceWorkManager
 import com.deathsdoor.chillback.data.services.MediaPlaybackService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first

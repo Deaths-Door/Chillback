@@ -33,6 +33,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
@@ -41,6 +42,7 @@ import com.deathsdoor.chillback.backend.YoutubeException
 import com.deathsdoor.chillback.backend.downloadYoutubeVideoAudio
 import com.deathsdoor.chillback.backend.searchYoutubeVideo
 import com.deathsdoor.chillback.data.models.TrackDetails
+import com.deathsdoor.chillback.data.services.CacheWorkManager
 import com.deathsdoor.chillback.ui.components.layout.Thumbnail
 import com.deathsdoor.chillback.ui.components.layout.ThumbnailTitle
 import com.deathsdoor.chillback.ui.extensions.applyIf
@@ -222,6 +224,7 @@ private fun SearchTrackOnlineAlertDialog(
         },
         confirmButton = {
             val snackbar = LocalSnackbarState.current
+            val context = LocalContext.current
             val coroutineScope = rememberCoroutineScope()
 
             val directoryLauncher = rememberLauncherForActivityResult(
@@ -276,6 +279,8 @@ private fun SearchTrackOnlineAlertDialog(
 
                                 isLoading = false
                                 isOpen.value = false
+
+                                CacheWorkManager.start(context)
                             } catch (exception: YoutubeException) {
                                 snackbar.showErrorSnackbar(
                                     title = "Error Occurred",
