@@ -1,6 +1,6 @@
 import os
 import subprocess
-
+import shutil
 def build_and_generate_kotlin_bindings() :
     script_dir = os.path.dirname(os.path.abspath(__file__))
     chillback_project_dir = os.path.dirname(os.path.dirname(script_dir))
@@ -23,8 +23,15 @@ def build_and_generate_kotlin_bindings() :
             "--language", "kotlin",
             "--out-dir", output_dir
         ], cwd=backend_dir, check=True) 
+
+        # Move file to where it is excepted
+
+        shutil.move(os.path.join(output_dir,"uniffi/backend/backend.kt"),os.path.join(output_dir,"backend.kt"))
+
+        shutil.rmtree(os.path.join(output_dir,"uniffi"))
     except subprocess.CalledProcessError as e:
         print("Error generating kotlin bindings",e)
+
 
 
     # Fix compile errors in generated bindings
@@ -49,9 +56,9 @@ def build_and_generate_kotlin_bindings() :
     TARGETS = ["armv7-linux-androideabi","i686-linux-android"] 
 
     for target in TARGETS :
-        child_process.append(subprocess.Popen(["rustup","target","add",target],cwd=backend_dir,check=True))
+        child_process.append(subprocess.Popen(["rustup","target","add",target],cwd=backend_dir))
 
-    child_process.append(subprocess.Popen(["cargo", "install", "cross", "--git", "https://github.com/cross-rs/cross"],check=True))
+    child_process.append(subprocess.Popen(["cargo", "install", "cross", "--git", "https://github.com/cross-rs/cross"]))
 
     for proccess in child_process :
         try : proccess.wait()
@@ -61,7 +68,7 @@ def build_and_generate_kotlin_bindings() :
     child_process.clear()
 
     for target in TARGETS :
-        child_process.append(subprocess.Popen(["cross","build","--target",target],cwd=backend_dir,check=True))
+        child_process.append(subprocess.Popen(["cross","build","--target",target],cwd=backend_dir))
 
     for index ,proccess in enumerate(child_process) :
         try : proccess.wait()
