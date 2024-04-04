@@ -115,6 +115,8 @@ fun ChillbackApp() {
         )
     }
 
+    val windowAdaptiveSize = LocalWindowAdaptiveSize.current
+
     val navHost = @Composable { modifier : Modifier ->
         NavHost(
             modifier = modifier,
@@ -122,14 +124,13 @@ fun ChillbackApp() {
             startDestination = appScreenInitialRoute,
             builder = {
                 addAppScreenRoutes()
-                addSettingsScreenRoutes()
+                addSettingsScreenRoutes(windowAdaptiveSize)
                 addMusicScreenRoutes(appState = appState)
                 addTrackExtraOptionsRoutes()
             }
         )
     }
 
-    val windowAdaptiveSize = LocalWindowAdaptiveSize.current
 
     // TODO : Check if this condition is correct
     // TODO : For desktop/large screens , make a mini-playbackqueue that doesnt take up full screen with pane

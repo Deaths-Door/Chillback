@@ -29,8 +29,8 @@ fun CollapsableScaffold(
     modifier : Modifier = Modifier,
     label : String,
     onBack : () -> Unit,
-    floatingActionButton: @Composable AnimatedVisibilityScope.() -> Unit,
     headerContent : @Composable (modifier : Modifier) -> Unit,
+    floatingActionButton: (@Composable AnimatedVisibilityScope.() -> Unit)? = null,
     content : @Composable (PaddingValues) -> Unit,
 ) {
     val topAppBarState = rememberTopAppBarState()
@@ -43,19 +43,21 @@ fun CollapsableScaffold(
     val enterAnimation = fadeIn() + scaleIn()
     val exitAnimation = fadeOut() + scaleOut()
 
-    val floatingActionContent = @Composable { condition : Boolean, innerModifier : Modifier ->
-        AnimatedVisibility(
-            modifier = innerModifier,
-            visible = condition,
-            enter = enterAnimation,
-            exit = exitAnimation,
-            content = floatingActionButton
-        )
+    val floatingActionContent = floatingActionButton?.let {
+        { condition : Boolean, innerModifier : Modifier ->
+            AnimatedVisibility(
+                modifier = innerModifier,
+                visible = condition,
+                enter = enterAnimation,
+                exit = exitAnimation,
+                content = it
+            )
+        }
     }
 
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        floatingActionButton = { floatingActionContent(!isExpanded, Modifier) },
+        floatingActionButton = { floatingActionContent?.invoke(!isExpanded, Modifier) },
         topBar = {
             LargeTopAppBar(
                 colors = TopAppBarDefaults.largeTopAppBarColors(

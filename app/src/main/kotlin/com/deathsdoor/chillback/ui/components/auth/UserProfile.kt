@@ -58,6 +58,7 @@ fun UserProfilePhotoWithDropDown(modifier : Modifier = Modifier) {
 
     val resources = LocalContext.current.resources
 
+    // TODO: Navigate to settings
     Dropdown(
         isOpen = isOpen,
         menu = dropDownMenu<String> {

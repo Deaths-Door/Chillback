@@ -142,11 +142,11 @@
       <recent name="com.deathsdoor.chillback" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\app\src\main\kotlin\com\deathsdoor\chillback\ui\settings" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\app\src\main\kotlin\com\deathsdoor\chillback\ui\screens\mediaplayer" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\app\src\main\kotlin\com\deathsdoor\chillback\ui\screens\app" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\app\src\main\kotlin\com\deathsdoor\chillback\ui\components\auth" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\app\src\main\kotlin\com\deathsdoor\chillback\ui\components\action" />
-      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\backend" />
     </key>
     <key name="CreateKotlinClassDialog.RecentsKey">
       <recent name="com.deathsdoor.chillback.data.repositories" />
@@ -519,6 +519,15 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-function">
+          <url>file://$PROJECT_DIR$/app/src/main/kotlin/com/deathsdoor/chillback/backend/backend.kt</url>
+          <line>35</line>
+          <properties class="com.deathsdoor.chillback.backend.RustBuffer" method="&lt;init&gt;">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

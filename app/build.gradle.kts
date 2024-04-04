@@ -7,7 +7,6 @@ plugins {
     kotlin("plugin.serialization")
     id("com.google.devtools.ksp")
 
-   // id("org.mozilla.rust-android-gradle.rust-android")
     id("com.google.firebase.crashlytics")
     id("com.google.firebase.firebase-perf")
 }
@@ -58,20 +57,6 @@ private object Metadata {
     const val maxSDK = 33
 }
 
-/*
-tasks.whenTaskAdded {
-    if ((name == "javaPreCompileDebug" || name == "javaPreCompileRelease")) {
-        dependsOn("cargoBuild")
-    }
-}
-
-cargo {
-    module = "../backend"
-    libname = "backend"
-    targets = listOf("x86", "x86_64")
-    profile = "release"
-}
-*/
 dependencies {
     // Using Compose
     implementation(compose.ui)
@@ -98,7 +83,6 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.0.0")
 
     // For Rust
-   // implementation("com.sun.jna:jna:3.0.9")
     implementation("net.java.dev.jna:jna:5.9.0@aar")
 
     // For Navigation
@@ -158,6 +142,9 @@ dependencies {
 
     // For MultiSelect
     implementation("com.dragselectcompose:grid:2.2.6")
+
+    // For Settings
+    implementation("com.github.alorma.compose-settings:ui-tiles:2.1.0")
 }
 
 // Due to [this](https://github.com/rizmaulana/compose-stacked-snackbar?tab=readme-ov-file)

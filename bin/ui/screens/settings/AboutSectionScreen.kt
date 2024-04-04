@@ -1,4 +1,4 @@
-package com.deathsdoor.chillback.ui.screens.settings
+\package com.deathsdoor.chillback.ui.screens.settings
 
 import android.app.Activity
 import androidx.compose.foundation.background
@@ -36,7 +36,7 @@ import com.google.android.play.core.review.ReviewManagerFactory
 import kotlinx.coroutines.launch
 
 @Composable
-fun AboutSectionScreen(navController: NavController) =  SettingsCollapsingToolbar(
+fun AboutSectionScreen(navController: NavController) = SettingsCollapsingToolbar(
     navController = navController,
     text = SettingScreenRoutes.About.title,
     body = {

@@ -64,6 +64,13 @@ fun CircularBackgroundIconButtonWithText(
     text()
 }
 
+fun Modifier.circular() = Modifier.padding(8.dp).clip(CircleShape) then this,
+
+@Deprecated("Do not use", ReplaceWith(
+    "IconButton(modifier = modifier.circular(), content = content, onClick = onClick)",
+    "androidx.compose.material3.IconButton"
+)
+)
 @Composable
 @NonRestartableComposable
 fun CircularBackgroundButton(
@@ -71,7 +78,7 @@ fun CircularBackgroundButton(
     onClick : () -> Unit,
     content : @Composable () -> Unit
 ) = IconButton(
-    modifier = Modifier.padding(8.dp).clip(CircleShape) then modifier,
+    modifier = modifier.circular(),
     content = content,
     onClick = onClick
 )
