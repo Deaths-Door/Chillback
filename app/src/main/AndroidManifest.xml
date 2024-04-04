@@ -3,29 +3,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Used for MediaPlaybackSession Service -->
+    <!-- For Services in general-->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <!-- Used for MediaPlaybackSession Service -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
 
-    <!-- For reading external storage -->
-    <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
-
-    <!-- For writing external for Android 10-
-         For Android 10+ its some other nonsense     -->
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
 
-        android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@mipmap/application_logo"
+        android:roundIcon="@mipmap/application_logo"
         android:supportsRtl="true"
 
         android:label="@string/app_name"
@@ -34,7 +26,7 @@
 
         <!-- Used for MediaPlaybackService -->
         <service
-            android:name=".data.mediaplayer.MediaPlaybackService"
+            android:name=".data.services.MediaPlaybackService"
             android:foregroundServiceType="mediaPlayback"
             android:exported="true">
             <intent-filter>

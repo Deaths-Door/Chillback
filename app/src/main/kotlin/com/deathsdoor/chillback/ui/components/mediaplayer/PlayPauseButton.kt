@@ -1,31 +1,72 @@
 package com.deathsdoor.chillback.ui.components.mediaplayer
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.media3.session.MediaController
+import androidx.compose.ui.unit.dp
+import androidx.media3.common.Player
 import com.deathsdoor.chillback.R
+import com.deathsdoor.chillback.ui.providers.LocalAppState
+import kotlin.contracts.ExperimentalContracts
 
 @Composable
 fun PlayPauseButton(
     modifier: Modifier = Modifier,
-    mediaController : MediaController,
+    mediaController: Player? = LocalAppState.current.mediaController,
 ) {
-    val isPlaying by remember(mediaController.isPlaying) { mutableStateOf(mediaController.isPlaying) }
+    val isShowing by remember(mediaController?.mediaItemCount) {
+        mutableStateOf(mediaController != null && mediaController.mediaItemCount != 0)
+    }
 
-    IconButton(
-        modifier = modifier,
-        onClick = { if(isPlaying) mediaController.play() else mediaController.pause() },
-        content = {
-            Icon(
-                painter = painterResource(if (isPlaying) R.drawable.media3_notification_play else R.drawable.media3_notification_pause),
-                contentDescription = "Current song is " + if (isPlaying) "playing" else "paused"
-            )
+    if(isShowing) {
+        mediaController!!
+        val isPlaying by rememberMediaControllerIsPlaying(mediaController)
+        IconButton(
+            modifier = modifier.size(64.dp),
+            colors = IconButtonDefaults.filledTonalIconButtonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onBackground
+            ),
+            onClick = { if(isPlaying) mediaController.pause() else mediaController.play() },
+            content = {
+                Icon(
+                    painter = painterResource(if (isPlaying) R.drawable.media3_notification_pause else R.drawable.media3_notification_play),
+                    contentDescription = "Current song is " + if (isPlaying) "playing" else "paused"
+                )
+            }
+        )
+    }
+}
+
+@Composable
+fun rememberMediaControllerIsPlaying(mediaController : Player, onPlayChanged : ((Boolean) -> Unit)? = null): MutableState<Boolean> {
+    val isPlaying = remember { mutableStateOf(mediaController.isPlaying) }
+
+    DisposableEffect(Unit) {
+        val playerListener = object : Player.Listener {
+            override fun onIsPlayingChanged(newValue: Boolean) {
+                super.onIsPlayingChanged(newValue)
+                isPlaying.value = newValue
+                onPlayChanged?.invoke(isPlaying.value)
+            }
         }
-    )
+
+        mediaController.addListener(playerListener)
+
+        onDispose {
+            mediaController.removeListener(playerListener)
+        }
+    }
+
+    return isPlaying
 }

@@ -3,28 +3,23 @@ package com.deathsdoor.chillback
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import com.deathsdoor.chillback.ui.ChillbackApp
+import com.deathsdoor.chillback.ui.ChillbackMaterialTheme
+import com.deathsdoor.chillback.ui.ChillbackSplashScreen
 import com.deathsdoor.chillback.ui.providers.InitializeProviders
-import com.deathsdoor.chillback.ui.providers.LocalSettings
-import com.deathsdoor.chillback.ui.screens.AppScreen
-import com.deathsdoor.chillback.ui.screens.SplashScreen
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.flow.mapLatest
+import com.deathsdoor.chillback.ui.screens.welcome.ChillbackWelcomeScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            InitializeProviders {
-                val showLoginScreen by LocalSettings.current.showLoginScreen.collectAsState(true)
-
-                SplashScreen {
-                    AppScreen(showLoginScreen)
+            InitializeProviders(this) {
+                ChillbackMaterialTheme {
+                    ChillbackSplashScreen(
+                        onBoardingContent = { ChillbackWelcomeScreen(navigationToApp = it) },
+                        appContent = { ChillbackApp() }
+                    )
                 }
             }
         }
