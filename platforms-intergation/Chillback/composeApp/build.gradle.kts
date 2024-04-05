@@ -6,15 +6,29 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.mokoResources)
+
+}
+
+private object ModuleMetadata {
+    val applicationName = "Chillback"
+    val namespace = "com.deathsdoor.chillback"
+    val applicationVersion = "1.0.0"
+    val applicationVersionAsInteger = applicationVersion.split(".").fold(0) { acc, num -> acc * 100 + num.toInt() }
+
+    val javaVersion = "17"
+    val asJavaVersionEnum = JavaVersion.values().find { it.name.endsWith(javaVersion) }!!
+
 }
 
 kotlin {
-    @OptIn(ExperimentalWasmDsl::class)
+    applyDefaultHierarchyTemplate()
+    /*@OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        moduleName = "composeApp"
+        moduleName = ModuleMetadata.applicationName.lowercase()
         browser {
             commonWebpackConfig {
-                outputFileName = "composeApp.js"
+                outputFileName = "${ModuleMetadata.applicationName.lowercase()}.js"
                 devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
                     static = (static ?: mutableListOf()).apply {
                         // Serve sources to debug inside browser
@@ -24,52 +38,82 @@ kotlin {
             }
         }
         binaries.executable()
-    }
+    }*/
     
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "11"
+                jvmTarget = ModuleMetadata.javaVersion
             }
         }
     }
     
     jvm("desktop")
-    
-    listOf(
+
+    // TODO : Enable this in the future rn viewmodel-compose doesnt have ios support
+    /*listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ComposeApp"
+            baseName = ModuleMetadata.applicationName
             isStatic = true
         }
-    }
+    }*/
     
     sourceSets {
-        val desktopMain by getting
-        
-        androidMain.dependencies {
-            implementation(libs.compose.ui.tooling.preview)
-            implementation(libs.androidx.activity.compose)
+        val commonMain by getting {
+            dependencies {
+                // For Compose
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material3)
+                implementation(compose.ui)
+                implementation(compose.components.uiToolingPreview)
+
+                // For Resources
+                implementation(libs.resources)
+                implementation(libs.resources.compose)
+
+                // For WindowSize Class till its KMP Ready
+                implementation(libs.material3.window.size.multiplatform)
+
+                // For Android Viewmodel
+                implementation(libs.androidx.lifecycle.viewmodel)
+                implementation(libs.androidx.lifecycle.viewmodel.compose)
+            }
         }
-        commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
+
+        val androidMain by getting {
+            dependsOn(commonMain)
+
+            dependencies {
+                // For Compose
+                implementation(libs.compose.ui.tooling.preview)
+                implementation(libs.androidx.activity.compose)
+            }
         }
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
+
+
+        val desktopMain by getting {
+            dependsOn(commonMain)
+
+            dependencies {
+                // For Compose
+                implementation(compose.desktop.currentOs)
+            }
         }
+
+        // TODO : Enabled WasmJs Support Later
+        /*val wasmJsMain by getting {
+            dependsOn(commonMain)
+        }*/
     }
 }
 
 android {
-    namespace = "com.deathsdoor.chillback"
+    namespace = ModuleMetadata.namespace
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -77,26 +121,36 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
-        applicationId = "com.deathsdoor.chillback"
+        applicationId = ModuleMetadata.namespace
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = ModuleMetadata.applicationVersionAsInteger
+        versionName = ModuleMetadata.applicationVersion
     }
+
+    ModuleMetadata.asJavaVersionEnum.also {
+        compileOptions.sourceCompatibility = it
+        compileOptions.targetCompatibility = it
+    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
+
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
     }
@@ -108,12 +162,22 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.deathsdoor.chillback"
-            packageVersion = "1.0.0"
+            packageName = ModuleMetadata.namespace
+            packageVersion = ModuleMetadata.applicationVersion
         }
     }
 }
 
+/*
 compose.experimental {
     web.application {}
+}*/
+
+multiplatformResources {
+    multiplatformResourcesPackage = "${ModuleMetadata.namespace}.resources"
+    multiplatformResourcesClassName = "Resources"
 }
+
+// Dummy task to fix this
+// Cannot locate tasks that match ':composeApp:testClasses' as task 'testClasses' not found in project ':composeApp'.
+task("testClasses")
