@@ -34,7 +34,7 @@ updates:
     directory: "/feature/HomePage" # Location of package manifests
     schedule:
       interval: "daily"
-      - package-ecosystem: "gradle" # See documentation for possible values
+  - package-ecosystem: "gradle" # See documentation for possible values
     directory: "/platforms-intergation/Chillback" # Location of package manifests
     schedule:
       interval: "daily"
