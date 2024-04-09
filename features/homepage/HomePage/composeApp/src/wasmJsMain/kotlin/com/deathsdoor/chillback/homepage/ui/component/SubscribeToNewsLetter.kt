@@ -3,11 +3,9 @@ package com.deathsdoor.chillback.homepage.ui.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -21,7 +19,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,22 +26,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.deathsdoor.chillback.homepage.ui.component.icons.OragamiBird
 import com.deathsdoor.chillback.homepage.utils.emailAddressRegex
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import homepage.composeapp.generated.resources.Res
+import homepage.composeapp.generated.resources.newsletter_join_reason
+import homepage.composeapp.generated.resources.newsletter_stay_in_loop
+import homepage.composeapp.generated.resources.subscribe
+import homepage.composeapp.generated.resources.your_email
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun SubscribeToNewsLetter() = Card(
     modifier = Modifier.fillMaxWidth(),
@@ -66,13 +61,13 @@ internal fun SubscribeToNewsLetter() = Card(
                 content = {
                     Column {
                         Text(
-                            text = "Stay in the loop",
+                            text = stringResource(Res.string.newsletter_stay_in_loop),
                             fontWeight = FontWeight.Bold,
                             style = MaterialTheme.typography.displaySmall,
                         )
 
                         Text(
-                            text = "Join our newsletter to get the top news before anyone else",
+                            text = stringResource(Res.string.newsletter_join_reason),
                             fontWeight = FontWeight.Bold,
                             style = MaterialTheme.typography.titleSmall,
                         )
@@ -96,7 +91,7 @@ internal fun SubscribeToNewsLetter() = Card(
                             unfocusedBorderColor = inverseTheme,
                             focusedBorderColor = inverseTheme,
                         ),
-                        placeholder = { Text("Your Email..") },
+                        placeholder = { Text(stringResource(Res.string.your_email)) },
                     )
 
                     Spacer(modifier= Modifier.width(16.dp))
@@ -111,7 +106,7 @@ internal fun SubscribeToNewsLetter() = Card(
                         content = {
                             val style = LocalTextStyle.current
                             Text(
-                                text = "Subscribe",
+                                text = stringResource(Res.string.subscribe),
                                 style = style.copy(fontSize = style.fontSize * 1.5)
                             )
                         },

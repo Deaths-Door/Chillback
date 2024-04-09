@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalResourceApi::class)
+
 package com.deathsdoor.chillback.homepage.ui.component
 
 import androidx.compose.foundation.layout.Arrangement
@@ -23,11 +25,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import homepage.composeapp.generated.resources.Res
+import homepage.composeapp.generated.resources.external_reviews_0
+import homepage.composeapp.generated.resources.external_reviews_1
+import homepage.composeapp.generated.resources.external_reviews_2
+import homepage.composeapp.generated.resources.external_reviews_anonymous
+import homepage.composeapp.generated.resources.external_reviews_caption
+import homepage.composeapp.generated.resources.external_reviews_title
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun ExternalReviewTitle() = Column(modifier = Modifier.fillMaxWidth(),horizontalAlignment = Alignment.CenterHorizontally){
     Text(
-        text = "Don't take our word for it",
+        text = stringResource(Res.string.external_reviews_title),
         fontWeight = FontWeight.Bold,
         style = MaterialTheme.typography.displayMedium,
     )
@@ -36,7 +47,7 @@ internal fun ExternalReviewTitle() = Column(modifier = Modifier.fillMaxWidth(),h
 
     Text(
         modifier = Modifier.fillMaxWidth(0.7f),
-        text = "See what real music lovers are saying about discovering amazing new music and creating personalized playlists.",
+        text = stringResource(Res.string.external_reviews_caption),
         textAlign = TextAlign.Center,
         color = MaterialTheme.colorScheme.surfaceVariant,
         style = MaterialTheme.typography.headlineMedium,
@@ -50,17 +61,17 @@ internal fun ExternalReviewCards() = Row(horizontalArrangement = Arrangement.spa
 
     ReviewCard(
         modifier = modifier,
-        text = "I finally ditched the monthly subscription fees! This app is a game-changer for music lovers like me. It offers all the features I need to discover new music and personalize my listening experience, without the hassle of recurring payments."
+        text = stringResource(Res.string.external_reviews_0)
     )
 
     ReviewCard(
         modifier = modifier,
-        text = "Forget the limitations of other music apps! This one lets me create custom playlists, adjust the sound exactly how I like it, and even set custom sleep timers. It's like having my own personal music haven, and it's totally free!"
+        text = stringResource(Res.string.external_reviews_1)
     )
 
     ReviewCard(
         modifier = modifier,
-        text = "Forget the compromises of other apps. Here, I have complete control over the sound quality. The customizable EQ lets me fine-tune the listening experience to my exact preferences. And the best part? It's all absolutely free!"
+        text = stringResource(Res.string.external_reviews_2)
     )
 }
 
@@ -82,7 +93,7 @@ private fun ReviewCard(
             )
 
             Text(
-                text = "By Anonymous",
+                text = stringResource(Res.string.external_reviews_anonymous),
                 style = MaterialTheme.typography.titleMedium,
             )
         }

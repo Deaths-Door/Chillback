@@ -19,18 +19,43 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.deathsdoor.chillback.homepage.ui.component.icons.InDevelopment
+import com.deathsdoor.chillback.homepage.ui.component.icons.OpenSource
+import homepage.composeapp.generated.resources.Res
+import homepage.composeapp.generated.resources.features_advanced_playback_description
+import homepage.composeapp.generated.resources.features_advanced_playback_title
+import homepage.composeapp.generated.resources.features_advanced_search_filtering_description
+import homepage.composeapp.generated.resources.features_advanced_search_filtering_title
+import homepage.composeapp.generated.resources.features_caption
+import homepage.composeapp.generated.resources.features_constant_development_description
+import homepage.composeapp.generated.resources.features_constant_development_title
+import homepage.composeapp.generated.resources.features_cross_platform_compatibility_description
+import homepage.composeapp.generated.resources.features_cross_platform_compatibility_title
+import homepage.composeapp.generated.resources.features_free_offline_playback_description
+import homepage.composeapp.generated.resources.features_free_offline_playback_title
+import homepage.composeapp.generated.resources.features_free_spotify_alternative_description
+import homepage.composeapp.generated.resources.features_free_spotify_alternative_title
+import homepage.composeapp.generated.resources.features_modern_ui_description
+import homepage.composeapp.generated.resources.features_modern_ui_title
+import homepage.composeapp.generated.resources.features_open_source_description
+import homepage.composeapp.generated.resources.features_open_source_title
+import homepage.composeapp.generated.resources.features_seamless_syncing_description
+import homepage.composeapp.generated.resources.features_seamless_syncing_title
+import homepage.composeapp.generated.resources.features_title
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalResourceApi::class)
 @Composable
 internal fun Features() = Column {
     Text(
-        text = "Features",
+        text = stringResource(Res.string.features_title),
         fontWeight = FontWeight.Bold,
         style = MaterialTheme.typography.displayMedium,
     )
 
     Text(
-        text = "Here are some cool features offered by Chillback",
+        text = stringResource(Res.string.features_caption),
         style = MaterialTheme.typography.titleLarge,
     )
 
@@ -45,66 +70,67 @@ internal fun Features() = Column {
             val weight = Modifier.weight(1f) //.fillMaxItemHeight <- Not there for kmp compose??
 
             FeatureCard(
-                modifier = weight,
-                imageVector = Icons.Default.AccountCircle,
-                title = "Open Source & Lightweight",
-                description = "Built with transparency and efficiency in mind, the app runs smoothly without sacrificing performance"
-            )
-
-            FeatureCard(
-                imageVector = Icons.Default.AccountCircle,
-                title = "Modern UI & Customizable Themes",
-                description = "Enjoy a sleek and intuitive interface that adapts to your style with a variety of themes to choose from.",
+                imageVector = Icons.OpenSource,
+                title = stringResource(Res.string.features_open_source_title),
+                description = stringResource(Res.string.features_open_source_description),
                 modifier = weight
             )
 
             FeatureCard(
                 imageVector = Icons.Default.AccountCircle,
-                title = "Free Offline Playback:",
-                description = "Listen to your music anytime, anywhere, without worrying about data charges. It's your music, available offline for free.",
+                title = stringResource(Res.string.features_modern_ui_title),
+                description = stringResource(Res.string.features_modern_ui_description),
                 modifier = weight
             )
 
             FeatureCard(
-                imageVector = Icons.Default.AccountCircle,
-                title = "Seamless Syncing Across Devices",
-                description = "ake your music with you. Keep your playlists and library in sync across all your devices for uninterrupted listening.",
-                modifier = weight
+                imageVector = Icons.Default.AccountCircle, 
+                title = stringResource(Res.string.features_free_offline_playback_title),
+                description = stringResource(Res.string.features_free_offline_playback_description),
+                modifier = weight 
             )
 
             FeatureCard(
-                imageVector = Icons.Default.AccountCircle,
-                title = "Free Spotify Alternative",
-                description = " Ditch the subscription fees! This app offers a powerful and customizable music experience without breaking the bank.",
-                modifier = weight
+                imageVector = Icons.Default.AccountCircle, 
+                title = stringResource(Res.string.features_seamless_syncing_title),
+                description = stringResource(Res.string.features_seamless_syncing_description),
+                modifier = weight 
             )
 
             FeatureCard(
-                imageVector = Icons.Default.AccountCircle,
-                title = "Advanced Playback",
-                description = "Fine-tune your listening experience with advanced playback controls like equalizer, gapless playback, and sleep timer.",
-                modifier = weight
+                imageVector = Icons.Default.AccountCircle, 
+                title = stringResource(Res.string.features_free_spotify_alternative_title),
+                description = stringResource(Res.string.features_free_spotify_alternative_description),
+                modifier = weight 
             )
 
             FeatureCard(
-                imageVector = Icons.Default.AccountCircle,
-                title = "Advanced Search & Filtering",
-                description = "Find the exact music you crave with powerful search and filter options. Browse by artist, genre, year, or even mood.",
-                modifier = weight
+                imageVector = Icons.Default.AccountCircle, 
+                title = stringResource(Res.string.features_advanced_playback_title),
+                description = stringResource(Res.string.features_advanced_playback_description),
+                modifier = weight 
+            )
+
+
+            FeatureCard(
+                imageVector = Icons.Default.AccountCircle, 
+                title = stringResource(Res.string.features_advanced_search_filtering_title),
+                description = stringResource(Res.string.features_advanced_search_filtering_description),
+                modifier = weight 
             )
 
             FeatureCard(
-                imageVector = Icons.Default.AccountCircle,
-                title = "Cross-Platform Compatibility",
-                description = "Access your music library across all your devices, from your phone to your smartwatch and many more.",
-                modifier = weight
+                imageVector = Icons.Default.AccountCircle, 
+                title = stringResource(Res.string.features_cross_platform_compatibility_title),
+                description = stringResource(Res.string.features_cross_platform_compatibility_description),
+                modifier = weight 
             )
 
             FeatureCard(
-                imageVector = Icons.Default.AccountCircle,
-                title = "Constant Development",
-                description = "We're always working to improve the app, adding new features and refining the experience based on your feedback.",
-                modifier = weight
+                imageVector = Icons.InDevelopment,
+                title = stringResource(Res.string.features_constant_development_title),
+                description = stringResource(Res.string.features_constant_development_description),
+                modifier = weight 
             )
         }
     )

@@ -5,7 +5,7 @@ import androidx.compose.ui.window.CanvasBasedWindow
 import com.deathsdoor.chillback.homepage.ui.Homepage
 
 @OptIn(ExperimentalComposeUiApi::class)
-fun main() {
+internal fun main() {
     CanvasBasedWindow(canvasElementId = "ComposeTarget") {
         MaterialTheme(colorScheme = darkColorScheme()) {
             Homepage()

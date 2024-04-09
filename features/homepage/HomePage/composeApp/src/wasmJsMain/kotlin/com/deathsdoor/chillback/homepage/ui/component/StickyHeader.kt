@@ -22,7 +22,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.deathsdoor.chillback.homepage.ui.component.icons.Github
 import com.deathsdoor.chillback.homepage.utils.PROJECT_HOME_PAGE
+import homepage.composeapp.generated.resources.Res
+import homepage.composeapp.generated.resources.coming_soon
+import homepage.composeapp.generated.resources.support_us
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun StickyHeader(modifier: Modifier) = Row(modifier = modifier.padding(vertical = 12.dp),verticalAlignment = Alignment.CenterVertically) {
     val icon =  Modifier.size(32.dp)
@@ -51,11 +57,11 @@ internal fun StickyHeader(modifier: Modifier) = Row(modifier = modifier.padding(
         modifier = badgeAvoidOverlapModifier,
         badge = {
             Badge(modifier = badgeAvoidOverlapModifier) {
-                Text(text = "Coming Soon")
+                Text(text = stringResource(Res.string.coming_soon))
             }
         },
         content = {
-            Text("Support Us")
+            Text(text = stringResource(Res.string.support_us))
         }
     )
 

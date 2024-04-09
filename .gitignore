@@ -51,3 +51,6 @@ Cargo.lock
 cache.db
 test.mp3
 test.mp4
+
+# Python stuff
+__pycache__

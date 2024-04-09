@@ -25,8 +25,16 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.deathsdoor.chillback.homepage.utils.PROJECT_HOME_PAGE
+import com.deathsdoor.chillback.homepage.utils.asAnnotatedStringWithSpanStyle
+import homepage.composeapp.generated.resources.Res
+import homepage.composeapp.generated.resources._app_slogan_colored_section
+import homepage.composeapp.generated.resources.app_slogan
+import homepage.composeapp.generated.resources.download
+import homepage.composeapp.generated.resources.try_out
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalResourceApi::class)
 @Composable
 internal fun MainContent(headerHeight : Dp) = Row {
     val density = LocalDensity.current
@@ -36,24 +44,28 @@ internal fun MainContent(headerHeight : Dp) = Row {
         Spacer(modifier = Modifier.weight(1f))
 
         val chillbackStyle = MaterialTheme.typography.displayLarge
-
+        val primary = MaterialTheme.colorScheme.primary
         Text(
             text = "Chillback",
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
+            color = primary,
             style = chillbackStyle.copy(fontSize = chillbackStyle.fontSize * 1.5)
         )
 
+        val appSloganColored = stringResource(Res.string._app_slogan_colored_section)
+        stringResource(Res.string.app_slogan,appSloganColored)
         Text(
             modifier = Modifier.padding(vertical = 24.dp),
             style = MaterialTheme.typography.displayMedium,
-            text = buildAnnotatedString {
-                append("Without ")
-                withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
-                    append("Music\nLife")
-                }
-                append(" would be a mistake")
-            }
+            text = stringResource(
+                Res.string.app_slogan,
+                appSloganColored
+            ).asAnnotatedStringWithSpanStyle(
+                substring = appSloganColored,
+                style = SpanStyle(
+                    color = primary
+                )
+            )
         )
 
 
@@ -61,13 +73,13 @@ internal fun MainContent(headerHeight : Dp) = Row {
 
         Row(modifier = Modifier.padding(bottom = 32.dp),horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             val importantButtonColors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary,
+                containerColor = primary,
                 contentColor = MaterialTheme.colorScheme.surface
             )
             Button(
                 colors = importantButtonColors,
                 onClick = { /*TODO : Scroll to download*/ },
-                content = { Text(text = "Download",style = textStyle) }
+                content = { Text(text = stringResource(Res.string.download),style = textStyle) }
             )
 
 
@@ -81,7 +93,7 @@ internal fun MainContent(headerHeight : Dp) = Row {
             Button(
                 colors = importantButtonColors,
                 onClick = { /*TODO : Navigate to login screen / if logged in the actual app*/ },
-                content = { Text(text = "Try Out",style = textStyle) }
+                content = { Text(text = stringResource(Res.string.try_out),style = textStyle) }
             )
         }
     }

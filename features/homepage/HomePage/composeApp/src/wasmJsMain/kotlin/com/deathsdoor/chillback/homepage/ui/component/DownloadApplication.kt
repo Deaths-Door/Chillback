@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -24,46 +23,67 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.deathsdoor.chillback.homepage.utils.asAnnotatedStringWith
+import com.deathsdoor.chillback.homepage.utils.asAnnotatedStringWithSpanStyle
+import homepage.composeapp.generated.resources.Res
+import homepage.composeapp.generated.resources.and
+import homepage.composeapp.generated.resources.download
+import homepage.composeapp.generated.resources.download_sentence1
+import homepage.composeapp.generated.resources.download_sentence2
+import homepage.composeapp.generated.resources.download_sentence2_phrase1
+import homepage.composeapp.generated.resources.download_sentence2_phrase2
+import homepage.composeapp.generated.resources.download_sentence3
+import homepage.composeapp.generated.resources.or
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun DownloadApplication() = Box(modifier = Modifier.fillMaxWidth()) {
     Column(modifier = Modifier.align(Alignment.Center).fillMaxWidth(0.7f), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = "Download",
+            text = stringResource(Res.string.download),
             fontWeight = FontWeight.ExtraBold,
             style = MaterialTheme.typography.displayMedium,
         )
 
         val annotatedString  = buildAnnotatedString {
-            // Title with bold and larger font
             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                append("Chillback is available for a wide range of devices! ")
+                append(stringResource(Res.string.download_sentence1))
             }
 
-            // Text with normal style
-            append("You can download pre-built versions for ")
-            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                append("Linux, Windows , Android and iOS")
-            }
-            append(", or grab the app from the app store on your ")
-            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                append("Android or iOS")
-            }
-            append(" device.")
+            val and = stringResource(Res.string.and)
+            val or = stringResource(Res.string.or)
 
-            // Text with normal style
-            append(" There's even a web version you can use in your browser. ")
+            val allPlatforms = "Linux, Windows , Android $and iOS"
+            val phrase1 = stringResource(Res.string.download_sentence2_phrase1,allPlatforms)
+                .asAnnotatedStringWithSpanStyle(
+                    substring = allPlatforms,
+                    style = SpanStyle(fontWeight = FontWeight.Bold)
+                )
 
-            // Text with italic style for adventurous users
+            val mobileDevices = "Android $or iOS"
+            val phrase2 = stringResource(Res.string.download_sentence2_phrase2,mobileDevices)
+                .asAnnotatedStringWithSpanStyle(
+                    substring = mobileDevices,
+                    style = SpanStyle(fontWeight = FontWeight.Bold)
+                )
+
+            append(
+                phrase1,
+                phrase2,
+                stringResource(Res.string.download_sentence2)
+            )
+
             withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
-                append("If you're feeling adventurous, you can build the app from source or customize it to your liking " +
-                        "by following the instructions in the project ")
-
-                withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline, fontWeight = FontWeight.Bold)) {
-                    // TODO : Link
-                    pushStringAnnotation(tag = README_TAG, annotation = "Link")
-                    append("README.")
-                    pop()
+                val readme = "README."
+                stringResource(Res.string.download_sentence3,readme).asAnnotatedStringWith(readme) { section ->
+                    withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline, fontWeight = FontWeight.Bold)) {
+                        // TODO : Link
+                        pushStringAnnotation(tag = README_TAG, annotation = "Link")
+                        append(readme)
+                        pop()
+                    }
                 }
             }
         }
