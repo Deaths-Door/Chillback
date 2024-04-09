@@ -1,0 +1,67 @@
+<resources>
+<string name="newsletter_stay_in_loop">Stay in the loop</string>
+<string name="newsletter_join_reason">Join our newsletter to get the top news before anyone else</string>
+
+<string name="subscribe">Subscribe</string>
+<string name="your_email">Your Email</string>
+
+<string name="support_us">Support Us</string>
+<string name="coming_soon">Coming Soon</string>
+
+<string name="external_reviews_title">Don't take our word for it</string>
+<string name="external_reviews_caption">Subscribe</string>
+
+<string name="external_reviews_anonymous">By Anonymous</string>
+
+<string name="external_reviews_0">I finally ditched the monthly subscription fees! This app is a game-changer for music lovers like me. It offers all the features I need to discover new music and personalize my listening experience, without the hassle of recurring payments.</string>
+<string name="external_reviews_1">Forget the limitations of other music apps! This one lets me create custom playlists, adjust the sound exactly how I like it, and even set custom sleep timers. It's like having my own personal music haven, and it's totally free!</string>
+<string name="external_reviews_2">"Forget the compromises of other apps. Here, I have complete control over the sound quality. The customizable EQ lets me fine-tune the listening experience to my exact preferences. And the best part? It's all absolutely free!</string>
+
+<string name="features_title">Features</string>
+<string name="features_caption">Here are some cool features offered by Chillback</string>
+
+<string name="features_open-source_title">Open Source &amp; Lightweight</string>
+<string name="features_open-source_description">Built with transparency and efficiency in mind, the app runs smoothly without sacrificing performance</string>
+
+<string name="features_modern_ui_title">Modern UI &amp; Customizable Themes</string>
+<string name="features_modern_ui_description">Enjoy a sleek and intuitive interface that adapts to your style with a variety of themes to choose from.</string>
+
+<string name="features_free_offline_playback_title">Free Offline Playback:</string>
+<string name="features_free_offline_playback_description">Listen to your music anytime, anywhere, without worrying about data charges. It's your music, available offline for free.</string>
+
+<string name="features_seamless_syncing_title">Seamless Syncing Across Devices</string>
+<string name="features_seamless_syncing_description">Take your music with you. Keep your playlists and library in sync across all your devices for uninterrupted listening.</string>
+
+<string name="features_free_spotify_alternative_title">Free Spotify Alternative</string>
+<string name="features_free_spotify_alternative_description">Ditch the subscription fees! This app offers a powerful and customizable music experience without breaking the bank.</string>
+
+<string name="features_advanced_playback_title">Advanced Playback</string>
+<string name="features_advanced_playback_description">Fine-tune your listening experience with advanced playback controls like equalizer, gapless playback, and sleep timer.</string>
+
+<string name="features_advanced_search_filtering_title">Advanced Search &amp; Filtering</string>
+<string name="features_advanced_search_filtering_description">Find the exact music you crave with powerful search and filter options. Browse by artist, genre, year, or even mood.</string>
+
+<string name="features_cross_platform_compatibility_title">Cross-Platform Compatibility</string>
+<string name="features_cross_platform_compatibility_description">Access your music library across all your devices, from your phone to your smartwatch and many more.</string>
+
+<string name="features_constant_development_title">Constant Development</string>
+<string name="features_constant_development_description">We're always working to improve the app, adding new features and refining the experience based on your feedback.</string>
+
+<string name="footer_made_by">A labour of love built by Aarav Shah</string>
+
+<string name="download">Download</string>
+<string name="try_out">Try Out</string>
+
+<string name="_app_slogan_colored_section">Music\nLife</string>
+<!--Expect _app_slogan_colored_section as argument-->
+<string name="app_slogan">Without %1$s would be a mistake</string>
+
+<string name="and">and</string>
+<string name="or">or</string>
+
+<string name="download_sentence1">Chillback is available for a wide range of devices! </string>
+<string name="download_sentence2_phrase1">You can download pre-built versions for %1$s,</string>
+<string name="download_sentence2_phrase2"> or grab the app from the app store on your %1$s device.</string>
+<string name="download_sentence2"> There's even a web version you can use in your browser. </string>
+<string name="download_sentence3">If you're feeling adventurous, you can build the app from source or customize it to your liking by following the instructions in the project %1$s</string>
+</resources>
