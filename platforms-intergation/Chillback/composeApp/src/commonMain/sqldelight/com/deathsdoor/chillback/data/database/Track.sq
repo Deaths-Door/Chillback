@@ -1,0 +1,12 @@
+import kotlin.Boolean;
+import com.eygraber.uri.Uri;
+import com.benasher44.uuid.Uuid;
+
+CREATE TABLE IF NOT EXISTS Track (
+    id TEXT AS Uuid NOT NULL,
+    source TEXT AS Uri NOT NULL,
+    -- TODO : Put this field in AstroPlayerMetadata
+    isFavourite INTEGER AS Boolean NOT NULL DEFAULT 0
+);
+
+trackWhere : SELECT * FROM Track WHERE id = ?;

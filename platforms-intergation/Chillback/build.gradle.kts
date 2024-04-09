@@ -6,6 +6,9 @@ plugins {
     alias(libs.plugins.jetbrainsCompose) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
     alias(libs.plugins.mokoResources) apply false
+    alias(libs.plugins.googleServices) apply false
+    alias(libs.plugins.sqlDelight) apply false
+    alias(libs.plugins.jsonSerialization) apply false
 }
 
 buildscript {
@@ -15,5 +18,9 @@ buildscript {
 
     dependencies {
         classpath(libs.resources.generator)
+        classpath(libs.google.services)
+        classpath(libs.firebase.crashlytics.gradle)
+        classpath(libs.perf.gradle)
+        classpath(libs.sqlite.gradle)
     }
 }

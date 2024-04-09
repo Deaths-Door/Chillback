@@ -14,6 +14,7 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.deathsdoor.chillback.resources.Resources
 import com.deathsdoor.chillback.ui.providers.App
+import com.deathsdoor.chillback.ui.shortcut.ShortCutMenu
 import dev.icerock.moko.resources.compose.stringResource
 import java.awt.Dimension
 import java.awt.Toolkit
@@ -55,12 +56,10 @@ fun main() = application {
             }
         },
         menu = {
-            // TODO : Create shortcuts for android and desktop
-            Item("Exit", onClick = ::exitApplication)
+            // TODO : Tooltips for desktop + keyboard bindings
+           ShortCutMenu(::exitApplication)
         },
     )
-
-
 }
 
 private const val desired = 800

@@ -1,0 +1,1 @@
+package com.deathsdoor.chillback.ui.shortcut
