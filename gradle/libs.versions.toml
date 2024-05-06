@@ -1,0 +1,84 @@
+[versions]
+agp = "8.2.0"
+android-compileSdk = "34"
+android-minSdk = "24"
+android-targetSdk = "34"
+androidx-activityCompose = "1.8.2"
+androidx-appcompat = "1.6.1"
+androidx-constraintlayout = "2.1.4"
+androidx-core-ktx = "1.12.0"
+androidx-espresso-core = "3.5.1"
+androidx-material = "1.11.0"
+androidx-test-junit = "1.1.5"
+androidx-startupRuntime = "1.1.1"
+
+atomicfuGradlePlugin = "0.23.2"
+atomicfuPlugin = "1.9.22"
+compose = "1.6.2"
+compose-plugin = "1.6.0"
+contextProvider = "0.1.1"
+junit = "4.13.2"
+kotlin = "1.9.22"
+
+material3WindowSizeClassMultiplatform = "0.5.0"
+multiplatformSettingsCoroutines = "1.1.1"
+sqldelight= "2.0.1"
+
+firebase = "1.12.0"
+firebaseCrashlyticsGradle = "2.9.9"
+firebasePerfGradle = "1.4.2"
+googleServices = "4.4.1"
+
+datetime = "0.6.0-RC.2"
+
+[libraries]
+atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfuGradlePlugin" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+
+atomicfu-gradle-plugin = { module = "org.jetbrains.kotlinx:atomicfu-gradle-plugin", version.ref = "atomicfuGradlePlugin" }
+
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
+androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-junit" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso-core" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
+androidx-material = { group = "com.google.android.material", name = "material", version.ref = "androidx-material" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "androidx-startupRuntime" }
+
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+
+material3-window-size-multiplatform = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "material3WindowSizeClassMultiplatform" }
+
+multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "multiplatformSettingsCoroutines" }
+multiplatform-settings-no-arg = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "multiplatformSettingsCoroutines" }
+
+sqlite-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqldelight" }
+sqlite-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
+sqlite-driver = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
+sqlite-gradle = { module = "app.cash.sqldelight:gradle-plugin" , version.ref = "sqldelight" }
+sqlite-coroutines = { module = "app.cash.sqldelight:coroutines-extensions" , version.ref = "sqldelight" }
+sqlite-native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
+
+firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebase" }
+firebase-database = { module = "dev.gitlive:firebase-database", version.ref = "firebase" }
+
+google-android-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
+firebase-android-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "firebase" }
+firebase-android-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
+firebase-android-perf = { module = "com.google.firebase:firebase-perf", version.ref = "firebase" }
+firebase-android-perf-gradle = { module = "com.google.firebase:perf-plugin", version.ref = "firebasePerfGradle" }
+
+kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime" , version.ref = "datetime" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+sqlDelight = { id = "app.cash.sqldelight" , version.ref = "sqldelight"}
+googleServices = { id = "com.google.gms.google-services" , version.ref = "googleServices"}
+kotlinxAtomicFu = { id = "org.jetbrains.kotlin.plugin.atomicfu" , version.ref = "atomicfuPlugin" }

@@ -1,33 +1,25 @@
+rootProject.name = "Chillback"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
     repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-    }
-
-    plugins {
-        kotlin("android") version(extra["kotlin.version"] as String)
-        id("com.android.application") version(extra["agp.version"] as String)
-        id("com.android.library") version(extra["agp.version"] as String)
-
-        id("org.jetbrains.compose") version(extra["compose.version"] as String)
-
-        id("com.google.gms.google-services") version(extra["google.services.version"] as String)
-
-        id("com.google.devtools.ksp") version(extra["devtools.ksp"] as String)
-
-        kotlin("plugin.serialization") version(extra["kotlin.version"] as String)
+        google()
+        gradlePluginPortal()
+        mavenCentral()
     }
 }
+
 dependencyResolutionManagement {
-    @Suppress("UnstableApiUsage")
     repositories {
         google()
         mavenCentral()
-        maven("https://jitpack.io")
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
-rootProject.name = "Chillback"
-include(":app")
+
+include(":composeApp")
+include(":core-database")
+include(":core-layout")
+include(":core-preference")
+include(":feature-welcome")
