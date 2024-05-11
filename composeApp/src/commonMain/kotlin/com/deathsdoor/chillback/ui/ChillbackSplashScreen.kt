@@ -53,8 +53,8 @@ fun ChillbackSplashScreen(content : @Composable () -> Unit) {
     AnimatedContent(isMainScreen) {
         when (it){
             null -> SplashScreen()
-            false -> WelcomeScreen(coroutineScope)
             true -> content()
+            false  -> WelcomeScreen(coroutineScope)
         }
     }
 }

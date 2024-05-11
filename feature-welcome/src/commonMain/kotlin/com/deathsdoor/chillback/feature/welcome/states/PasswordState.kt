@@ -11,7 +11,7 @@ import com.deathsdoor.chillback.features.welcome.resources.Res
 import dev.icerock.moko.resources.StringResource
 
 internal class PasswordState {
-    var isPasswordStrongEnough : StringResource?  by mutableStateOf(null)
+    var isPasswordStrongEnough : StringResource?  by mutableStateOf(Res.strings.password_min_length)
         private set
 
     var password by mutableStateOf("")

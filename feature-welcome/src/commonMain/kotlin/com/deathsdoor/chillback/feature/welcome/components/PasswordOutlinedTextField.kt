@@ -33,7 +33,7 @@ internal fun PasswordOutlinedTextField(
     modifier = modifier,
     visualTransformation = if(state.isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-    isError = state.isPasswordStrongEnough != null,
+    isError = state.password.isNotEmpty() && state.isPasswordStrongEnough != null,
     singleLine = true,
     value = state.password,
     onValueChange = { state.update(it) },

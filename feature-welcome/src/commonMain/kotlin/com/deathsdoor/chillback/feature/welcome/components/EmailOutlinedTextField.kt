@@ -27,6 +27,6 @@ internal fun EmailOutlinedTextField(
     label = { Text(text = stringResource(Res.strings.email)) },
     placeholder = { Text("example@gmail.com") },
     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-    isError = !state.isValid,
+    isError = state.email.isNotEmpty() && !state.isValid,
     singleLine = true
 )

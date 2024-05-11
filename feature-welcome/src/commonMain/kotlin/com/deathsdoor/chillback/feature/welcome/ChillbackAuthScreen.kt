@@ -39,7 +39,6 @@ import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.CoroutineScope
 
-
 @Suppress("UnusedReceiverParameter")
 @Composable
 internal fun RowScope.ChillbackAuthScreenDesktop(

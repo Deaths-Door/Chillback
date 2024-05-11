@@ -6,7 +6,7 @@ from typing import Callable
 from deepl.src.deepl import DeeplScrapper;
 
 # input target_lang output folder_name
-def create_translated_strings(resources_directory : str,folder : str,create_folder: Callable[str,str]) :
+def create_translated_strings(resources_directory : str,folder : str,create_folder_name: Callable[str,str]) :
     file_path = join_path(resources_directory,folder,"strings.xml")
 
     with open(file_path,'r') as rfile :
@@ -26,11 +26,10 @@ def create_translated_strings(resources_directory : str,folder : str,create_fold
             for target_lang in DeeplScrapper.supported_languages_excluding_english():
                 bulk_translations = [translator.translate(source_lang ="en",target_lang = target_lang,text = text) for text in string_values]
 
-                folder_name = create_folder(target_lang)
+                folder_name = create_folder_name(target_lang)
                 folder_path = join_path(resources_directory,folder_name)
                 if not os.path.exists(folder_path):
                     os.makedirs(folder_path)
-
 
                 strings_xml = join_path(folder_path,"strings.xml")
 

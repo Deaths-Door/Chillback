@@ -71,7 +71,7 @@ internal fun AuthenticationButton(
     if(!isLoading.value) return
 
     BasicAlertDialog(
-        onDismissRequest = { isLoading.value = false },
+        onDismissRequest = {  },
         properties = DialogProperties(usePlatformDefaultWidth = false),
         content = {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -92,6 +92,8 @@ private suspend fun LazyResourceLoader.login(
     onSuccessfulAuth(snackBarState, isLoading, authResult)
     delay(2500)
 } catch(exception : Exception) {
+    isLoading.value = false
+
     snackBarState.showErrorSnackbar(
         title = stringResource(Res.strings.failed_account_login),
         description = stringResource(Res.strings.failed_account_login_description),
@@ -122,6 +124,8 @@ private suspend fun LazyResourceLoader.signIn(
         val authResult = Firebase.auth.createUserWithEmailAndPassword(emailState.email,passwordState.password)
         onSuccessfulAuth(snackBarState, isLoading, authResult)
     } catch(exception : Exception) {
+        isLoading.value = false
+
         snackBarState.showErrorSnackbar(
             title = stringResource(Res.strings.failed_account_creation),
             description = stringResource(Res.strings.failed_account_creation_description)

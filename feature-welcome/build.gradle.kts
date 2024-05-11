@@ -1,3 +1,5 @@
+import dev.icerock.gradle.MRVisibility
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -69,5 +71,6 @@ android {
 
 multiplatformResources {
     multiplatformResourcesPackage = "com.deathsdoor.chillback.features.welcome.resources"
-    multiplatformResourcesClassName = "Res" // optional, default MR
+    multiplatformResourcesVisibility = MRVisibility.Internal
+    multiplatformResourcesClassName = "Res"
 }

@@ -22,7 +22,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun VerifyEmailDialog(onVerified  : suspend CoroutineScope.() -> Unit, content :@Composable () -> Unit) {
-    val currentFirebaseUser by Firebase.auth.authStateChanged.collectAsState(null)
+    // Need to give the current value else it is null
+    val currentFirebaseUser by Firebase.auth.authStateChanged.collectAsState(Firebase.auth.currentUser)
 
     content()
 
@@ -77,10 +78,14 @@ private suspend fun LazyResourceLoader.sendEmailForVerification(
     snackBarState.showInfoSnackbar(
         title = stringResource(Res.strings.success_send_verification_email)
     )
+
+    // To update the information of the user [isEmailVerified]
+    user.reload()
 }catch (exception : Exception) {
    snackBarState.showErrorSnackbar(
        title = stringResource(Res.strings.failed_send_verification_email),
        description = stringResource(Res.strings.failed_send_verification_email),
+       actionTitle = stringResource(Res.strings.resend_verification_email),
        action = {
            coroutineScope.launch {
                this@sendEmailForVerification.sendEmailForVerification(coroutineScope,user,snackBarState)

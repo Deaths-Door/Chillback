@@ -7,8 +7,10 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideOut
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
@@ -189,6 +191,7 @@ private fun CustomStackableSnackbarItem(
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun NormalStackableSnackbarItem(
     data: StackableSnackbarData.Normal,
@@ -229,6 +232,7 @@ private fun NormalStackableSnackbarItem(
 
                 Column {
                     Text(
+                        modifier= Modifier.basicMarquee(),
                         text = data.title,
                         overflow = TextOverflow.Ellipsis,
                         style =
@@ -240,6 +244,7 @@ private fun NormalStackableSnackbarItem(
 
                     if (!data.description.isNullOrEmpty()) {
                         Text(
+                            modifier= Modifier.basicMarquee(),
                             text = data.description.orEmpty(),
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
@@ -257,7 +262,7 @@ private fun NormalStackableSnackbarItem(
                                     modifier =
                                     Modifier.clickable {
                                         onActionClicked.invoke()
-                                    },
+                                    }.basicMarquee(),
                                     style =
                                     MaterialTheme.typography.bodyMedium.copy(
                                         fontWeight = FontWeight.Bold,

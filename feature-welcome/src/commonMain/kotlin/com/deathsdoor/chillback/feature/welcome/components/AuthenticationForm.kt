@@ -1,6 +1,8 @@
 package com.deathsdoor.chillback.feature.welcome.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -51,12 +53,15 @@ internal fun AuthenticationForm(
         )
     }
 
-    ClickableText(
-        modifier = Modifier.padding(bottom= _16),
-        text = Res.strings.password_forgot.styleWith(),
-        style = MaterialTheme.typography.bodyMedium.copy(textDecoration  = TextDecoration.Underline),
-        onClick = { navigateToForgotPassword() }
-    )
+    Row(modifier = maxWidth, horizontalArrangement = Arrangement.End) {
+        ClickableText(
+            modifier = Modifier.padding(bottom= _16),
+            text = Res.strings.password_forgot.styleWith(),
+            style = MaterialTheme.typography.bodyMedium.copy(textDecoration  = TextDecoration.Underline),
+            onClick = { navigateToForgotPassword() }
+        )
+    }
+
 
     AuthenticationButton(
         isLoginScreen = isLoginScreen.value,

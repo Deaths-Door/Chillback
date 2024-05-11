@@ -69,48 +69,8 @@
     <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.compose.ui/ui-text/1.6.10-beta03/68d62fa54069d5bb175f54b52b31315099c77573/ui-text-1.6.10-beta03-sources.jar!/commonMain/androidx/compose/ui/text/TextLayoutResult.kt" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="KotlinMultiplatform" KONAN_HOME="C:\Users\Aarav Aditya Shah\.konan\kotlin-native-prebuilt-windows-x86_64-1.9.23">
-    <executable TARGET="ios_arm64" TARGET_NAME="iosArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":composeApp:" IS_TEST="true">
-      <variant NAME="Debug" GRADLE_TASK=":composeApp:linkDebugTestIosArm64" FILE="$PROJECT_DIR$/composeApp/build/bin/iosArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
-        <envs />
-      </variant>
-    </executable>
     <executable TARGET="ios_simulator_arm64" TARGET_NAME="iosSimulatorArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":composeApp:" IS_TEST="true">
       <variant NAME="Debug" GRADLE_TASK=":composeApp:linkDebugTestIosSimulatorArm64" FILE="$PROJECT_DIR$/composeApp/build/bin/iosSimulatorArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
-        <envs />
-      </variant>
-    </executable>
-    <executable TARGET="ios_x64" TARGET_NAME="iosX64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":composeApp:" IS_TEST="true">
-      <variant NAME="Debug" GRADLE_TASK=":composeApp:linkDebugTestIosX64" FILE="$PROJECT_DIR$/composeApp/build/bin/iosX64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
-        <envs />
-      </variant>
-    </executable>
-    <executable TARGET="ios_x64" TARGET_NAME="iosX64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":core-layout:" IS_TEST="true">
-      <variant NAME="Debug" GRADLE_TASK=":core-layout:linkDebugTestIosX64" FILE="$PROJECT_DIR$/core-layout/build/bin/iosX64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
-        <envs />
-      </variant>
-    </executable>
-    <executable TARGET="ios_x64" TARGET_NAME="iosX64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":core-preferences:" IS_TEST="true">
-      <variant NAME="Debug" GRADLE_TASK=":core-preferences:linkDebugTestIosX64" FILE="$PROJECT_DIR$/core-preferences/build/bin/iosX64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
-        <envs />
-      </variant>
-    </executable>
-    <executable TARGET="ios_x64" TARGET_NAME="iosX64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":feature-welcome:" IS_TEST="true">
-      <variant NAME="Debug" GRADLE_TASK=":feature-welcome:linkDebugTestIosX64" FILE="$PROJECT_DIR$/feature-welcome/build/bin/iosX64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
-        <envs />
-      </variant>
-    </executable>
-    <executable TARGET="ios_arm64" TARGET_NAME="iosArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":core-layout:" IS_TEST="true">
-      <variant NAME="Debug" GRADLE_TASK=":core-layout:linkDebugTestIosArm64" FILE="$PROJECT_DIR$/core-layout/build/bin/iosArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
-        <envs />
-      </variant>
-    </executable>
-    <executable TARGET="ios_simulator_arm64" TARGET_NAME="iosSimulatorArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":core-layout:" IS_TEST="true">
-      <variant NAME="Debug" GRADLE_TASK=":core-layout:linkDebugTestIosSimulatorArm64" FILE="$PROJECT_DIR$/core-layout/build/bin/iosSimulatorArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
-        <envs />
-      </variant>
-    </executable>
-    <executable TARGET="ios_arm64" TARGET_NAME="iosArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":core-preferences:" IS_TEST="true">
-      <variant NAME="Debug" GRADLE_TASK=":core-preferences:linkDebugTestIosArm64" FILE="$PROJECT_DIR$/core-preferences/build/bin/iosArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
         <envs />
       </variant>
     </executable>
@@ -119,13 +79,53 @@
         <envs />
       </variant>
     </executable>
+    <executable TARGET="ios_x64" TARGET_NAME="iosX64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":core-preferences:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":core-preferences:linkDebugTestIosX64" FILE="$PROJECT_DIR$/core-preferences/build/bin/iosX64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_x64" TARGET_NAME="iosX64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":composeApp:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":composeApp:linkDebugTestIosX64" FILE="$PROJECT_DIR$/composeApp/build/bin/iosX64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
     <executable TARGET="ios_arm64" TARGET_NAME="iosArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":feature-welcome:" IS_TEST="true">
       <variant NAME="Debug" GRADLE_TASK=":feature-welcome:linkDebugTestIosArm64" FILE="$PROJECT_DIR$/feature-welcome/build/bin/iosArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
         <envs />
       </variant>
     </executable>
+    <executable TARGET="ios_arm64" TARGET_NAME="iosArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":core-layout:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":core-layout:linkDebugTestIosArm64" FILE="$PROJECT_DIR$/core-layout/build/bin/iosArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_x64" TARGET_NAME="iosX64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":core-layout:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":core-layout:linkDebugTestIosX64" FILE="$PROJECT_DIR$/core-layout/build/bin/iosX64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_arm64" TARGET_NAME="iosArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":core-preferences:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":core-preferences:linkDebugTestIosArm64" FILE="$PROJECT_DIR$/core-preferences/build/bin/iosArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
     <executable TARGET="ios_simulator_arm64" TARGET_NAME="iosSimulatorArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":feature-welcome:" IS_TEST="true">
       <variant NAME="Debug" GRADLE_TASK=":feature-welcome:linkDebugTestIosSimulatorArm64" FILE="$PROJECT_DIR$/feature-welcome/build/bin/iosSimulatorArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_x64" TARGET_NAME="iosX64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":feature-welcome:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":feature-welcome:linkDebugTestIosX64" FILE="$PROJECT_DIR$/feature-welcome/build/bin/iosX64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_arm64" TARGET_NAME="iosArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":composeApp:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":composeApp:linkDebugTestIosArm64" FILE="$PROJECT_DIR$/composeApp/build/bin/iosArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_simulator_arm64" TARGET_NAME="iosSimulatorArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":core-layout:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":core-layout:linkDebugTestIosSimulatorArm64" FILE="$PROJECT_DIR$/core-layout/build/bin/iosSimulatorArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
         <envs />
       </variant>
     </executable>
@@ -155,7 +155,7 @@
     "external.system.has.shared.sources": "true",
     "last_directory_selection": "C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/composeApp/src/commonMain/kotlin",
     "last_opened_file_path": "C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/core-layout/src/commonMain/resources/MR/images",
-    "project.structure.last.edited": "Suggestions",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.pluginManager"
@@ -167,6 +167,8 @@
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\composeApp" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\scripts\generate_translations\deepl" />
+      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\scripts\generate_translations" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\feature-welcome\src\commonMain\kotlin\com\deathsdoor\chillback\feature\welcome\components" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
@@ -181,9 +183,8 @@
       <command value="gradle feature-welcome:generateMRCommonMain" />
     </option>
   </component>
-  <component name="RunManager" selected="Android App.composeApp">
+  <component name="RunManager" selected="Gradle.Run Desktop Chillback [composeApp:run]">
     <configuration name="androidApp" type="AndroidRunConfigurationType" factoryName="Android App">
-      <module name="Chillback.androidApp.main" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
       <option name="DEPLOY_AS_INSTANT" value="false" />
@@ -338,6 +339,28 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
+    <configuration name="Chillback [composeApp:clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="composeApp:clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="Chillback [core-layout:build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -404,8 +427,41 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
+    <configuration name="Run Desktop Chillback [composeApp:run]" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="composeApp:run" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Android App.androidApp" />
+      <item itemvalue="Android App.composeApp" />
+      <item itemvalue="Gradle.Run Desktop Chillback [composeApp:run]" />
+      <item itemvalue="Gradle.Chillback [composeApp:clean]" />
+      <item itemvalue="Gradle.Chillback [composeApp:build]" />
+      <item itemvalue="Gradle.Chillback [core-layout:build]" />
+      <item itemvalue="Gradle.Chillback [core-layout:generateMRCommonMain]" />
+      <item itemvalue="Gradle.Chillback [feature-welcome:generateMRCommonMain]" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.Chillback [composeApp:clean]" />
         <item itemvalue="Gradle.Chillback [feature-welcome:generateMRCommonMain]" />
         <item itemvalue="Gradle.Chillback [core-layout:generateMRCommonMain]" />
         <item itemvalue="Gradle.Chillback [core-layout:build]" />
@@ -423,5 +479,16 @@
       <updated>1715019126516</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
