@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="app_name">Chillback</string>
+
+    <string name="app_slogan_p1">Music Life</string>
+    <string name="app_slogan">Without %1$s would be a mistake</string>
+</resources>

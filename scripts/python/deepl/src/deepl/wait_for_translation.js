@@ -1,1 +1,0 @@
-document.querySelector("section[aria-labelledby=\"translation-source-heading\"] > div > div > div[\"data-testid\"=\"translator-inline-loading-indicator\"]");
