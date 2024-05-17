@@ -1,4 +1,8 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import com.vanniktech.dependency.graph.generator.DependencyGraphGeneratorPlugin
+import com.vanniktech.dependency.graph.generator.DependencyGraphGeneratorExtension
+import guru.nidi.graphviz.attribute.Color
+import guru.nidi.graphviz.attribute.Style
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -13,13 +17,15 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "11"
+                jvmTarget = "17"
             }
         }
     }
     
     jvm("desktop")
-    
+
+
+    if(System.getProperty("os.name") == "Mac OS X")
     listOf(
         iosX64(),
         iosArm64(),
@@ -40,12 +46,14 @@ kotlin {
                 implementation(project(":core-preferences"))
 
                 implementation(project(":feature-welcome"))
+                implementation(project(":feature-mediaplayer"))
+
+                implementation(libs.androidx.lifecycle.viewmodel)
             }
         }
 
         val androidMain by getting {
             dependencies {
-                implementation(libs.androidx.activity.compose)
                 implementation(libs.compose.ui.tooling.preview)
             }
         }
@@ -91,10 +99,15 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     dependencies {
+        implementation(libs.androidx.activity.compose) {
+            // To Fix - Duplicate class androidx.lifecycle.ViewModelKt found in modules (androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1) and (androidx.lifecycle:lifecycle-viewmodel-android:2.8.0-alpha03)
+           // exclude(group = "androidx.lifecycle", module = "lifecycle-viewmodel-ktx")
+        }
+
         debugImplementation(libs.compose.ui.tooling)
     }
 }
@@ -108,5 +121,13 @@ compose.desktop {
             packageName = "com.deathsdoor.chillback"
             packageVersion = "1.0.0"
         }
+    }
+}
+
+plugins.apply(DependencyGraphGeneratorPlugin::class.java)
+configure<DependencyGraphGeneratorExtension> {
+    generators.create("ChillbackDependencyGraph") {
+        children = { true }
+        dependencyNode = { node, dependency -> node.add(Style.FILLED, Color.rgb("#B02F00")) } // Give them some color.
     }
 }

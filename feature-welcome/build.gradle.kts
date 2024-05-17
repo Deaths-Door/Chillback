@@ -12,24 +12,26 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "17"
             }
         }
     }
-    
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "feature-welcome"
-            isStatic = true
-        }
 
-        tasks.named("${it.name}ProcessResources") {
-            dependsOn("generateMRcommonMain")
-            dependsOn("generateMR${it.name}Main")
+    if(System.getProperty("os.name") == "Mac OS X") {
+        listOf(
+            iosX64(),
+            iosArm64(),
+            iosSimulatorArm64()
+        ).forEach {
+            it.binaries.framework {
+                baseName = "feature-welcome"
+                isStatic = true
+            }
+
+            tasks.named("${it.name}ProcessResources") {
+                dependsOn("generateMRcommonMain")
+                dependsOn("generateMR${it.name}Main")
+            }
         }
     }
 
@@ -61,11 +63,13 @@ android {
 
     buildFeatures.compose = true
     composeOptions.kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+
+    // https://youtrack.jetbrains.com/issue/KT-42388/CompilationException-Back-end-JVM-Internal-error-Couldnt-inline-method-call-get-current-into-androidx.compose.runtime.Composable
     composeOptions.kotlinCompilerVersion = libs.versions.kotlin.get()
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 

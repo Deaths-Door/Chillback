@@ -206,9 +206,7 @@ private fun NormalStackableSnackbarItem(
     content = {
         Row(
             modifier =
-            Modifier
-                .background(Color.White)
-                .fillMaxWidth()
+            Modifier.fillMaxWidth()
                 .wrapContentHeight()
                 .clip(RoundedCornerShape(16.dp))
                 .padding(16.dp),

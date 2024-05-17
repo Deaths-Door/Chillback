@@ -26,7 +26,6 @@ fun InitializeProviders(content : @Composable () -> Unit) {
         content = {
             Box {
                 content()
-
                 StackedSnackbarHost(modifier = Modifier.align(Alignment.BottomCenter),hostState = hostState)
             }
         }

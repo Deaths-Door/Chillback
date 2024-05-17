@@ -4,12 +4,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -21,6 +24,21 @@ fun BackButton(modifier: Modifier = Modifier,onClick : () -> Unit) = FloatingAct
     content = {
         Icon(
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+            contentDescription = null
+        )
+    }
+)
+
+
+@Composable
+@NonRestartableComposable
+fun DownButton(modifier: Modifier = Modifier, onClick : () -> Unit) = FloatingActionButton(
+    modifier = modifier,
+    onClick = onClick,
+    content = {
+        Icon(
+            modifier = Modifier.rotate(-90F),
+            imageVector = Icons.Default.ArrowDropDown,
             contentDescription = null
         )
     }

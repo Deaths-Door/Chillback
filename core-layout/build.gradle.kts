@@ -1,3 +1,5 @@
+import dev.icerock.gradle.MRVisibility
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -12,11 +14,12 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "17"
             }
         }
     }
-    
+
+    if(System.getProperty("os.name") == "Mac OS X")
     listOf(
         iosX64(),
         iosArm64(),
@@ -53,6 +56,8 @@ kotlin {
                 api(libs.resources.compose)
 
                 api(libs.navigation.compose)
+
+                api(libs.jetpack.loading)
             }
         }
 
@@ -82,12 +87,13 @@ android {
     composeOptions.kotlinCompilerVersion = libs.versions.kotlin.get()
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
 multiplatformResources {
     multiplatformResourcesPackage = "com.deathsdoor.chillback.core.resources"
-    multiplatformResourcesClassName = "Res" // optional, default MR
+    multiplatformResourcesVisibility = MRVisibility.Public
+    multiplatformResourcesClassName = "Res"
 }

@@ -41,9 +41,7 @@ import kotlinx.coroutines.CoroutineScope
 
 @Suppress("UnusedReceiverParameter")
 @Composable
-internal fun RowScope.ChillbackAuthScreenDesktop(
-    coroutineScope : CoroutineScope,
-) {
+internal fun RowScope.ChillbackAuthScreenDesktop(coroutineScope : CoroutineScope){
     Spacer(modifier =  Modifier.fillMaxWidth(0.2f))
 
     var isForgotPasswordShown by remember { mutableStateOf(false) }

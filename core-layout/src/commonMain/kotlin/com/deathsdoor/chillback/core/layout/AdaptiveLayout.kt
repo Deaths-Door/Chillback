@@ -37,6 +37,19 @@ fun AdaptiveLayout(
 }
 
 @Composable
+fun AdaptiveMobileLayout(
+    onPortrait : @Composable () -> Unit,
+    onLandscape : @Composable () -> Unit,
+) {
+    val windowSize = LocalWindowSize.current
+
+    when {
+        windowSize.widthSizeClass == WindowWidthSizeClass.Compact -> onPortrait()
+        windowSize.heightSizeClass == WindowHeightSizeClass.Compact -> onLandscape()
+    }
+}
+
+@Composable
 fun AdaptiveLayout(
     onMobile : @Composable () -> Unit,
     onDesktop : @Composable () -> Unit

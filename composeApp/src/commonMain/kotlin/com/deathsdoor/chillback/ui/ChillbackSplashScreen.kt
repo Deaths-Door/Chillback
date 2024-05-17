@@ -1,6 +1,7 @@
 package com.deathsdoor.chillback.ui
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.tween
@@ -10,7 +11,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -53,7 +53,7 @@ fun ChillbackSplashScreen(content : @Composable () -> Unit) {
     AnimatedContent(isMainScreen) {
         when (it){
             null -> SplashScreen()
-            true -> content()
+            true ->  content()
             false  -> WelcomeScreen(coroutineScope)
         }
     }
@@ -79,7 +79,7 @@ private fun SplashScreen() {
         verticalArrangement = Arrangement.Center,
         content = {
             Image(
-                modifier = Modifier.fillMaxSize(sizeAnimation.value),
+                modifier = Modifier.animateContentSize().fillMaxSize(sizeAnimation.value),
                 painter = painterResource(Res.images.application_logo),
                 contentDescription = null
             )

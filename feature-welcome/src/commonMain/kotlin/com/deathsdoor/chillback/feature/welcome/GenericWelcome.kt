@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.deathsdoor.chillback.core.layout.AdaptiveMobileLayout
 import com.deathsdoor.chillback.core.layout.LocalWindowSize
 
 @Composable
@@ -41,10 +42,9 @@ internal fun GenericWelcome(
     outerGradient : Painter,
     innerGradient : Painter,
     content : (@Composable BoxScope.() -> Unit)? = null,
-) {
-    // This is used to decide between the portrait and landscape variants
-    when(LocalWindowSize.current.heightSizeClass) {
-        WindowHeightSizeClass.Compact -> Row(modifier) {
+) = AdaptiveMobileLayout(
+    onPortrait = {
+        Row(modifier) {
             GradientCircles(
                 imageVector = imageVector,
                 outerGradient = outerGradient,
@@ -62,7 +62,9 @@ internal fun GenericWelcome(
                 content?.invoke(this)
             }
         }
-        else -> Column(modifier) {
+    },
+    onLandscape = {
+        Column(modifier) {
             GradientCircles(
                 imageVector = imageVector,
                 outerGradient = outerGradient,
@@ -107,7 +109,7 @@ internal fun GenericWelcome(
             )
         }
     }
-}
+)
 
 @Composable
 @NonRestartableComposable

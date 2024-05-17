@@ -13,7 +13,6 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-
     }
 }
 
@@ -28,6 +27,13 @@ dependencyResolutionManagement {
         }
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        mavenLocal {
+            metadataSources {
+                mavenPom()
+                artifact()
+                gradleMetadata()
+            }
+        }
     }
 }
 
@@ -35,3 +41,4 @@ include(":composeApp")
 include(":core-layout")
 include(":core-preferences")
 include(":feature-welcome")
+include(":feature-mediaplayer")

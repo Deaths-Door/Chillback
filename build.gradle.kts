@@ -14,5 +14,8 @@ buildscript {
 
     dependencies {
         classpath(libs.resources.generator)
+        classpath(libs.gradle.dependency.graph.generator.plugin)
     }
 }
+
+apply(plugin = "com.vanniktech.dependency.graph.generator")

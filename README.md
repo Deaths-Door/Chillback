@@ -40,7 +40,9 @@ Chillback is an open-source music player built for those who prioritize a relaxe
 
 ## 📦 Features
 
-- TODO 
+- full fledged login system -> verify email , multiple auth providers + onboarding screen
+
+TODO- run gradle  generateDependencyGraphChillbackDependencyGraph
 
 ## 🤝 Contributing
 

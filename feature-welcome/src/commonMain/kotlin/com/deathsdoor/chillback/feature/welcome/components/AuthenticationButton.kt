@@ -1,10 +1,12 @@
 package com.deathsdoor.chillback.feature.welcome.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -14,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.deathsdoor.chillback.core.layout.LazyResource
 import com.deathsdoor.chillback.core.layout.LazyResourceLoader
@@ -24,6 +27,7 @@ import com.deathsdoor.chillback.core.layout.stringResource
 import com.deathsdoor.chillback.feature.welcome.states.EmailState
 import com.deathsdoor.chillback.feature.welcome.states.PasswordState
 import com.deathsdoor.chillback.features.welcome.resources.Res
+import com.spr.jetpack_loading.components.indicators.BallPulseRiseIndicator
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.AuthResult
 import dev.gitlive.firebase.auth.auth
@@ -74,8 +78,8 @@ internal fun AuthenticationButton(
         onDismissRequest = {  },
         properties = DialogProperties(usePlatformDefaultWidth = false),
         content = {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                // TODO : https://github.com/MahboubehSeyedpour/jetpack-loading/blob/master/jetpack-loading BallPulseRiseIndicator()
+            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                BallPulseRiseIndicator(color = MaterialTheme.colorScheme.inverseSurface)
                 Text(text = stringResource(Res.strings.loading))
             }
         }
