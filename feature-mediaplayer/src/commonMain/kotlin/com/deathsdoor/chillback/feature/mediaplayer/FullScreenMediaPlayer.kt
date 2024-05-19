@@ -35,6 +35,7 @@ import dev.icerock.moko.resources.compose.stringResource
 fun FullScreenMediaPlayer(
     modifier : Modifier,
     state : AstroPlayerState,
+    applicationNavController: NavController,
     content : @Composable (NavHostController) -> Unit
 ) {
     val navController = rememberNavController()
@@ -49,6 +50,7 @@ fun FullScreenMediaPlayer(
                 ExpandedFullScreenMediaPlayer(
                     modifier = Modifier.fillMaxSize(),
                     state = state,
+                    navController = applicationNavController,
                     header = {
                         Row(modifier = it, horizontalArrangement = Arrangement.SpaceBetween) {
                             // For 'Disabled Effect`

@@ -10,10 +10,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.deathsdoor.astroplayer.ui.AstroPlayerState
 
 @Composable
-internal fun ExpandedMediaPlayerPlayingScreenPortrait(state : AstroPlayerState) {
+internal fun ExpandedMediaPlayerPlayingScreenPortrait(
+    state : AstroPlayerState,
+    navController : NavController
+) {
     val modifier = Modifier.padding(16.dp)
     val trackArtworkModifier = modifier.aspectRatio(1f)
 
@@ -54,7 +58,7 @@ internal fun ExpandedMediaPlayerPlayingScreenPortrait(state : AstroPlayerState) 
             SecondaryMediaActionRow(
                 state = state,
                 iconSize = iconSize,
-                navController = null
+                navController = navController
             )
         }
     }

@@ -40,6 +40,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":core-layout"))
+                implementation(project(":core-preferences"))
 
                 api(libs.deathsdooor.astroplayer.core)
                 api(libs.deathsdooor.astroplayer.ui)
@@ -51,6 +52,8 @@ kotlin {
 
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlinx.io.core)
+
+                implementation(libs.ui.tiles)
             }
         }
 
@@ -61,7 +64,6 @@ kotlin {
         val desktopMain by getting {
             dependsOn(commonMain)
         }
-
 
         commonTest.dependencies {
             implementation(libs.kotlin.test)

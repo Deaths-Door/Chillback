@@ -13,12 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.deathsdoor.astroplayer.ui.AstroPlayerState
 
 @Composable
 internal fun ExpandedFullScreenMediaPlayer(
     modifier : Modifier = Modifier,
     state : AstroPlayerState,
+    navController: NavController,
     header : @Composable (Modifier) -> Unit,
     action : (@Composable RowScope.() -> Unit)? = null,
 ) = Box(modifier) {
@@ -61,7 +63,8 @@ internal fun ExpandedFullScreenMediaPlayer(
 
             SecondaryMediaActionRow(
                 state = state,
-                iconSize =  iconSize,
+                iconSize = iconSize,
+                navController = navController,
             )
 
             action?.invoke(this)

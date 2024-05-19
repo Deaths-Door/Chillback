@@ -27,4 +27,15 @@
     <string name="lyrics">Lyrics</string>
 
     <string name="see_lyrics">Click to see lyrics</string>
+    <string name="open_equalizer">Open Equalizer Settings</string>
+    <string name="equalizer">Equalizer</string>
+    <string name="equalizer_enabled">Enable Equalizer</string>
+    <string name="smart_equalizer_enabled">Enable Smart Equalizer</string>
+    <string name="smart_equalizer_description">The smart equalizer automatically adjusts the equalizer based on the music you’re playing. Rock songs get a rocking preset, or set custom tags to fine-tune any genre.</string>
+
+    <string name="reverb">Reverb</string>
+    <string name="bass_boost">Bass Boost</string>
+    <string name="loudness">Loudness</string>
+    <string name="visualizer">Visualizer</string>
+
 </resource>

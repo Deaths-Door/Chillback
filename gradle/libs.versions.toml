@@ -4,8 +4,7 @@ android-compileSdk = "34"
 android-minSdk = "26"
 android-targetSdk = "34"
 androidx-activityCompose = "1.9.0"
-astroplayer = "0.1.1-SNAPSHOT"
-astroplayerCore = "0.1.1-SNAPSHOT"
+astroplayer = "0.1.1.1-equalizer-SNAPSHOT"
 coil3 = "3.0.0-alpha06"
 compose = "1.6.7"
 compose-compiler = "1.5.13"
@@ -34,6 +33,7 @@ sqliteBundled = "2.5.0-alpha01"
 room = "2.5.0-alpha01"
 ksp="1.9.24-1.0.20"
 startupRuntime = "1.1.1"
+uiTiles = "2.2.0"
 [libraries]
 
 # From MavenLocal
@@ -50,8 +50,8 @@ coil-compose-core = { module = "io.coil-kt.coil3:coil-compose-core", version.ref
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil3" }
 coil-mp = { module = "io.coil-kt.coil3:coil", version.ref = "coil3" }
 
-deathsdooor-astroplayer-core = { module = "com.deathsdooor.astroplayer:astroplayer-core", version.ref = "astroplayerCore" }
-deathsdooor-astroplayer-ui = { module = "com.deathsdooor.astroplayer:astroplayer-ui", version.ref = "astroplayerCore" }
+deathsdooor-astroplayer-core = { module = "com.deathsdooor.astroplayer:astroplayer-core", version.ref = "astroplayer" }
+deathsdooor-astroplayer-ui = { module = "com.deathsdooor.astroplayer:astroplayer-ui", version.ref = "astroplayer" }
 #firebase-analytics = { module = "com.google.firebase:firebase-analytics", version.ref = "firebaseAnalytics" }
 #firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "firebaseCrashlyticsVersion" }
 firebase-database = { module = "dev.gitlive:firebase-database", version.ref = "firebase" }
@@ -60,9 +60,6 @@ firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = 
 google-services = { module = "com.google.gms:google-services", version.ref = "google-services" }
 gradle-dependency-graph-generator-plugin = { module = "com.vanniktech:gradle-dependency-graph-generator-plugin", version.ref = "gradleDependencyGraphGeneratorPlugin" }
 jetpack-loading = { module = "com.github.MahboubehSeyedpour:jetpack-loading", version.ref = "jetpackLoading" }
-astroplayer-ui = { module = "io.github.deathsdooor:astroplayer-ui", version.ref = "astroplayer" }
-astroplayer-core = { module = "io.github.deathsdooor:astroplayer-core", version.ref = "astroplayer" }
-
 
 firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebase" }
 
@@ -81,6 +78,7 @@ resources = { module = "dev.icerock.moko:resources", version.ref = "moko-resourc
 resources-compose = { module = "dev.icerock.moko:resources-compose", version.ref = "moko-resources" }
 resources-generator = { module = "dev.icerock.moko:resources-generator", version.ref = "moko-resources" }
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
+ui-tiles = { module = "com.github.alorma.compose-settings:ui-tiles", version.ref = "uiTiles" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

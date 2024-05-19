@@ -41,7 +41,9 @@ Chillback is an open-source music player built for those who prioritize a relaxe
 ## 📦 Features
 
 - full fledged login system -> verify email , multiple auth providers + onboarding screen
+- mediaplayer with advanced equalizer , song lyrics + lyrics editor + online search lyrics goodies, mediaplayer 
 
+design file : https://www.figma.com/design/rBMdox3qOi3IIudgL3W5vp/Chillback-Design
 TODO- run gradle  generateDependencyGraphChillbackDependencyGraph
 
 ## 🤝 Contributing
@@ -51,7 +53,6 @@ Contributions are welcome! Here are several ways you can contribute:
 - **[Submit Pull Requests](https://github.com/Deaths-Door/Chillback/blob/main/CONTRIBUTING.md)**: Review open PRs, and submit your own PRs.
 - **[Join the Discussions](https://github.com/Deaths-Door/Chillback/discussions)**: Share your insights, provide feedback, or ask questions.
 - **[Report Issues](https://github.com/Deaths-Door/Chillback/issues)**: Submit bugs found or log feature requests for Chillback.
----
 
 ## 📄 License
 

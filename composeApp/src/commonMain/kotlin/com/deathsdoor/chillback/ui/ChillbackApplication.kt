@@ -19,7 +19,7 @@ import com.deathsdoor.chillback.feature.mediaplayer.FullScreenMediaPlayer
 import com.deathsdoor.chillback.feature.mediaplayer.LargeMediaPlayerBar
 
 @Composable
-fun ChillbackApplication(applicationNavController : NavController,content : @Composable (Modifier) -> Unit) {
+fun ChillbackApplication(applicationNavController : NavController,content : @Composable (modifier : Modifier) -> Unit) {
     val chillbackState = rememberChillbackState()
     val astroPlayerState = rememberAstroPlayerState(chillbackState.astroPlayer)
 
@@ -50,6 +50,7 @@ fun ChillbackApplication(applicationNavController : NavController,content : @Com
                     FullScreenMediaPlayer(
                         modifier = fillMaxSize,
                         state = astroPlayerState,
+                        applicationNavController = applicationNavController,
                         content = {
                             Column(modifier = fillMaxSize) {
                                 content(Modifier.weight(1f))

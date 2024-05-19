@@ -67,7 +67,7 @@ object ApplicationPreference {
     @PublishedApi
     internal fun<T> _currentOnline(key : Preferences.Key<T>) : DatabaseReference {
         requireNotNull(Firebase.auth.currentUser)
-        return Firebase.database.reference("${Firebase.auth.currentUser}/preferences")
+        return Firebase.database.reference("${Firebase.auth.currentUser!!.uid}/preferences")
             .child(key.name)
     }
 

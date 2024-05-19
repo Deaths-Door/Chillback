@@ -63,18 +63,22 @@ internal fun MainMediaActionRow(
 @Composable
 internal fun RowScope.SecondaryMediaActionRow(
     state : AstroPlayerState,
-    navController: NavController?,
+    navController: NavController,
     iconSize : Dp = 24.dp,
 ) {
     val iconSizeModifier = Modifier.size(iconSize)
 
-    // TODO -> Lyrics + Equalizer Button + Show playback queue
-    navController?.let {
-        LyricsButton(
-            modifier = iconSizeModifier,
-            navController = it
-        )
-    }
+    LyricsButton(
+        modifier = iconSizeModifier,
+        navController = navController
+    )
+
+    EqualizerButton(
+        modifier = iconSizeModifier,
+        navController = navController
+    )
+
+    // TODO -> + Show playback queue
 
     ShareMediaItemButton(
         modifier = iconSizeModifier,
