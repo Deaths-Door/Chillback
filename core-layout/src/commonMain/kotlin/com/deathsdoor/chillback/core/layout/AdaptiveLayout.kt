@@ -49,14 +49,20 @@ fun AdaptiveMobileLayout(
     }
 }
 
+
+@JvmName("AdaptiveLayoutGeneric")
+@Composable
+fun<T> AdaptiveLayout(
+    onMobile : @Composable () -> T,
+    onDesktop : @Composable () -> T
+): T {
+    val windowSize = LocalWindowSize.current
+
+    return if(windowSize.widthSizeClass != WindowWidthSizeClass.Compact && windowSize.heightSizeClass != WindowHeightSizeClass.Compact) onDesktop()
+    else onMobile()
+}
 @Composable
 fun AdaptiveLayout(
     onMobile : @Composable () -> Unit,
     onDesktop : @Composable () -> Unit
-) {
-    val windowSize = LocalWindowSize.current
-
-    if(windowSize.widthSizeClass != WindowWidthSizeClass.Compact
-        && windowSize.heightSizeClass != WindowHeightSizeClass.Compact) onDesktop()
-    else onMobile()
-}
+) = AdaptiveLayout<Unit>(onMobile,onDesktop)

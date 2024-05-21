@@ -1,6 +1,6 @@
 <p align="center">
     <img src="assets/chillback_application_logo.png" width="200" />
-    <h1 align="center">CHILLBACK</h1>
+    <h1 align="center">Chillback</h1>
 </p>
 
 <p align="center">
@@ -40,6 +40,7 @@ Chillback is an open-source music player built for those who prioritize a relaxe
 
 ## 📦 Features
 
+- deskto pios , adnroid jvmweb support
 - full fledged login system -> verify email , multiple auth providers + onboarding screen
 - mediaplayer with advanced equalizer , song lyrics + lyrics editor + online search lyrics goodies, mediaplayer 
 

@@ -4,7 +4,9 @@ from urllib.parse import quote
 import os
 from typing import Callable
 from deepl.src.deepl import DeeplScrapper;
+from xml.sax.saxutils import escape
 
+#use this https://chatgpt.com/c/1164ac1f-314d-4afa-816a-5c07281115ea
 # input target_lang output folder_name
 def create_translated_strings(resources_directory : str,folder : str,create_folder_name: Callable[str,str]) :
     file_path = join_path(resources_directory,folder,"strings.xml")
@@ -24,7 +26,9 @@ def create_translated_strings(resources_directory : str,folder : str,create_fold
             translator = DeeplScrapper()
 
             for target_lang in DeeplScrapper.supported_languages_excluding_english():
-                bulk_translations = [translator.translate(source_lang ="en",target_lang = target_lang,text = text) for text in string_values]
+                translate_text = lambda : escape(translator.translate(source_lang ="en",target_lang = target_lang,text = text))
+
+                bulk_translations = [translate_text() for text in string_values]
 
                 folder_name = create_folder_name(target_lang)
                 folder_path = join_path(resources_directory,folder_name)
@@ -42,6 +46,5 @@ def create_translated_strings(resources_directory : str,folder : str,create_fold
                         soup.resources.append(tag)
 
                     wfile.write(str(soup))
-
         except Exception as e:
             print(f"Error occurred: {e}")

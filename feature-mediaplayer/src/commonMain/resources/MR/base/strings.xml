@@ -10,10 +10,6 @@
     <string name="repeat_mode_off">Repeat: Off. Tap to repeat all songs.</string>
     <string name="repeat_mode_all">Repeat: All. Tap to repeat one song.</string>
     <string name="repeat_mode_one">Repeat: One song. Tap to disable song repetition.</string>
-
-    <string name="mediaitem_is_liked">Song is Liked</string>
-    <string name="mediaitem_is_not_liked">Song is not Liked</string>
-
     <string name="open_fullscreen_mediaplayer">Press button to enter Fullscreen Media Player</string>
 
     <string name="playing_from_collection">Playing from Collection</string>

@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/composeApp" />
             <option value="$PROJECT_DIR$/core-layout" />
+            <option value="$PROJECT_DIR$/core-media" />
             <option value="$PROJECT_DIR$/core-preferences" />
             <option value="$PROJECT_DIR$/feature-mediaplayer" />
             <option value="$PROJECT_DIR$/feature-welcome" />

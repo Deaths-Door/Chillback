@@ -20,38 +20,31 @@ kotlin {
     jvm("desktop")
 
     if(System.getProperty("os.name") == "Mac OS X")
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "feature-mediaplayer"
-            isStatic = true
-        }
+        listOf(
+            iosX64(),
+            iosArm64(),
+            iosSimulatorArm64()
+        ).forEach {
+            it.binaries.framework {
+                baseName = "core-media"
+                isStatic = true
+            }
 
-        tasks.named("${it.name}ProcessResources") {
-            dependsOn("generateMRcommonMain")
-            dependsOn("generateMR${it.name}Main")
+            tasks.named("${it.name}ProcessResources") {
+                dependsOn("generateMRcommonMain")
+                dependsOn("generateMR${it.name}Main")
+            }
         }
-    }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(project(":core-layout"))
-                implementation(project(":core-preferences"))
-                api(project(":core-media"))
 
-                implementation(libs.coil.compose.core)
-                implementation(libs.coil.compose)
-                implementation(libs.coil.mp)
-                implementation(libs.coil.network.ktor)
+                api(libs.deathsdooor.astroplayer.core)
+                api(libs.deathsdooor.astroplayer.ui)
 
-                implementation(libs.kotlinx.datetime)
-                implementation(libs.kotlinx.io.core)
-
-                implementation(libs.ui.tiles)
+                implementation(libs.reorderable)
             }
         }
 
@@ -63,6 +56,7 @@ kotlin {
             dependsOn(commonMain)
         }
 
+
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
@@ -70,7 +64,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.deathsdoor.chillback.feature.mediaplayer"
+    namespace = "com.deathsdoor.chillback.core.media"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig.minSdk = libs.versions.android.minSdk.get().toInt()
 
@@ -88,7 +82,7 @@ android {
 
 
 multiplatformResources {
-    multiplatformResourcesPackage = "com.deathsdoor.chillback.feature.mediaplayer.resources"
-    multiplatformResourcesVisibility = MRVisibility.Internal
+    multiplatformResourcesPackage = "com.deathsdoor.chillback.core.media.resources"
+    multiplatformResourcesVisibility = MRVisibility.Public
     multiplatformResourcesClassName = "Res"
 }

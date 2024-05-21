@@ -1,0 +1,9 @@
+<resources>
+    <string name="delete">Delete</string>
+
+    <string name="mediaitem_is_liked">Song is Liked</string>
+    <string name="mediaitem_is_not_liked">Song is not Liked</string>
+
+    <string name="play_now">Play Now</string>
+    <string name="play_next">Play Next</string>
+</resources>

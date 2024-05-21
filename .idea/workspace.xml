@@ -89,26 +89,28 @@
     <option name="showLibraryContents" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ResourceManagerPrefKey.ResourceType&quot;: &quot;DRAWABLE&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
-    &quot;external.system.has.shared.sources&quot;: &quot;true&quot;,
-    &quot;last_directory_selection&quot;: &quot;C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/composeApp/src/commonMain/kotlin&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/feature-mediaplayer/src/commonMain/resources/MR/images&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Dependencies&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ResourceManagerPrefKey.ResourceType": "DRAWABLE",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "com.google.services.firebase.aqiPopupShown": "true",
+    "external.system.has.shared.sources": "true",
+    "last_directory_selection": "C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/composeApp/src/commonMain/kotlin",
+    "last_opened_file_path": "C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/core-media/src/commonMain/kotlin/com/deathsdoor/chillback/core/media/icons",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\core-media\src\commonMain\kotlin\com\deathsdoor\chillback\core\media\icons" />
+      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\core-media\src\commonMain\kotlin\com\deathsdoor\chillback\core\media\components" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\feature-mediaplayer\src\commonMain\resources\MR\images" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\core-layout\src\commonMain\resources\MR\images" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\composeApp" />
@@ -119,6 +121,7 @@
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\feature-welcome\src\commonMain\kotlin\com\deathsdoor\chillback\feature\welcome\components" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="com.deathsdoor.chillback.core.media.state" />
       <recent name="com.deathsdoor.chillback.feature.welcome.states" />
     </key>
   </component>
@@ -134,9 +137,10 @@
       <command value="gradle  generateDependencyGraphChillbackDependencyGraph" />
       <command value="gradle composeApp:build" />
       <command value="gradle generateDependencyGraphChillbackDependencyGraph" />
+      <command value="gradle core-media:generateMRCommonMain" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.Chillback [feature-mediaplayer:generateMRCommonMain]">
+  <component name="RunManager" selected="Gradle.Chillback [core-media:generateMRCommonMain]">
     <configuration name="androidApp" type="AndroidRunConfigurationType" factoryName="Android App">
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
@@ -293,28 +297,6 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="Chillback [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="clean" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <method v="2" />
-    </configuration>
     <configuration name="Chillback [composeApp:build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -327,6 +309,28 @@
         <option name="taskNames">
           <list>
             <option value="composeApp:build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="Chillback [core-media:generateMRCommonMain]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="core-media:generateMRCommonMain" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -407,19 +411,19 @@
       <item itemvalue="Android App.androidApp" />
       <item itemvalue="Android App.composeApp" />
       <item itemvalue="Gradle.Run Desktop Chillback [composeApp:run]" />
+      <item itemvalue="Gradle.Chillback [core-media:generateMRCommonMain]" />
       <item itemvalue="Gradle.Chillback [composeApp:build]" />
       <item itemvalue="Gradle.Chillback [feature-mediaplayer:generateMRCommonMain]" />
       <item itemvalue="Gradle.Chillback [generateDependencyGraphChillbackDependencyGraph]" />
       <item itemvalue="Gradle.Chillback [clean build]" />
-      <item itemvalue="Gradle.Chillback [clean]" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.Chillback [core-media:generateMRCommonMain]" />
         <item itemvalue="Gradle.Chillback [feature-mediaplayer:generateMRCommonMain]" />
         <item itemvalue="Gradle.Chillback [generateDependencyGraphChillbackDependencyGraph]" />
         <item itemvalue="Gradle.Chillback [composeApp:build]" />
         <item itemvalue="Gradle.Chillback [clean build]" />
-        <item itemvalue="Gradle.Chillback [clean]" />
       </list>
     </recent_temporary>
   </component>

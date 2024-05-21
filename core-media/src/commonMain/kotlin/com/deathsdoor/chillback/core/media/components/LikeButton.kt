@@ -1,4 +1,4 @@
-package com.deathsdoor.chillback.feature.mediaplayer.components
+package com.deathsdoor.chillback.core.media.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import com.deathsdoor.astroplayer.core.AstroMediaItem
 import com.deathsdoor.astroplayer.core.AstroMediaMetadata
 import com.deathsdoor.astroplayer.core.AstroPlayer
-import com.deathsdoor.chillback.feature.mediaplayer.resources.Res
+import com.deathsdoor.chillback.core.media.resources.Res
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.cancellable

@@ -34,6 +34,8 @@ room = "2.5.0-alpha01"
 ksp="1.9.24-1.0.20"
 startupRuntime = "1.1.1"
 uiTiles = "2.2.0"
+reorderable = "2.1.1"
+
 [libraries]
 
 # From MavenLocal
@@ -79,6 +81,8 @@ resources-compose = { module = "dev.icerock.moko:resources-compose", version.ref
 resources-generator = { module = "dev.icerock.moko:resources-generator", version.ref = "moko-resources" }
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 ui-tiles = { module = "com.github.alorma.compose-settings:ui-tiles", version.ref = "uiTiles" }
+
+reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
