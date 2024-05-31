@@ -1,4 +1,4 @@
-package com.deathsdoor.chillback.feature.mediaplayer.components
+package com.deathsdoor.chillback.core.media.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -8,11 +8,11 @@ import com.deathsdoor.astroplayer.core.AstroMediaItem
 import com.deathsdoor.chillback.core.layout.LazyResource
 import com.deathsdoor.chillback.core.layout.LocalSnackbarState
 import com.deathsdoor.chillback.core.layout.stringResource
-import com.deathsdoor.chillback.feature.mediaplayer.resources.Res
 import dev.icerock.moko.resources.compose.painterResource
+import com.deathsdoor.chillback.core.media.resources.Res
 
 @Composable
-internal fun TrackArtwork(
+fun TrackArtwork(
     mediaItem: AstroMediaItem,
     modifier : Modifier = Modifier,
     contentScale : ContentScale = ContentScale.Fit

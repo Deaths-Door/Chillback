@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 rootProject.name = "Chillback"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
@@ -34,6 +36,8 @@ dependencyResolutionManagement {
                 gradleMetadata()
             }
         }
+
+        maven("https://jitpack.io")
     }
 }
 

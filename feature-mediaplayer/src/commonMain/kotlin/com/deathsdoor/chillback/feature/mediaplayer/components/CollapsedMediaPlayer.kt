@@ -19,10 +19,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.deathsdoor.astroplayer.core.AstroMediaItem
 import com.deathsdoor.astroplayer.ui.AstroPlayerState
 import com.deathsdoor.astroplayer.ui.PauseButton
 import com.deathsdoor.astroplayer.ui.PlayButton
+import com.deathsdoor.chillback.core.media.components.TrackArtwork
+import com.deathsdoor.chillback.core.media.components.VerticalMediaItemTitleWithArtists
 import com.deathsdoor.chillback.feature.mediaplayer.resources.Res
 import dev.icerock.moko.resources.compose.stringResource
 

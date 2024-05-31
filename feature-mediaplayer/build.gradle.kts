@@ -41,15 +41,10 @@ kotlin {
             dependencies {
                 implementation(project(":core-layout"))
                 implementation(project(":core-preferences"))
+
                 api(project(":core-media"))
 
-                implementation(libs.coil.compose.core)
-                implementation(libs.coil.compose)
-                implementation(libs.coil.mp)
-                implementation(libs.coil.network.ktor)
-
                 implementation(libs.kotlinx.datetime)
-                implementation(libs.kotlinx.io.core)
 
                 implementation(libs.ui.tiles)
             }

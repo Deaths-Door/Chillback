@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.deathsdoor.astroplayer.core.AstroMediaItem
+import com.deathsdoor.chillback.core.media.components.TrackArtwork
 import dev.icerock.moko.resources.compose.stringResource
 import com.deathsdoor.chillback.feature.mediaplayer.resources.Res
 

@@ -19,8 +19,8 @@ import com.deathsdoor.chillback.feature.mediaplayer.components.HorizontalDuratio
 import com.deathsdoor.chillback.feature.mediaplayer.components.LikeButton
 import com.deathsdoor.chillback.feature.mediaplayer.components.MainMediaActionRow
 import com.deathsdoor.chillback.feature.mediaplayer.components.SecondaryMediaActionRow
-import com.deathsdoor.chillback.feature.mediaplayer.components.TrackArtwork
-import com.deathsdoor.chillback.feature.mediaplayer.components.VerticalMediaItemTitleWithArtists
+import com.deathsdoor.chillback.core.media.components.TrackArtwork
+import com.deathsdoor.chillback.core.media.components.VerticalMediaItemTitleWithArtists
 
 @Composable
 fun LargeMediaPlayerBar(

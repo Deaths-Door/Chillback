@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import com.deathsdoor.chillback.core.layout.AnimatedUndismissibleLoadingContent
 import com.deathsdoor.chillback.core.layout.LazyResource
 import com.deathsdoor.chillback.core.layout.LazyResourceLoader
 import com.deathsdoor.chillback.core.layout.LocalSnackbarState
@@ -74,16 +75,7 @@ internal fun AuthenticationButton(
 
     if(!isLoading.value) return
 
-    BasicAlertDialog(
-        onDismissRequest = {  },
-        properties = DialogProperties(usePlatformDefaultWidth = false),
-        content = {
-            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                BallPulseRiseIndicator(color = MaterialTheme.colorScheme.inverseSurface)
-                Text(text = stringResource(Res.strings.loading))
-            }
-        }
-    )
+    AnimatedUndismissibleLoadingContent(label = stringResource(Res.strings.loading))
 }
 
 private suspend fun LazyResourceLoader.login(

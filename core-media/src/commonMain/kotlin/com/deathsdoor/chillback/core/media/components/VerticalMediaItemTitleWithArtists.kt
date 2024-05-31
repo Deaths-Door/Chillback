@@ -1,4 +1,4 @@
-package com.deathsdoor.chillback.feature.mediaplayer.components
+package com.deathsdoor.chillback.core.media.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.basicMarquee

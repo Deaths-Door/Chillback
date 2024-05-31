@@ -36,5 +36,5 @@ internal fun ExpandedMediaPlayerHeader(
             )
         }
     },
-    actions = { /*TODO : Show more info about song and this view */ }
+    actions = { /*TODO : Show more info about song and this view + show playback queue option */ }
 )

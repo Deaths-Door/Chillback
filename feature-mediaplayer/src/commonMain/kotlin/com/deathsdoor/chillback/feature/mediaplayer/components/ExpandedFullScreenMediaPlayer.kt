@@ -1,7 +1,6 @@
 package com.deathsdoor.chillback.feature.mediaplayer.components
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -15,6 +14,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.deathsdoor.astroplayer.ui.AstroPlayerState
+import com.deathsdoor.chillback.core.media.components.TrackArtwork
 
 @Composable
 internal fun ExpandedFullScreenMediaPlayer(

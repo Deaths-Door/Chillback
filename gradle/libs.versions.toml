@@ -1,15 +1,20 @@
 [versions]
+accompanistPermissions = "0.35.1-alpha"
 agp = "8.2.0"
+amplituda = "2.2.2"
 android-compileSdk = "34"
 android-minSdk = "26"
 android-targetSdk = "34"
 androidx-activityCompose = "1.9.0"
-astroplayer = "0.1.1.1-equalizer-SNAPSHOT"
+astroplayer = "0.1.1.2-equalizer-SNAPSHOT"
+cache4k = "0.13.0"
 coil3 = "3.0.0-alpha06"
 compose = "1.6.7"
 compose-compiler = "1.5.13"
 compose-plugin = "1.6.2"
+composeAudiowaveform = "1.1.1"
 datastorePreferences = "1.1.1"
+ffmpegKitAudio = "6.0-2"
 firebase = "1.12.0"
 firebaseAnalytics = "22.0.0"
 firebaseCrashlyticsVersion = "19.0.0"
@@ -17,6 +22,7 @@ firebasePerf = "1.4.2"
 firebaseCrashlytics = "3.0.0"
 firebasePerfVersion = "21.0.0"
 gradleDependencyGraphGeneratorPlugin = "0.8.0"
+jaudiotagger = "3.0.1"
 jetpackLoading = "0.1.1.2-SNAPSHORT"
 kotlin = "1.9.23"
 kotlinxCoroutinesCore = "1.8.1-Beta"
@@ -39,6 +45,8 @@ reorderable = "2.1.1"
 [libraries]
 
 # From MavenLocal
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
+amplituda = { module = "com.github.lincollincol:amplituda", version.ref = "amplituda" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "lifecycleViewmodel" }
 androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqliteBundled" }
@@ -47,20 +55,24 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 androidx-startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "startupRuntime" }
+cache4k = { module = "io.github.reactivecircus.cache4k:cache4k", version.ref = "cache4k" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
 coil-compose-core = { module = "io.coil-kt.coil3:coil-compose-core", version.ref = "coil3" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil3" }
 coil-mp = { module = "io.coil-kt.coil3:coil", version.ref = "coil3" }
 
+compose-audiowaveform = { module = "com.github.lincollincol:compose-audiowaveform", version.ref = "composeAudiowaveform" }
 deathsdooor-astroplayer-core = { module = "com.deathsdooor.astroplayer:astroplayer-core", version.ref = "astroplayer" }
 deathsdooor-astroplayer-ui = { module = "com.deathsdooor.astroplayer:astroplayer-ui", version.ref = "astroplayer" }
 #firebase-analytics = { module = "com.google.firebase:firebase-analytics", version.ref = "firebaseAnalytics" }
 #firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "firebaseCrashlyticsVersion" }
+ffmpeg-kit-audio = { module = "com.arthenica:ffmpeg-kit-audio", version.ref = "ffmpegKitAudio" }
 firebase-database = { module = "dev.gitlive:firebase-database", version.ref = "firebase" }
 firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebase" }
 #firebase-perf = { module = "com.google.firebase:firebase-perf", version.ref = "firebasePerfVersion" }
 google-services = { module = "com.google.gms:google-services", version.ref = "google-services" }
 gradle-dependency-graph-generator-plugin = { module = "com.vanniktech:gradle-dependency-graph-generator-plugin", version.ref = "gradleDependencyGraphGeneratorPlugin" }
+jaudiotagger = { module = "net.jthink:jaudiotagger", version.ref = "jaudiotagger" }
 jetpack-loading = { module = "com.github.MahboubehSeyedpour:jetpack-loading", version.ref = "jetpackLoading" }
 
 firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebase" }

@@ -46,9 +46,9 @@ internal fun TermsAndPolicyDisclaimer(
             style= style
         )
 
+        val spanStyle = SpanStyle(color = MaterialTheme.colorScheme.primary)
         val annotatedString = Res.strings.term_and_policy_disclaimer.styleWith(
-            spanStyle = SpanStyle(color = MaterialTheme.colorScheme.primary),
-            onAppend = { spanStyle , index , phrase ->
+            onAppend = { index , phrase ->
                 val (tag,source) = when(index) {
                     0 -> POLICY_TAG to "PRIVACY.md".asGithubFileForLegal()
                     1 -> TERMS_CONDITION_TAG to "TERM_CONDITION.md".asGithubFileForLegal()

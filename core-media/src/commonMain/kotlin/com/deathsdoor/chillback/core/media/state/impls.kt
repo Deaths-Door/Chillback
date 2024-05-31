@@ -1,22 +1,21 @@
 package com.deathsdoor.chillback.core.media.state
 
-import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.semantics.onLongClick
 import androidx.compose.ui.semantics.semantics
 import com.deathsdoor.chillback.core.layout.extensions.applyOn
+import com.deathsdoor.chillback.core.layout.extensions.applyOnNotNull
 
 @Composable
 fun<T> rememberLazySelectableState(): LazySelectableState<T> = remember { LazySelectableState() }
 
 @Composable
-fun<T> LazySelectableState<T>.rememberIsSelected(item :T)= remember {
+fun<T> LazySelectableState<T>.rememberIsSelected(item :T) = remember {
     derivedStateOf {  if(inSelectionMode) isSelected(item) else null }
 }
 
@@ -33,8 +32,8 @@ fun<T> LazySelectableState<T>.rememberIsSelected(item :T)= remember {
 public fun <T> Modifier.selectSemantics(
     selectableState : LazySelectableState<T>,
     item: T,
-    label: String,
-): Modifier = selectSemantics(selectableState, label) {
+    label: () -> String,
+): Modifier = selectSemantics(selectableState.inSelectionMode, label) {
     selectableState.addSelected(item)
 }
 
@@ -48,7 +47,7 @@ public fun <T> Modifier.selectSemantics(
  */
 public fun <T> Modifier.selectSemantics(
     selectableState : LazySelectableState<T>,
-    label: String,
+    label: () -> String,
     onLongClick: () -> Unit,
 ): Modifier = selectSemantics(selectableState.inSelectionMode, label, onLongClick)
 
@@ -61,12 +60,12 @@ public fun <T> Modifier.selectSemantics(
  */
 fun Modifier.selectSemantics(
     inSelectionMode: Boolean,
-    label: String,
+    label: () -> String,
     onLongClick: () -> Unit,
 ): Modifier = applyOn(!inSelectionMode) {
     then(
         Modifier.semantics {
-            this@semantics.onLongClick(label = label) {
+            this@semantics.onLongClick(label = label()) {
                 onLongClick()
                 true
             }
@@ -86,16 +85,16 @@ fun Modifier.selectSemantics(
  * emit `PressInteraction.Press` when this toggleable is being pressed.
  */
 public fun <T> Modifier.selectToggleable(
-    state: LazySelectableState<T>,
-    item: T,
+    selectableState: LazySelectableState<T>,
+    selected: Boolean?,
+    item : T,
     interactionSource: MutableInteractionSource,
 ): Modifier = selectToggleable(
-    inSelectionMode = state.inSelectionMode,
-    selected = state.isSelected(item),
+    selected = selected,
     interactionSource = interactionSource,
     onToggle = { toggled ->
-        if (toggled) state.addSelected(item)
-        else state.removeSelected(item)
+        if (toggled) selectableState.addSelected(item)
+        else selectableState.removeSelected(item)
     }
 )
 
@@ -111,12 +110,12 @@ public fun <T> Modifier.selectToggleable(
  * emit `PressInteraction.Press` when this toggleable is being pressed.
  * @param[onToggle] Called when the toggleable is toggled.
  */
+@Suppress("NAME_SHADOWING")
 public fun Modifier.selectToggleable(
-    inSelectionMode: Boolean,
-    selected: Boolean,
+    selected: Boolean?,
     interactionSource: MutableInteractionSource,
     onToggle: (toggled: Boolean) -> Unit,
-): Modifier = applyOn(!inSelectionMode) {
+): Modifier = applyOnNotNull(selected) { selected ->
     then(
         Modifier.toggleable(
             value = selected,

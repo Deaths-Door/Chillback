@@ -14,7 +14,7 @@ class DeeplScrapper() :
     def __del__(self) -> None :
         self.driver.quit()
         
-    
+    @staticmethod
     def supported_languages_excluding_english() -> list[str] :
         return['bg', 'cs', 'da', 'nl', 'et', 'fi', 'fr', 'de', 'el', 'hu', 'it', 'lv', 'lt', 'no', 'pl', 'pt-br', 'pt', 'ro', 'sk', 'sl', 'es', 'sv', 'ar', 'zh', 'id', 'ja', 'ko', 'tr', 'uk']
     

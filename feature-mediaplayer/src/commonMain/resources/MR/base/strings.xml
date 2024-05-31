@@ -2,8 +2,6 @@
     <string name="alert_low_volume">Low Device Volume</string>
     <string name="alert_low_volume_description">We noticed your device volume is low. For an optimal audio experience, please adjust the volume using the volume buttons on your device.</string>
 
-    <string name="failed_loading_artwork">Failed to load artwork</string>
-
     <string name="enable_shuffle_mode">Enable Shuffle Mode</string>
     <string name="disable_shuffle_mode">Disable Shuffle Mode</string>
 
@@ -15,7 +13,6 @@
     <string name="playing_from_collection">Playing from Collection</string>
 
     <string name="up_next">Up Next</string>
-    <string name="share">Share</string>
 
     <string name="expand_mediaplayer">Expand Player</string>
 

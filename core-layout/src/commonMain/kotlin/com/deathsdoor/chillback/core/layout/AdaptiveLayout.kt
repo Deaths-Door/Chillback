@@ -52,7 +52,7 @@ fun AdaptiveMobileLayout(
 
 @JvmName("AdaptiveLayoutGeneric")
 @Composable
-fun<T> AdaptiveLayout(
+fun<T> AdaptiveLayoutGeneric(
     onMobile : @Composable () -> T,
     onDesktop : @Composable () -> T
 ): T {
@@ -65,4 +65,4 @@ fun<T> AdaptiveLayout(
 fun AdaptiveLayout(
     onMobile : @Composable () -> Unit,
     onDesktop : @Composable () -> Unit
-) = AdaptiveLayout<Unit>(onMobile,onDesktop)
+) = AdaptiveLayoutGeneric<Unit>(onMobile,onDesktop)

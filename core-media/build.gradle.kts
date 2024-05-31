@@ -19,7 +19,7 @@ kotlin {
 
     jvm("desktop")
 
-    if(System.getProperty("os.name") == "Mac OS X")
+    /*if(System.getProperty("os.name") == "Mac OS X")
         listOf(
             iosX64(),
             iosArm64(),
@@ -34,7 +34,7 @@ kotlin {
                 dependsOn("generateMRcommonMain")
                 dependsOn("generateMR${it.name}Main")
             }
-        }
+        }*/
 
     sourceSets {
         val commonMain by getting {
@@ -45,17 +45,39 @@ kotlin {
                 api(libs.deathsdooor.astroplayer.ui)
 
                 implementation(libs.reorderable)
+
+                implementation(libs.kotlinx.io.core)
+
+                api(libs.coil.compose.core)
+                api(libs.coil.compose)
+
+                implementation(libs.coil.mp)
+                implementation(libs.coil.network.ktor)
+
+                implementation(libs.cache4k)
+                implementation(libs.jaudiotagger)
+                implementation(libs.kotlinx.datetime)
             }
         }
 
         val androidMain by getting {
             dependsOn(commonMain)
+            dependencies {
+                // Audio Waves
+                implementation(libs.compose.audiowaveform)
+                implementation(libs.amplituda)
+
+                // ffmpeg
+                implementation(libs.ffmpeg.kit.audio)
+
+                // requesting ringtone setting permission
+                implementation(libs.accompanist.permissions)
+            }
         }
 
         val desktopMain by getting {
             dependsOn(commonMain)
         }
-
 
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -79,7 +101,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 }
-
 
 multiplatformResources {
     multiplatformResourcesPackage = "com.deathsdoor.chillback.core.media.resources"

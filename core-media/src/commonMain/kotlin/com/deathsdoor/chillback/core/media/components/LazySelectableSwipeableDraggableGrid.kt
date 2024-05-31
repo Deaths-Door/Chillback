@@ -9,10 +9,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridItemInfo
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
@@ -29,31 +28,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.deathsdoor.chillback.core.layout.AdaptiveLayout
-import com.deathsdoor.chillback.core.media.state.LazySelectableState
-import com.deathsdoor.chillback.core.media.state.rememberLazySelectableState
+import com.deathsdoor.chillback.core.layout.AdaptiveLayoutGeneric
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import sh.calvin.reorderable.ReorderableCollectionItemScope
 import sh.calvin.reorderable.ReorderableItem
-import sh.calvin.reorderable.rememberReorderableLazyGridState
+import sh.calvin.reorderable.ReorderableLazyGridState
 
 private typealias ContentLambda<T> = @Composable ReorderableCollectionItemScope.(item : T,interactionSource : MutableInteractionSource,elevation : Dp,onLongClick : (() -> Unit)?) -> Unit
 
 // TODO; add https://medium.com/androiddevelopers/create-a-photo-grid-with-multiselect-behavior-using-jetpack-compose-9a8d588a9b63 like onedrive mobile
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun<T> LazySelectableSwipeableDraggableGrid(
     modifier : Modifier = Modifier,
-    selectableState: LazySelectableState<T> = rememberLazySelectableState(),
     items : List<T>?,
     key: (item: T) -> Any,
+    gridState: LazyGridState,
+    @Suppress("SpellCheckingInspection")
+    reorderableLazyGridState : ReorderableLazyGridState,
     coroutineScope: CoroutineScope,
     isSingleItemPerRow : Boolean,
     startToEndColor : Color = Color.Unspecified,
     endToStartColor : Color = Color.Unspecified,
     confirmValueChange: SwipeToDismissBoxValue.(item : T) -> Boolean,
-    reorder : suspend (from : LazyGridItemInfo, to : LazyGridItemInfo) -> Unit,
     placeHolder : @Composable () -> Unit,
     swipeableContent : @Composable (isStartToEnd : Boolean,item : T) -> Unit,
     optionContent : @Composable (index : Int,item : T,onDismiss : () -> Unit) -> Unit,
@@ -81,14 +79,10 @@ internal fun<T> LazySelectableSwipeableDraggableGrid(
         horizontalArrangement = arrangement
     }
 
-    val gridState = rememberLazyGridState()
-    val reorderableLazyGridState = rememberReorderableLazyGridState(gridState) { from, to ->
-        reorder(from,to)
-    }
 
-    val adaptiveItemContent = AdaptiveLayout<ContentLambda<T>>(
-        onDesktop = { { item, interactionSource, elevation , onLongClick ->
-            content(item, interactionSource, elevation, onLongClick)
+    val adaptiveItemContent = AdaptiveLayoutGeneric<ContentLambda<T>>(
+        onDesktop = { { item, interactionSource, elevation , _ ->
+            content(item, interactionSource, elevation, null)
         } },
         onMobile = {
             var itemIndex : Int? by remember { mutableStateOf(null) }
@@ -102,7 +96,7 @@ internal fun<T> LazySelectableSwipeableDraggableGrid(
                 }
             }
 
-            return@AdaptiveLayout {item, interactionSource, elevation , onLongClick ->
+            return@AdaptiveLayoutGeneric { item, interactionSource, elevation, _ ->
                 val currentItem by rememberUpdatedState(newValue = item)
                 val dismissState = rememberSwipeToDismissBoxState(
                     confirmValueChange = { it.confirmValueChange(item) }

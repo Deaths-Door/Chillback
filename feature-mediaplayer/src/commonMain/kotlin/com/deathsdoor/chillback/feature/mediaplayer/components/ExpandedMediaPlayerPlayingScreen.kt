@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.deathsdoor.astroplayer.ui.AstroPlayerState
+import com.deathsdoor.chillback.core.media.components.TrackArtwork
+import com.deathsdoor.chillback.core.media.components.VerticalMediaItemTitleWithArtists
 
 @Composable
 internal fun ExpandedMediaPlayerPlayingScreenPortrait(

@@ -18,7 +18,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[adb-5d6ef88-ubwloA._adb-tls-connect._tcp]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -58,8 +58,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Interface" />
-        <option value="Kotlin Class" />
         <option value="Kotlin File" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -78,6 +78,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 1
@@ -89,24 +92,24 @@
     <option name="showLibraryContents" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ResourceManagerPrefKey.ResourceType": "DRAWABLE",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "com.google.services.firebase.aqiPopupShown": "true",
-    "external.system.has.shared.sources": "true",
-    "last_directory_selection": "C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/composeApp/src/commonMain/kotlin",
-    "last_opened_file_path": "C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/core-media/src/commonMain/kotlin/com/deathsdoor/chillback/core/media/icons",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.17",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ResourceManagerPrefKey.ResourceType&quot;: &quot;DRAWABLE&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
+    &quot;external.system.has.shared.sources&quot;: &quot;true&quot;,
+    &quot;last_directory_selection&quot;: &quot;C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/core-media/src/commonMain/resources&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Aarav Aditya Shah/Documents/GitHub/project-codebases/kotlin/Chillback/core-media/src/commonMain/kotlin/com/deathsdoor/chillback/core/media/icons&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\core-media\src\commonMain\kotlin\com\deathsdoor\chillback\core\media\icons" />
@@ -116,9 +119,11 @@
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\composeApp" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\scripts\generate_translations\deepl" />
-      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\scripts\generate_translations" />
-      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\feature-welcome\src\commonMain\kotlin\com\deathsdoor\chillback\feature\welcome\components" />
+      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\core-media\src\commonMain\kotlin\com\deathsdoor\chillback\core\media\components\mediaitem" />
+      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\core-media\src\androidMain\kotlin\com\deathsdoor\chillback\core\media\components" />
+      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\core-media\src\androidMain\kotlin\com\deathsdoor\chillback\core\media\components\action" />
+      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\core-media\src\commonMain\kotlin\com\deathsdoor\chillback\core\media\components" />
+      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\core-media\src\commonMain\resources" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="com.deathsdoor.chillback.core.media.state" />
@@ -138,9 +143,10 @@
       <command value="gradle composeApp:build" />
       <command value="gradle generateDependencyGraphChillbackDependencyGraph" />
       <command value="gradle core-media:generateMRCommonMain" />
+      <command value="gradle core-media:clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.Chillback [core-media:generateMRCommonMain]">
+  <component name="RunManager" selected="Gradle.Chillback [core-media:clean]">
     <configuration name="androidApp" type="AndroidRunConfigurationType" factoryName="Android App">
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
@@ -274,7 +280,7 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Chillback [clean build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="Chillback [composeApp:mergeDebugResources]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -285,8 +291,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="clean" />
-            <option value="build" />
+            <option value="composeApp:mergeDebugResources" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -297,7 +302,7 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="Chillback [composeApp:build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="Chillback [core-media:clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -308,7 +313,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="composeApp:build" />
+            <option value="core-media:clean" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -411,19 +416,19 @@
       <item itemvalue="Android App.androidApp" />
       <item itemvalue="Android App.composeApp" />
       <item itemvalue="Gradle.Run Desktop Chillback [composeApp:run]" />
+      <item itemvalue="Gradle.Chillback [core-media:clean]" />
+      <item itemvalue="Gradle.Chillback [composeApp:mergeDebugResources]" />
       <item itemvalue="Gradle.Chillback [core-media:generateMRCommonMain]" />
-      <item itemvalue="Gradle.Chillback [composeApp:build]" />
       <item itemvalue="Gradle.Chillback [feature-mediaplayer:generateMRCommonMain]" />
       <item itemvalue="Gradle.Chillback [generateDependencyGraphChillbackDependencyGraph]" />
-      <item itemvalue="Gradle.Chillback [clean build]" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.Chillback [core-media:clean]" />
         <item itemvalue="Gradle.Chillback [core-media:generateMRCommonMain]" />
+        <item itemvalue="Gradle.Chillback [composeApp:mergeDebugResources]" />
         <item itemvalue="Gradle.Chillback [feature-mediaplayer:generateMRCommonMain]" />
         <item itemvalue="Gradle.Chillback [generateDependencyGraphChillbackDependencyGraph]" />
-        <item itemvalue="Gradle.Chillback [composeApp:build]" />
-        <item itemvalue="Gradle.Chillback [clean build]" />
       </list>
     </recent_temporary>
   </component>

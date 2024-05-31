@@ -25,10 +25,10 @@ def create_translated_strings(resources_directory : str,folder : str,create_fold
         try :
             translator = DeeplScrapper()
 
-            for target_lang in DeeplScrapper.supported_languages_excluding_english():
-                translate_text = lambda : escape(translator.translate(source_lang ="en",target_lang = target_lang,text = text))
+            for target_lang in DeeplScrapper.supported_languages_excluding_english()[:1]:
+                translate_text = lambda text: escape(translator.translate(source_lang ="en",target_lang = target_lang,text = text))
 
-                bulk_translations = [translate_text() for text in string_values]
+                bulk_translations = [translate_text(text) for text in string_values]
 
                 folder_name = create_folder_name(target_lang)
                 folder_path = join_path(resources_directory,folder_name)
@@ -42,7 +42,9 @@ def create_translated_strings(resources_directory : str,folder : str,create_fold
 
                     for index ,name_tag in enumerate(tags) :
                         tag = soup.new_tag("string",attrs = {"name" : name_tag})
-                        tag.string = bulk_translations[index]
+                        tag.string = bulk_translations[index].encode('ascii', 'backslashreplace').decode('utf-8')
+                        print(tag.string)
+                        
                         soup.resources.append(tag)
 
                     wfile.write(str(soup))

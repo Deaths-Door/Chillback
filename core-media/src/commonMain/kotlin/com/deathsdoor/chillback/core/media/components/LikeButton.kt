@@ -18,6 +18,7 @@ import com.deathsdoor.astroplayer.core.AstroMediaMetadata
 import com.deathsdoor.astroplayer.core.AstroPlayer
 import com.deathsdoor.chillback.core.media.resources.Res
 import dev.icerock.moko.resources.compose.stringResource
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.conflate
@@ -25,12 +26,13 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.mapLatest
 
-@OptIn(FlowPreview::class)
+@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @Composable
 internal fun LikeButton(
     modifier: Modifier = Modifier,
     astroPlayer: AstroPlayer,
     mediaItem : AstroMediaItem,
+    enabled : Boolean = true,
 ) {
     val isLiked by rememberMediaItemLikedState(mediaItem)
 
@@ -46,6 +48,7 @@ internal fun LikeButton(
     IconToggleButton(
         modifier = modifier,
         checked = isLiked,
+        enabled = enabled,
         content = {
             when(isLiked) {
                 true -> Icon(
