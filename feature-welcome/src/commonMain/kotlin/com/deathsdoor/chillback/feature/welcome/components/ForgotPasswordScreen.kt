@@ -1,4 +1,4 @@
-package com.deathsdoor.chillback.feature.welcome
+package com.deathsdoor.chillback.feature.welcome.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -121,8 +121,9 @@ internal fun ForgotPasswordScreenDialog(onDismissRequest : () -> Unit) {
         text = {
             Row(modifier = Modifier.fillMaxWidth(),verticalAlignment = Alignment.Bottom) {
                 Image(
-                    modifier = Modifier.aspectRatio(1f)
-                        .fillMaxHeight(),
+                    modifier = Modifier.fillMaxHeight(0.35f)
+                        .padding(top = 12.dp,end = 16.dp)
+                        .aspectRatio(1f),
                     painter = painterResource(Res.images.forgot_password),
                     contentDescription = null
                 )

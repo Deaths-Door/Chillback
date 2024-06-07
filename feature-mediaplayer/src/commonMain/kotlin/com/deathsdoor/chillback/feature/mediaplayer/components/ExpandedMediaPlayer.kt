@@ -50,7 +50,7 @@ internal fun ExpandedMediaPlayer(
             )
         }
 
-        setUpMediaPlayerRoutes(navController = navController)
+        setUpMediaPlayerRoutes(state = state,navController = navController)
     }
 }
 

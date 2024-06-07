@@ -79,7 +79,9 @@ private fun SplashScreen() {
         verticalArrangement = Arrangement.Center,
         content = {
             Image(
-                modifier = Modifier.animateContentSize().fillMaxSize(sizeAnimation.value),
+                modifier = Modifier.animateContentSize()
+                    .fillMaxSize(sizeAnimation.value)
+                    .padding(bottom = 12.dp),
                 painter = painterResource(Res.images.application_logo),
                 contentDescription = null
             )

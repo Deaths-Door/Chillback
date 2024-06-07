@@ -41,6 +41,11 @@ import com.deathsdoor.chillback.core.layout.AdaptiveLayout
 import com.deathsdoor.chillback.core.layout.extensions.styleWith
 import com.deathsdoor.chillback.core.preferences.ApplicationPreference
 import com.deathsdoor.chillback.feature.welcome.components.CenteredHorizontalDivider
+import com.deathsdoor.chillback.feature.welcome.components.ChillbackAuthScreenDesktop
+import com.deathsdoor.chillback.feature.welcome.components.ChillbackAuthScreenMobileLandscape
+import com.deathsdoor.chillback.feature.welcome.components.ChillbackAuthScreenMobilePortrait
+import com.deathsdoor.chillback.feature.welcome.components.ForgotPasswordScreenMobileLandscape
+import com.deathsdoor.chillback.feature.welcome.components.ForgotPasswordScreenMobilePortrait
 import com.deathsdoor.chillback.feature.welcome.components.TermsAndPolicyDisclaimer
 import com.deathsdoor.chillback.features.welcome.resources.Res
 import dev.icerock.moko.resources.compose.stringResource
@@ -133,7 +138,7 @@ internal fun OnBoardingScreen(coroutineScope : CoroutineScope) {
 private fun DesktopWelcomeScreen(
     modifier: Modifier = Modifier,
     coroutineScope : CoroutineScope,
-) = ElevatedCard(modifier = modifier){
+) = ElevatedCard(modifier = modifier) {
     val _12 = 12.dp
     val _24 = 24.dp
 
@@ -141,9 +146,11 @@ private fun DesktopWelcomeScreen(
         modifier = Modifier.padding(_12),
         horizontalArrangement = Arrangement.spacedBy(_24),
         content = {
-            OutlinedCard(modifier = Modifier.fillMaxHeight().fillMaxWidth(0.3f)){
+            OutlinedCard(modifier = Modifier.fillMaxHeight().fillMaxWidth(0.4f)){
                 WelcomeFlow(coroutineScope)
             }
+
+            Spacer(modifier =  Modifier.fillMaxWidth(0.1f))
 
             ChillbackAuthScreenDesktop(coroutineScope = coroutineScope)
         }

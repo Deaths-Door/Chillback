@@ -13,7 +13,7 @@ import com.deathsdoor.astroplayer.core.AstroMediaItem
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun VerticalMediaItemTitleWithArtists(
+fun VerticalMediaItemTitleWithArtists(
     modifier: Modifier = Modifier,
     mediaItem: AstroMediaItem,
     titleStyle : TextStyle,

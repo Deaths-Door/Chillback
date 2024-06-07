@@ -24,11 +24,11 @@
     <string name="try_again">Please try again!</string>
 
     <string name="fetching_media_info">Gathering media information...</string>
-    <string name="failed_fetching_media_info">Couldn't get media information. Please try again.</string>
+    <string name="failed_fetching_media_info">Couldn\'t get media information. Please try again.</string>
 
-    <string name="failed_setting_ringtone">Couldn't set ringtone.</string>
-    <string name="failed_setting_ringtone_fetch_metadata">Couldn't fetch media information needed to set ringtone.</string>
-    <string name="failed_setting_ringtone_crop_song">Couldn't trim the audio file needed to set ringtone.</string>
+    <string name="failed_setting_ringtone">Couldn\'t set ringtone.</string>
+    <string name="failed_setting_ringtone_fetch_metadata">Couldn\'t fetch media information needed to set ringtone.</string>
+    <string name="failed_setting_ringtone_crop_song">Couldn\'t trim the audio file needed to set ringtone.</string>
 
     <string name="success_setting_ringtone">Ringtone is updated!</string>
 

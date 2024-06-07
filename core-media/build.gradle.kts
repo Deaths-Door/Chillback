@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     id(libs.plugins.resources.get().pluginId)
+
+    alias(libs.plugins.jetbrainsCompose)
 }
 
 kotlin {
@@ -77,6 +79,9 @@ kotlin {
 
         val desktopMain by getting {
             dependsOn(commonMain)
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.9.0-RC")
+            }
         }
 
         commonTest.dependencies {
@@ -94,7 +99,7 @@ android {
     composeOptions.kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
 
     // https://youtrack.jetbrains.com/issue/KT-42388/CompilationException-Back-end-JVM-Internal-error-Couldnt-inline-method-call-get-current-into-androidx.compose.runtime.Composable
-    composeOptions.kotlinCompilerVersion = libs.versions.kotlin.get()
+  //  composeOptions.kotlinCompilerVersion = libs.versions.kotlin.get()
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

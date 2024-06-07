@@ -3,37 +3,25 @@ package com.deathsdoor.chillback.feature.mediaplayer.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowColumn
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material3.Card
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.PointerIcon.Companion.Text
 import androidx.navigation.NavController
 import com.alorma.compose.settings.ui.SettingsSwitch
-import com.deathsdoor.astroplayer.core.AstroPlayer
 import com.deathsdoor.astroplayer.core.equalizer.EqualizerPresets
 import com.deathsdoor.astroplayer.core.equalizer.EqualizerValues
 import com.deathsdoor.astroplayer.ui.AstroPlayerState
@@ -42,8 +30,8 @@ import com.deathsdoor.astroplayer.ui.equalizer.rememberEqualizerGraphState
 import com.deathsdoor.chillback.core.layout.actions.BackButton
 import com.deathsdoor.chillback.core.preferences.ApplicationDatabase
 import com.deathsdoor.chillback.feature.mediaplayer.preferences.equalizerPresets
-import dev.icerock.moko.resources.compose.stringResource
 import com.deathsdoor.chillback.feature.mediaplayer.resources.Res
+import dev.icerock.moko.resources.compose.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable

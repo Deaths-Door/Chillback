@@ -13,10 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.deathsdoor.astroplayer.ui.AstroPlayerState
+import com.deathsdoor.chillback.core.media.components.LikeButton
 import com.deathsdoor.chillback.feature.mediaplayer.components.DurationSlider
 import com.deathsdoor.chillback.feature.mediaplayer.components.FullScreenMediaPlayerButton
 import com.deathsdoor.chillback.feature.mediaplayer.components.HorizontalDurationMarkers
-import com.deathsdoor.chillback.feature.mediaplayer.components.LikeButton
 import com.deathsdoor.chillback.feature.mediaplayer.components.MainMediaActionRow
 import com.deathsdoor.chillback.feature.mediaplayer.components.SecondaryMediaActionRow
 import com.deathsdoor.chillback.core.media.components.TrackArtwork
@@ -41,7 +41,6 @@ fun LargeMediaPlayerBar(
             titleStyle = MaterialTheme.typography.headlineLarge,
             artistStyle = MaterialTheme.typography.bodyLarge
         )
-
 
         val iconSize = 52.dp
         val iconSizeModifier = Modifier.size(iconSize)

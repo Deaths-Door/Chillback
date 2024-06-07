@@ -78,6 +78,8 @@ kotlin {
 
         val desktopMain by getting {
             dependencies {
+                // https://github.com/GitLiveApp/firebase-java-sdk/issues/16
+                implementation("dev.gitlive:firebase-java-sdk:0.4.3")
             }
         }
     }

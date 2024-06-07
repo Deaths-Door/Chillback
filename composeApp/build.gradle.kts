@@ -84,7 +84,7 @@ android {
 
     buildFeatures.compose = true
     composeOptions.kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    composeOptions.kotlinCompilerVersion = libs.versions.kotlin.get()
+    //composeOptions.kotlinCompilerVersion = libs.versions.kotlin.get()
 
     packaging {
         resources {
@@ -102,6 +102,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
     dependencies {
         implementation(libs.androidx.activity.compose) {
             // To Fix - Duplicate class androidx.lifecycle.ViewModelKt found in modules (androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1) and (androidx.lifecycle:lifecycle-viewmodel-android:2.8.0-alpha03)
@@ -124,6 +125,7 @@ compose.desktop {
     }
 }
 
+// ----------------- Dependency Graph ---------------------
 plugins.apply(DependencyGraphGeneratorPlugin::class.java)
 configure<DependencyGraphGeneratorExtension> {
     generators.create("ChillbackDependencyGraph") {

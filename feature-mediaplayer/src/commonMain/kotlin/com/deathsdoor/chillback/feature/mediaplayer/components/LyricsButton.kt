@@ -22,4 +22,4 @@ internal fun LyricsButton(navController: NavController,modifier : Modifier = Mod
     }
 )
 
-internal fun NavController.navigateToLyricsScreen() = TODO("implement this shit")
+internal fun NavController.navigateToLyricsScreen() : Unit = TODO("implement this shit")

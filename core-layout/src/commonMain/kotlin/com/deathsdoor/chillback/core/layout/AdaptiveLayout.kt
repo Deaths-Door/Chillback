@@ -65,4 +65,4 @@ fun<T> AdaptiveLayoutGeneric(
 fun AdaptiveLayout(
     onMobile : @Composable () -> Unit,
     onDesktop : @Composable () -> Unit
-) = AdaptiveLayoutGeneric<Unit>(onMobile,onDesktop)
+) = AdaptiveLayoutGeneric(onMobile,onDesktop)

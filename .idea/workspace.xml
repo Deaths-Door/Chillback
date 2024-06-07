@@ -58,8 +58,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Interface" />
-        <option value="Kotlin File" />
         <option value="Kotlin Class" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
@@ -79,7 +79,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -119,11 +119,11 @@
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\composeApp" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\feature-welcome\src\commonMain\kotlin\com\deathsdoor\chillback\feature\welcome\components" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\core-media\src\commonMain\kotlin\com\deathsdoor\chillback\core\media\components\mediaitem" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\core-media\src\androidMain\kotlin\com\deathsdoor\chillback\core\media\components" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\core-media\src\androidMain\kotlin\com\deathsdoor\chillback\core\media\components\action" />
       <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\core-media\src\commonMain\kotlin\com\deathsdoor\chillback\core\media\components" />
-      <recent name="C:\Users\Aarav Aditya Shah\Documents\GitHub\project-codebases\kotlin\Chillback\core-media\src\commonMain\resources" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="com.deathsdoor.chillback.core.media.state" />
@@ -135,7 +135,6 @@
       <command value="gradle core-layout:build" />
       <command value="gradle core-layout:generateMRCommonMain" />
       <command value="gradle feature-welcome:generateMRCommonMain" />
-      <command value="gradle composeApp:clean" />
       <command value="gradle clean" />
       <command value="gradle clean build" />
       <command value="gradle feature-mediaplayer:generateMRCommonMain" />
@@ -144,9 +143,10 @@
       <command value="gradle generateDependencyGraphChillbackDependencyGraph" />
       <command value="gradle core-media:generateMRCommonMain" />
       <command value="gradle core-media:clean" />
+      <command value="gradle composeApp:clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.Chillback [core-media:clean]">
+  <component name="RunManager" selected="Gradle.Run Desktop Chillback [composeApp:run]">
     <configuration name="androidApp" type="AndroidRunConfigurationType" factoryName="Android App">
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
@@ -280,6 +280,28 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Chillback [composeApp:clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="composeApp:clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="Chillback [composeApp:mergeDebugResources]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -368,28 +390,6 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="Chillback [generateDependencyGraphChillbackDependencyGraph]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="generateDependencyGraphChillbackDependencyGraph" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <method v="2" />
-    </configuration>
     <configuration name="Run Desktop Chillback [composeApp:run]" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -416,19 +416,19 @@
       <item itemvalue="Android App.androidApp" />
       <item itemvalue="Android App.composeApp" />
       <item itemvalue="Gradle.Run Desktop Chillback [composeApp:run]" />
+      <item itemvalue="Gradle.Chillback [composeApp:clean]" />
       <item itemvalue="Gradle.Chillback [core-media:clean]" />
       <item itemvalue="Gradle.Chillback [composeApp:mergeDebugResources]" />
       <item itemvalue="Gradle.Chillback [core-media:generateMRCommonMain]" />
       <item itemvalue="Gradle.Chillback [feature-mediaplayer:generateMRCommonMain]" />
-      <item itemvalue="Gradle.Chillback [generateDependencyGraphChillbackDependencyGraph]" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.Chillback [composeApp:clean]" />
         <item itemvalue="Gradle.Chillback [core-media:clean]" />
         <item itemvalue="Gradle.Chillback [core-media:generateMRCommonMain]" />
         <item itemvalue="Gradle.Chillback [composeApp:mergeDebugResources]" />
         <item itemvalue="Gradle.Chillback [feature-mediaplayer:generateMRCommonMain]" />
-        <item itemvalue="Gradle.Chillback [generateDependencyGraphChillbackDependencyGraph]" />
       </list>
     </recent_temporary>
   </component>

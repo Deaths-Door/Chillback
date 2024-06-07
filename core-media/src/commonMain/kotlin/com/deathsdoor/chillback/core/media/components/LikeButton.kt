@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.mapLatest
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @Composable
-internal fun LikeButton(
+fun LikeButton(
     modifier: Modifier = Modifier,
     astroPlayer: AstroPlayer,
     mediaItem : AstroMediaItem,

@@ -1,5 +1,6 @@
-package com.deathsdoor.chillback.feature.welcome
+package com.deathsdoor.chillback.feature.welcome.components
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,12 +12,12 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,11 +31,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.deathsdoor.chillback.core.layout.actions.BackButton
 import com.deathsdoor.chillback.core.layout.extensions.applyOnNotNull
-import com.deathsdoor.chillback.feature.welcome.components.AuthenticationForm
+import com.deathsdoor.chillback.feature.welcome.SkipButton
+import com.deathsdoor.chillback.feature.welcome.navigateToForgotPassword
 import com.deathsdoor.chillback.features.welcome.resources.Res
-import dev.gitlive.firebase.Firebase
-import dev.gitlive.firebase.auth.FirebaseUser
-import dev.gitlive.firebase.auth.auth
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.CoroutineScope
@@ -42,25 +41,16 @@ import kotlinx.coroutines.CoroutineScope
 @Suppress("UnusedReceiverParameter")
 @Composable
 internal fun RowScope.ChillbackAuthScreenDesktop(coroutineScope : CoroutineScope){
-    Spacer(modifier =  Modifier.fillMaxWidth(0.2f))
 
     var isForgotPasswordShown by remember { mutableStateOf(false) }
 
-    Box {
-        Image(
-            modifier = Modifier.align(Alignment.TopEnd),
-            painter = painterResource(Res.images.outer_circle_filled_with_orange_gradient),
-            contentDescription = null
-        )
-
-        Portrait(
-            coroutineScope = coroutineScope,
-            navigateToForgotPassword = { isForgotPasswordShown = true },
-            content = {
-                SkipButton(coroutineScope = coroutineScope)
-            }
-        )
-    }
+    Portrait(
+        coroutineScope = coroutineScope,
+        navigateToForgotPassword = { isForgotPasswordShown = true },
+        content = {
+            SkipButton(coroutineScope = coroutineScope)
+        }
+    )
 
     if(!isForgotPasswordShown) return
 
@@ -140,7 +130,11 @@ private fun Portrait(
     navigateToForgotPassword : () -> Unit,
     content : (@Composable () -> Unit)? = null
 ) = Column(modifier = Modifier.fillMaxSize()) {
-    Spacer(modifier = Modifier.fillMaxHeight(0.125f))
+    Spacer(modifier = Modifier
+        .weight(0.125f)
+        .heightIn(min = 64.dp)
+        .animateContentSize()
+    )
 
     val isLoginScreen = remember { mutableStateOf(true) }
 
