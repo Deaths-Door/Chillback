@@ -3,6 +3,7 @@ import com.vanniktech.dependency.graph.generator.DependencyGraphGeneratorPlugin
 import com.vanniktech.dependency.graph.generator.DependencyGraphGeneratorExtension
 import guru.nidi.graphviz.attribute.Color
 import guru.nidi.graphviz.attribute.Style
+import java.time.Year
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -119,8 +120,25 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+
             packageName = "com.deathsdoor.chillback"
             packageVersion = "1.0.0"
+
+            description = "Chillback is an open-source music player built for those who prioritize a relaxed listening experience. Unlike resource-hungry options, Chillback is designed for smooth and efficient performance, making it ideal for users who value battery life or lower-powered devices. Packed with a modern, customizable UI, Chillback empowers you to tailor the player to your preferences, offering a compelling alternative to Spotify."
+            vendor = "Aarav Shah"
+
+            // https://stackoverflow.com/a/33700141
+            copyright = "© ${Year.now().value} $vendor. All rights reserved."
+            licenseFile.set(project.file("LICENSE"))
+
+            linux {
+                debMaintainer = "aaravaditya51@gmail.com"
+            }
+
+            windows {
+                dirChooser = true
+                perUserInstall = true
+            }
         }
     }
 }

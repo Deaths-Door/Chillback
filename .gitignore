@@ -1,4 +1,4 @@
-# Gradle files
+\# Gradle files
 .gradle/
 build/
 
@@ -54,3 +54,6 @@ test.mp4
 
 # Python stuff
 __pycache__
+
+#desktop testing
+chillback.preferences_pb

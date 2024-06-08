@@ -1,9 +1,12 @@
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.deathsdoor.chillback.data.initializeFirebase
-import dev.gitlive.firebase.Firebase
-import dev.gitlive.firebase.initialize
+import com.sun.jna.Native
+import com.sun.jna.NativeLibrary
+import uk.co.caprica.vlcj.binding.lib.LibVlc
+import uk.co.caprica.vlcj.binding.support.runtime.RuntimeUtil
+import java.io.File
+
 
 fun main() {
     initializeFirebase()
