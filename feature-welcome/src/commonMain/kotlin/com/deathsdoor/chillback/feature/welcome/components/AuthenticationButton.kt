@@ -104,7 +104,8 @@ private suspend fun LazyResourceLoader.signIn(
     isLoading : MutableState<Boolean>,
 ){
     try {
-        val signInMethods = Firebase.auth.fetchSignInMethodsForEmail(emailState.email)
+        // TODO;enable for all except desktop
+        /*val signInMethods = Firebase.auth.fetchSignInMethodsForEmail(emailState.email)
 
         if(signInMethods.isEmpty()) {
             snackBarState.showErrorSnackbar(
@@ -114,7 +115,7 @@ private suspend fun LazyResourceLoader.signIn(
             isLoading.value = false
 
             return
-        }
+        }*/
 
         // Note : No Need to Verify Email here as WelcomeScreen has a VerifyEmail Composable attached that will handle all this
         val authResult = Firebase.auth.createUserWithEmailAndPassword(emailState.email,passwordState.password)

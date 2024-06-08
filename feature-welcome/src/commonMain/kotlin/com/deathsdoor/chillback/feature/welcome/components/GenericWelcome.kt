@@ -80,7 +80,7 @@ internal fun GenericWelcome(
         },
         onDesktop = {
             Box(modifier) {
-                val maxHeightFraction = 0.6f
+                val maxHeightFraction = 0.5f
                 GradientCircles(
                     modifier = Modifier.fillMaxHeight(maxHeightFraction),
                     imageVector = imageVector,
@@ -94,7 +94,7 @@ internal fun GenericWelcome(
 
                     TitleText(title)
 
-                    Spacer(modifier = Modifier.height(64.dp))
+                    Spacer(modifier = Modifier.height(48.dp))
 
                     TitleDescription(description)
                 }
