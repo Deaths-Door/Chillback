@@ -1,0 +1,110 @@
+[versions]
+accompanistPermissions = "0.35.1-alpha"
+agp = "8.2.0"
+amplituda = "2.2.2"
+android-compileSdk = "34"
+android-minSdk = "26"
+android-targetSdk = "34"
+androidx-activityCompose = "1.9.0"
+astroplayer = "0.1.1.3-equalizer-SNAPSHOT"
+cache4k = "0.13.0"
+coil3 = "3.0.0-alpha06"
+compose = "1.6.7"
+compose-compiler = "1.5.13"
+compose-plugin = "1.6.2"
+composeAudiowaveform = "1.1.1"
+datastorePreferences = "1.1.1"
+ffmpegKitAudio = "6.0-2"
+firebase = "1.12.0"
+firebaseAnalytics = "22.0.0"
+firebaseCrashlyticsVersion = "19.0.0"
+firebasePerf = "1.4.2"
+firebaseCrashlytics = "3.0.0"
+firebasePerfVersion = "21.0.0"
+gradleDependencyGraphGeneratorPlugin = "0.8.0"
+jaudiotagger = "3.0.1"
+jetpackLoading = "0.1.1.2-SNAPSHORT"
+kotlin = "1.9.23"
+kotlinxCoroutinesCore = "1.9.0-RC"
+kotlinxDatetime = "0.6.0-RC.2"
+kotlinxIoCore = "0.3.4"
+lifecycleViewmodel = "2.8.0"
+material3WindowSizeClassMultiplatform = "0.5.0"
+moko-resources = "0.23.0"
+multiplatformSettings = "1.1.1"
+google-services = "4.4.1"
+navigationCompose = "2.7.0-alpha03"
+material3Android = "1.2.1"
+sqliteBundled = "2.5.0-alpha01"
+room = "2.5.0-alpha01"
+ksp="1.9.24-1.0.20"
+startupRuntime = "1.1.1"
+uiTiles = "2.2.0"
+reorderable = "2.1.1"
+
+[libraries]
+
+# From MavenLocal
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
+amplituda = { module = "com.github.lincollincol:amplituda", version.ref = "amplituda" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
+androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "lifecycleViewmodel" }
+androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqliteBundled" }
+androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "room" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
+androidx-startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "startupRuntime" }
+cache4k = { module = "io.github.reactivecircus.cache4k:cache4k", version.ref = "cache4k" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
+coil-compose-core = { module = "io.coil-kt.coil3:coil-compose-core", version.ref = "coil3" }
+coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil3" }
+coil-mp = { module = "io.coil-kt.coil3:coil", version.ref = "coil3" }
+
+compose-audiowaveform = { module = "com.github.lincollincol:compose-audiowaveform", version.ref = "composeAudiowaveform" }
+deathsdooor-astroplayer-core = { module = "com.deathsdooor.astroplayer:astroplayer-core", version.ref = "astroplayer" }
+deathsdooor-astroplayer-ui = { module = "com.deathsdooor.astroplayer:astroplayer-ui", version.ref = "astroplayer" }
+#firebase-analytics = { module = "com.google.firebase:firebase-analytics", version.ref = "firebaseAnalytics" }
+#firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "firebaseCrashlyticsVersion" }
+ffmpeg-kit-audio = { module = "com.arthenica:ffmpeg-kit-audio", version.ref = "ffmpegKitAudio" }
+firebase-database = { module = "dev.gitlive:firebase-database", version.ref = "firebase" }
+firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebase" }
+#firebase-perf = { module = "com.google.firebase:firebase-perf", version.ref = "firebasePerfVersion" }
+google-services = { module = "com.google.gms:google-services", version.ref = "google-services" }
+gradle-dependency-graph-generator-plugin = { module = "com.vanniktech:gradle-dependency-graph-generator-plugin", version.ref = "gradleDependencyGraphGeneratorPlugin" }
+jaudiotagger = { module = "net.jthink:jaudiotagger", version.ref = "jaudiotagger" }
+jetpack-loading = { module = "com.github.MahboubehSeyedpour:jetpack-loading", version.ref = "jetpackLoading" }
+
+firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebase" }
+
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+kotlinx-io-core = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "kotlinxIoCore" }
+material3-window-size-multiplatform = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "material3WindowSizeClassMultiplatform" }
+multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "multiplatformSettings" }
+multiplatform-settings-no-arg = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "multiplatformSettings" }
+navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+resources = { module = "dev.icerock.moko:resources", version.ref = "moko-resources" }
+resources-compose = { module = "dev.icerock.moko:resources-compose", version.ref = "moko-resources" }
+resources-generator = { module = "dev.icerock.moko:resources-generator", version.ref = "moko-resources" }
+androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
+ui-tiles = { module = "com.github.alorma.compose-settings:ui-tiles", version.ref = "uiTiles" }
+
+reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+firebaseCrashlytics = { id = "com.google.firebase.crashlytics" , version.ref = "firebaseCrashlytics" }
+firebasePerformance = { id = "com.google.firebase.firebase-perf" , version.ref = "firebasePerf"}
+googleServices = { id = "com.google.gms.google-services" , version.ref = "google-services" }
+resources = { id = "dev.icerock.mobile.multiplatform-resources" , version.ref = "moko-resources"}
+
+room = { id="androidx.room" , version.ref ="room"}
+ksp = { id="com.google.devtools.ksp" , version.ref="ksp"}

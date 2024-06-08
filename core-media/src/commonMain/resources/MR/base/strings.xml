@@ -1,0 +1,47 @@
+<resources>
+    <string name="delete">Delete</string>
+
+    <string name="mediaitem_is_liked">Song is Liked</string>
+    <string name="mediaitem_is_not_liked">Song is not Liked</string>
+
+    <string name="play_now">Play Now</string>
+    <string name="play_next">Play Next</string>
+
+    <string name="add_to_queue">Add to Queue</string>
+
+    <string name="delete_confirmation">Are you sure that you want to delete %1$s? This action is irreversible!</string>
+
+    <string name="remove_track_from_collection">Remove Track From Collection</string>
+    <string name="delete_track_from_device">Delete Track From Device</string>
+
+    <string name="failed_loading_artwork">Failed to load artwork</string>
+
+    <string name="share">Share</string>
+    <string name="set_as_ringtone">Set as Ringtone</string>
+
+    <string name="retry">Retry</string>
+    <string name="unable_to_open_file">Unable to open file</string>
+    <string name="try_again">Please try again!</string>
+
+    <string name="fetching_media_info">Gathering media information...</string>
+    <string name="failed_fetching_media_info">Couldn\'t get media information. Please try again.</string>
+
+    <string name="failed_setting_ringtone">Couldn\'t set ringtone.</string>
+    <string name="failed_setting_ringtone_fetch_metadata">Couldn\'t fetch media information needed to set ringtone.</string>
+    <string name="failed_setting_ringtone_crop_song">Couldn\'t trim the audio file needed to set ringtone.</string>
+
+    <string name="success_setting_ringtone">Ringtone is updated!</string>
+
+    <string name="permission_required_for_feature">Permission required for feature</string>
+    <string name="go_to_settings">Go to Settings</string>
+
+    <string name="toggle_select">Toggle Item Selection</string>
+    <string name="is_selected">Is Selected</string>
+    <string name="is_not_selected">Is not Selected</string>
+
+    <string name="play_track">Play Track</string>
+    <string name="show_track_extra_options">Show extra options for track</string>
+
+    <string name="wait_a_second">Wait a second</string>
+
+</resources>
