@@ -143,7 +143,11 @@ private fun Portrait(
         isLoginScreen = isLoginScreen.value
     )
 
-    Spacer(modifier = Modifier.fillMaxHeight(0.15125f))
+    Spacer(
+        modifier = Modifier.weight(0.15125f)
+            .heightIn(min = 64.dp)
+            .animateContentSize()
+    )
 
     AuthenticationForm(
         modifier = Modifier.padding(horizontal = 16.dp),
