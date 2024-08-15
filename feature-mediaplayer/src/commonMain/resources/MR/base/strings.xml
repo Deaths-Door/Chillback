@@ -1,0 +1,34 @@
+<resource>
+    <string name="alert_low_volume">Low Device Volume</string>
+    <string name="alert_low_volume_description">We noticed your device volume is low. For an optimal audio experience, please adjust the volume using the volume buttons on your device.</string>
+
+    <string name="enable_shuffle_mode">Enable Shuffle Mode</string>
+    <string name="disable_shuffle_mode">Disable Shuffle Mode</string>
+
+    <string name="repeat_mode_off">Repeat: Off. Tap to repeat all songs.</string>
+    <string name="repeat_mode_all">Repeat: All. Tap to repeat one song.</string>
+    <string name="repeat_mode_one">Repeat: One song. Tap to disable song repetition.</string>
+    <string name="open_fullscreen_mediaplayer">Press button to enter Fullscreen Media Player</string>
+
+    <string name="playing_from_collection">Playing from Collection</string>
+
+    <string name="up_next">Up Next</string>
+
+    <string name="expand_mediaplayer">Expand Player</string>
+
+    <string name="playing">Playing</string>
+    <string name="lyrics">Lyrics</string>
+
+    <string name="see_lyrics">Click to see lyrics</string>
+    <string name="open_equalizer">Open Equalizer Settings</string>
+    <string name="equalizer">Equalizer</string>
+    <string name="equalizer_enabled">Enable Equalizer</string>
+    <string name="smart_equalizer_enabled">Enable Smart Equalizer</string>
+    <string name="smart_equalizer_description">The smart equalizer automatically adjusts the equalizer based on the music you’re playing. Rock songs get a rocking preset, or set custom tags to fine-tune any genre.</string>
+
+    <string name="reverb">Reverb</string>
+    <string name="bass_boost">Bass Boost</string>
+    <string name="loudness">Loudness</string>
+    <string name="visualizer">Visualizer</string>
+
+</resource>

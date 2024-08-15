@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "756199310380",
+    "project_id": "chillback-a93e5",
+    "storage_bucket": "chillback-a93e5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:756199310380:android:b6f96b73665f29ddafbd89",
+        "android_client_info": {
+          "package_name": "com.deathsdoor.chillback"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5XXDebw2v1IdvEenT_0JVYs1_qsgc_kQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

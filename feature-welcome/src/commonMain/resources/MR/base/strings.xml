@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="features_open_source_title">Open Source &amp; Lightweight</string>
+
+    <string name="features_open_source_description_p1">transparency</string>
+    <string name="features_open_source_description_p2">efficiency</string>
+    <string name="features_open_source_description_p3">without sacrificing performance</string>
+    <string name="features_open_source_description">Built with %1$s and %1$s in mind, the app runs smoothly %1$s</string>
+
+    <string name="features_modern_ui_title">Modern UI &amp; Customizable Themes</string>
+
+    <string name="features_modern_ui_description_p1">sleek and intuitive interface</string>
+    <string name="features_modern_ui_description_p2">adapts to your style</string>
+    <string name="features_modern_ui_description">Enjoy a %1$s that %1$s with a variety of themes to choose from.</string>
+
+    <string name="features_free_spotify_alternative_title">Free Spotify Alternative</string>
+    <string name="features_free_spotify_alternative_description_p1">Ditch</string>
+    <string name="features_free_spotify_alternative_description_p2">powerful and customizable</string>
+    <string name="features_free_spotify_alternative_description_p3">without breaking the bank</string>
+    <string name="features_free_spotify_alternative_description">%1$s the subscription fees! This app offers a %1$s music experience %1$s.</string>
+
+    <string name="skip_login">Skip Login</string>
+    <string name="get_started">Get Started</string>
+
+    <string name="welcome_slogan_p1">offline</string>
+    <string name="welcome_slogan_p2">timeless classics!</string>
+    <string name="welcome_slogan">Play your favorite tracks %1$s with full customization on our app – from the latest hits to %1$s</string>
+
+    <string name="disclaimer">Disclaimer</string>
+
+    <string name="term_and_policy_disclaimer_p1">Privacy Policy</string>
+    <string name="term_and_policy_disclaimer_p2">Terms &amp; Condition</string>
+    <string name="term_and_policy_disclaimer">By continuing, you agree to the %1$s and %1$s</string>
+
+    <string name="welcome_back">Welcome Back</string>
+    <string name="welcome_new">Welcome</string>
+
+    <string name="welcome_common_phrase">%1$s your account using email or the following providers</string>
+
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+
+    <string name="password_forgot">Forgot Password</string>
+    <string name="password_visible">Hide Password</string>
+    <string name="password_invisible">Show Password</string>
+
+    <string name="password_min_length">Password must be at least 8 characters long</string>
+    <string name="password_one_uppercase">Password must contain at least one uppercase letter</string>
+    <string name="password_one_lowercase">Password must contain at least one lowercase letter</string>
+    <string name="password_one_digit">Password must contain at least one digit</string>
+    <string name="password_one_special_character">Password must contain at least one special character</string>
+
+    <string name="login">Login</string>
+    <string name="signin">Sign-in</string>
+
+    <string name="invalid_email">Invalid Email</string>
+    <string name="invalid_email_description">The email address you entered is not valid. Please enter a valid email address and try again</string>
+
+    <string name="weak_password">Weak Password</string>
+    <string name="weak_password_description">The password you entered is not strong enough. Please create a stronger password that meets the following criteria: %1$s</string>
+
+    <string name="successful_account_login">Welcome %1$s</string>
+
+    <string name="failed_account_login">Log-in Failed</string>
+    <string name="failed_account_login_description">We encountered an issue while logging you in. Please try again later</string>
+
+    <string name="email_in_use">Email Already In Use</string>
+    <string name="email_in_use_description">The email address you entered is already associated with an account. Please try logging in or use a different email address.</string>
+
+    <string name="failed_account_creation">Account Creation Failed</string>
+    <string name="failed_account_creation_description">We\'re sorry, but account creation failed. Please try again later</string>
+
+    <string name="have_account">Already have an account?</string>
+    <string name="do_not_have_account">Don\'t have an account?</string>
+
+    <string name="enter_account_email">Don\’t worry! it happens. Please enter the email associated with your account</string>
+    <string name="send_password_reset_email">Send Reset Password Email</string>
+    <string name="send_password_reset_email_successful">Send Password Reset Email Successfully</string>
+    <string name="failed_send_password_reset_email">Failed to Send Password Reset Email</string>
+
+    <string name="loading">Loading...</string>
+
+    <string name="failed_send_verification_email">Failed to Send Verification Email</string>
+    <string name="failed_send_verification_email_description">We encountered an issue while sending your verification email. Click to try again</string>
+
+    <string name="success_send_verification_email">Successfully sent Verification Email</string>
+    <string name="resend_verification_email">Resend</string>
+
+    <string name="verify_email">Verify Email</string>
+    <string name="verify_email_description">Verify your email now to continue using the app.</string>
+
+</resources>
